@@ -11,7 +11,7 @@ class CartController {
                 res.status(400).send({msg:'Desculpe, o valor adicionado ao carrinho excede o estoque', status:false})
             }
 
-            let userCart = await purchase.findOne({where:{idUser:data.sub, idPurchaseStatus:1}})
+            let userCart = await purchase.findOne({where:{idUser:req.body.idUser, idPurchaseStatus:1}})
             
             if(!userCart){
                 userCart = await purchase.create(data)

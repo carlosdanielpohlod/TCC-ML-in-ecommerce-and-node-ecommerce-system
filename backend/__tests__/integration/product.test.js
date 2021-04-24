@@ -4,7 +4,7 @@ const app = require('../../src/app')
 
 describe('Product resgister validation', () => {
   
-    it('Shold throws a fail because incorrectly price', async () => {
+    it('Shold throws a fail because incorrectly price', async (done) => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
@@ -13,8 +13,7 @@ describe('Product resgister validation', () => {
         const response = await request(app)
                         .post('/product')
                         .set('Authorization',`Bearer ${thisUser.token}`)
-                        .send(
-                            {
+                        .send({
                                 name:"sjsjs",
                                 price:"4.d50",
                                 idProvider:1,
@@ -24,6 +23,6 @@ describe('Product resgister validation', () => {
                                 idBrand:1
                             })
         expect(response.status).toBe(400)
-        
+        done()
     })
 })

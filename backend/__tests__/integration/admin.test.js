@@ -4,53 +4,59 @@ const app = require('../../src/app')
 
 describe('Admin authentication', () => {
   
-    it('Shold make login and return a Token', async () => {
+    it('Shold make login and return a Token', async (done) => {
         const response = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
         thisUser = response.body.data
         expect(thisUser).toHaveProperty('token')
+        done()
     })
 
-    it('Shold not authenticate without credentials', async () => {
+    it('Shold not authenticate without credentials', async (done) => {
         const response = await request(app)
                         .post('/signin')
                         .send({})
         expect(response.status).toBe(401)
+        done()
     })
     
-    it('Shold not authenticate deleted user', async () => {
+    it('Shold not authenticate deleted user', async (done) => {
         const response = await request(app)
                         .post('/signin')
                         .send({email:'deletado@seed.com', password:'12345'})
         expect(response.status).toBe(401)
+        done()
     })
 
-    it('Shold not authenticate with invalid credentials', async () => {
+    it('Shold not authenticate with invalid credentials', async (done) => {
         const response = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.m',password:'12345'})
         expect(response.status).toBe(401)
+        done()
     })
 
-    it('Shold not validate invalid token', async () => {
+    it('Shold not validate invalid token', async (done) => {
         const response = await request(app)
                         .post('/validateToken')
                         .set('Authorization',thisUser.token)
                         
         expect(response.status).toBe(401)
+        done()
     })
-    it('Shold validate valid token', async () => {
+    it('Shold validate valid token', async (done) => {
         
         const response = await request(app)
                         .post('/validateToken')
                         .set('Authorization',`Bearer ${thisUser.token}`)
                         
         expect(response.status).toBe(200)
+        done()
     })
 })
 describe('Admin Routes', () => {  
-    it('Shold fail in the product register with not admin token', async () => {
+    it('Shold fail in the product register with not admin token', async (done) => {
         const user = await request(app)
                             .post('/signin')
                             .send({email:'user@seed.com', password:'12345'})
@@ -69,9 +75,10 @@ describe('Admin Routes', () => {
                         })
 
         expect(response.status).toBe(401)
+        done()
     })
 
-    it('Shold make success with product register with a valid admin token', async () => {
+    it('Shold make success with product register with a valid admin token', async (done) => {
         const user = await request(app)
                             .post('/signin')
                             .send({email:'admin@seed.com', password:'12345'})
@@ -90,6 +97,7 @@ describe('Admin Routes', () => {
                         })
 
         expect(response.status).toBe(201)
+        done()
     })
 
 })

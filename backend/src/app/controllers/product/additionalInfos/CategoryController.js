@@ -42,6 +42,31 @@ class CategoryController {
             res.status(500).send({status:httpStatus["500"].value, status:false})
         }
     }
-    
+    async get(req, res){
+        const categorias = await category.findAll()
+        const tree = {
+            categoria01:
+            {
+                name:"Calçado",
+                subCategoria:
+                [
+                    {
+                        name:"Tenis",
+                        subcategoria01:[{
+                            name:"Sport",
+                            url:"localhost/sport"
+                        }]
+                    },
+                    {
+                        name:"Sapatilha",
+                        url:"localhost/ortopedico"
+                    }
+                ]
+             }
+        }
+        
+        
+        res.json(categorias)
+    }
 }
 module.exports = new CategoryController()

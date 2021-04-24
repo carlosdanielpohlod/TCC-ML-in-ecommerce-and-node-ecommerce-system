@@ -18,8 +18,10 @@ admin = function(req, res, next){
 
     const decode = jwt.decode(token, process.env.AUTHSECRET) 
     
-    if(decode.idUserPrivilege == 1)
+    if(decode.idUserPrivilege == 1){
+        req.body.idUser = decode.idUser
         next()
+    }        
     else
         return res.status(401).send({status:false})
 }
@@ -37,9 +39,11 @@ user = function(req, res, next){
     const [scheme, token] = req.headers.authorization.split(' ')
 
     const decode = jwt.decode(token, process.env.AUTHSECRET) 
-
-    if(decode.idUserPrivilege == 2)
+    
+    if(decode.idUserPrivilege){
+        req.body.idUser = decode.idUser
         next()
+    }
     else
         return res.status(401).send({status:false})
 }

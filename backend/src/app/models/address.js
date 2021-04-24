@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
+const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('address', {
+
     idAddress: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -9,23 +11,69 @@ module.exports = function(sequelize, DataTypes) {
     },
     cep: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isNumeric:{
+          msg:msg['isNumeric'].value
+        },
+        len:{
+          args:[8,8],
+          msg:msg['invalidLength'].value
+        }
+      }
+
     },
     state: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+      validate:{
+      isAlpha:{
+        msg:msg['isAlpha'].value   
+      },
+      len:{
+        args:[2,2],
+        msg:msg['invalidLength'].value
+      }
+    }
     },
     city: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+      validate:{
+      isAlpha:{
+        msg:msg['isAlpha'].value
+        
+      },
+      len:{
+        args:[2,30],
+        msg:msg['invalidLength'].value
+      }
+      }
     },
     street: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+      validate:{
+      
+      len:{
+        args:[2,50],
+        msg:msg['invalidLength'].value
+      }
+    }
     },
     number: {
       type: DataTypes.STRING(8),
-      allowNull: false
+      allowNull: false,
+      validate:{
+      isNumeric:{
+        msg:msg['isNumeric'].value
+        
+      },
+      len:{
+        args:[1,10],
+        msg:msg['invalidLength'].value
+      }
+    }
     }
   }, {
     sequelize,

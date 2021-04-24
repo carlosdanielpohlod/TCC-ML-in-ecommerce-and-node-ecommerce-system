@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize');
-const msg = require('../controllers/enum/validationMessages')
+const msg = require('../controllers/enum/validationMessages');
+
+// const { user } = require('../middlewares/authenticateRoute');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('user', {
+  const user = sequelize.define('user', {
     idUser: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -41,17 +43,9 @@ module.exports = function(sequelize, DataTypes) {
         isAlpha:{
           msg:msg['isAlpha'].value
         },
-        min(value){
-          value = String(value)
-          if(value.length < 3){
-            throw new Error(msg['min'].value);
-          }
-        },
-        max(value){
-          value = String(value)
-          if(value.length > 20){
-            throw new Error(msg['max'].value);
-          }
+        len:{
+          args:[3,30],
+          msg:msg['invalidLength'].value
         }
       },
     },
@@ -78,11 +72,9 @@ module.exports = function(sequelize, DataTypes) {
         isEmail:{
           msg:msg['isEmail'].value
         },
-        max(value){
-          value = String(value)
-          if(value.length > 20){
-            throw new Error(msg['max'].value);
-          }
+        len:{
+          args:[5,30],
+          msg:msg['invalidLength'].value
         }
       }
     },
@@ -100,7 +92,16 @@ module.exports = function(sequelize, DataTypes) {
     },
     surname: {
       type: DataTypes.STRING(255),
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isAlpha:{
+          msg:msg['isAlpha'].value
+        },
+        len:{
+          args:[1,40],
+          msg:msg['invalidLength'].value
+        }
+      }
     },
     deletedAt:{
       type:'TIMESTAMP',
@@ -151,4 +152,12 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+ 
+  user.usedVerify = async function(query, res){
+    const data = await user.findOne({where:query})
+    
+    data != null ? res.status(400).send({status:false, msg:'Email ou senha já utilizados'}) : false
+  }
+  
+  return user
 };
