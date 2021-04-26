@@ -32,6 +32,17 @@ class CartController {
             res.status(500).send({msg:httpStatus['500'].value, status:false})
         }
     }
+    async deleteItemFromCart(req, res){
+        !req.body.idPurchaseItem ? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
+        const cartOwner = await purchase.findOne({where:{idUser:req.body.idUser, idPurchaseStatus:1}})
+        if(cartOwner){
+            await purchaseitem.destroy({where:{idPurchaseItem:req.body.idPurchaseItem, idPurchase:cartOwner.idPurchase}})
+            res.status(200).send({status:true,msg:'Removido do carrinho'})
+        }else{
+            res.status(500).send({msg:httpStatus['500'].value, status:false})
+        }
+
+    }
 }
 
 module.exports = new CartController()

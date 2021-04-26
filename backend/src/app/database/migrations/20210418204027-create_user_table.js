@@ -8,7 +8,9 @@ module.exports = {
           autoIncrement: true,
           type: Sequelize.BIGINT.UNSIGNED,
           allowNull: false,
-          primaryKey: true
+          primaryKey: true,
+          onDelete:'cascade',
+          onUpdate:'cascade'
         },
         idAddress:{
           type: Sequelize.BIGINT.UNSIGNED,
@@ -43,9 +45,8 @@ module.exports = {
           references: {
             model: 'phone',
             key: 'idPhone'
-          },
-          onDelete:'cascade',
-          onUpdate:'cascade'
+          }
+          
         },
         name: {
           type: Sequelize.STRING(255),

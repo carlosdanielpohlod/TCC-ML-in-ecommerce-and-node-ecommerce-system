@@ -6,6 +6,7 @@ valitationMessages = new Enum ({
     "max":"Informação excede o tamanho máximo",
     "min":"Informação menor que o permitido",
     "isEmail":"Formato de email inválido",
-    "invalidLength":"Tamanho inválido"
+    "invalidLength":"Tamanho inválido",
+    "negativeStock":"O estoque não pode ser menor que 0"
 })
 module.exports = valitationMessages

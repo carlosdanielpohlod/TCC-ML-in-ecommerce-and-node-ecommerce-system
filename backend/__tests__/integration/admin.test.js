@@ -65,10 +65,10 @@ describe('Admin Routes', () => {
                             .post('/product')
                             .set('Authorization',`Bearer ${user.body.data.token}`)
                             .send({
-                                name:"sjsjs",
+                                name:"shold fail",
                                 price:"4.050",
                                 idProvider:1,
-                                description:"Produto para teste",
+                                description:"admin.test.js validation test",
                                 idCategory:1,
                                 idProductStatus:1,
                                 idBrand:1
@@ -78,7 +78,7 @@ describe('Admin Routes', () => {
         done()
     })
 
-    it('Shold make success with product register with a valid admin token', async (done) => {
+    it('Shold receive success with product register with a valid admin token', async (done) => {
         const user = await request(app)
                             .post('/signin')
                             .send({email:'admin@seed.com', password:'12345'})

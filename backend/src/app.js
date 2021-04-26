@@ -12,8 +12,8 @@ class App {
     }
     routes(){
         this.express.use(require('./app/routes/public'))
-        this.express.use(require('./app/routes/user'))
-        this.express.use(require('./app/routes/admin'))
+        this.express.use(require('./app/routes/authenticated'))
+        // this.express.use(require('./app/routes/admin'))
     }
 }
 module.exports = new App().express

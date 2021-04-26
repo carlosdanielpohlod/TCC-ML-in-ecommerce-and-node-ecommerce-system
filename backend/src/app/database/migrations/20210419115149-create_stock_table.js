@@ -8,7 +8,8 @@ module.exports = {
           autoIncrement: true,
           type: Sequelize.BIGINT.UNSIGNED,
           allowNull: false,
-          primaryKey: true
+          primaryKey: true,
+          onDelete:'cascade'
         },
         idProduct: {
           type: Sequelize.BIGINT.UNSIGNED,

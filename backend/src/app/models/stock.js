@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('stock', {
     idStock: {
@@ -18,7 +19,13 @@ module.exports = function(sequelize, DataTypes) {
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0
+      defaultValue: 0,
+      validate:{
+        min:{
+          args:[0],
+          msg:msg['negativeStock'].value
+        }
+      }
     },
     idProductSize: {
       type: DataTypes.BIGINT.UNSIGNED,

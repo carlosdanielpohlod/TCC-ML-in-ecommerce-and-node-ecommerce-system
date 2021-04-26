@@ -19,11 +19,12 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('productcolor');
     /**
      * Add reverting commands here.
      *
      * Example:
-     * await queryInterface.dropTable('users');
+    //
      */
   }
 };
