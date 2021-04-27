@@ -17,41 +17,20 @@ module.exports = {
             key: 'idPurchase'
           }
         },
-        idProductColor: {
+        idStock: {
           type: Sequelize.BIGINT.UNSIGNED,
           allowNull: false,
           references: {
-            model: 'productcolor',
-            key: 'idProductColor'
+            model: 'stock',
+            key: 'idStock'
           }
-        },
+        }
+        ,
         quantity:{
-          type:Sequelize.INT,
+          type:Sequelize.INTEGER,
           allowNull:false,
           default:1
-        },
-        idProduct: {
-          type: Sequelize.BIGINT.UNSIGNED,
-          allowNull: false,
-          references: {
-            model: 'product',
-            key: 'idProduct'
-          }
-        },
-        
-      idProductSize:{
-        type: Sequelize.BIGINT.UNSIGNED,
-        allowNull: false,
-        references: {
-          model: 'productsize',
-          key: 'idProductSize'
         }
-      },
-      quantity: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        default:1
-      }
       
      });
      
@@ -60,5 +39,5 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('purchaseitem');
      
-  }
+   }
 };

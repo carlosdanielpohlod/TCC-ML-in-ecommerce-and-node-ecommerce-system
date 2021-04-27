@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('productcolor', {
+  const productcolor = sequelize.define('productcolor', {
     idProductColor: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -26,4 +26,8 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  productcolor.associate = function(models){
+    productcolor.hasMany(models.stock, {foreignKey: "idProductColor"});
+  }
+  return productcolor
 };

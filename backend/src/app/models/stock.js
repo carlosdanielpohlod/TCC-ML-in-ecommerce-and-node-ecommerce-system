@@ -1,7 +1,7 @@
 
 const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('stock', {
+  const stock = sequelize.define('stock', {
     idStock: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -79,4 +79,14 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  stock.associate = function(models){
+    stock.belongsTo(models.product, {foreignKey: "idProduct"});
+    stock.belongsTo(models.productcolor, {foreignKey: "idProductColor"});
+    stock.belongsTo(models.productsize, {foreignKey: "idProductSize"});
+    stock.hasMany(models.purchaseitem, {foreignKey: "idStock"});
+  }
+  return stock
+  // stock.associate = function(models){
+  //   stock.belongsTo(models.purchaseitem)
+  // }
 };

@@ -1,5 +1,6 @@
 const { response } = require('express')
-const {purchaseitem, purchase, stock,productcolor, productsize} = require('../../models')
+const {purchaseitem, purchase, productcolor, productsize, stock, product} = require('../../models')
+// const product = require('../../models/product')
 const httpStatus = require('../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../utils/errorFormat')
 class CartController {
@@ -87,14 +88,26 @@ class CartController {
                   model: purchase,
                   where: {idUser: req.body.idUser},
                   attributes:[]
-                },
-                {
-                    model:productcolor,
-                    attributes:['color']
                 }, {
-                    model:productsize,
-                    attributes:['size']
-                }]
+                    model:stock,
+                    attributes:['quantity'],
+                    include:[
+                        {
+                            model:productcolor,
+                            attributes:['color']
+                        },
+                        {
+                            model:productsize,
+                            attributes:['size']
+                        }
+                        ,
+                        {
+                            model:product,
+                            attributes:['name','price']
+                        }
+                    ]
+                }
+            ]
               }).then(response => {
                 res.send(response)
               });

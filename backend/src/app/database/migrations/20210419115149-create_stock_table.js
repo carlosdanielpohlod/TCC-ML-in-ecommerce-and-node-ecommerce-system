@@ -14,6 +14,7 @@ module.exports = {
         idProduct: {
           type: Sequelize.BIGINT.UNSIGNED,
           allowNull: false,
+  
           references: {
             model: 'product',
             key: 'idProduct'

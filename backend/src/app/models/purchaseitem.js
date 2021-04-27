@@ -15,33 +15,18 @@ module.exports = function(sequelize, DataTypes) {
         key: 'idPurchase'
       }
     },
-    idProductColor: {
+    idStock: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: false,
       references: {
-        model: 'productcolor',
-        key: 'idProductColor'
+        model: 'stock',
+        key: 'idStock'
       }
     },
     quantity: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    idProduct: {
-      type: DataTypes.BIGINT.UNSIGNED,
-      allowNull: false,
-      references: {
-        model: 'product',
-        key: 'idProduct'
-      }
-    },
-    idProductSize: {
-      type: DataTypes.BIGINT.UNSIGNED,
-      allowNull: false,
-      references: {
-        model: 'productsize',
-        key: 'idProductSize'
-      }
+    
     }
   }, {
     sequelize,
@@ -88,8 +73,7 @@ module.exports = function(sequelize, DataTypes) {
   });
   purchaseitem.associate = function(models) {
     purchaseitem.belongsTo(models.purchase, {foreignKey: 'idPurchase'})
-    purchaseitem.hasOne(models.productcolor, {foreignKey:'idProductColor'})
-    purchaseitem.hasOne(models.productsize, {foreignKey:'idProductSize'})
+    purchaseitem.belongsTo(models.stock, {foreignKey:'idStock'})
   };
   return purchaseitem
 };
