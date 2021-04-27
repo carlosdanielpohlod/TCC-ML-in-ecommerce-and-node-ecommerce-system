@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+
 const msg = require('../controllers/enum/validationMessages');
 
 // const { user } = require('../middlewares/authenticateRoute');

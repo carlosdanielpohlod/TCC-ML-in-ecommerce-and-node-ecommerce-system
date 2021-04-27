@@ -1,10 +1,9 @@
-const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('purchase', {
+  const purchase = sequelize.define('purchase', {
     idPurchase: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
-      allowNull: false,
+      allowNull: true,
       primaryKey: true
     },
     idUser: {
@@ -26,7 +25,7 @@ module.exports = function(sequelize, DataTypes) {
   }, {
     sequelize,
     tableName: 'purchase',
-    timestamps: true,
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
@@ -52,4 +51,9 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  // ISSO AQUI TA DANDO PROBLEMA
+  // purchase.associate = function(models) {
+  //   purchase.belongsTo(models.purchaseitem)
+  // };
+  return purchase
 };

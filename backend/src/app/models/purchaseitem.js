@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('purchaseitem', {
+  const purchaseitem = sequelize.define('purchaseitem', {
     idPurchaseItem: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -86,4 +86,10 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  purchaseitem.associate = function(models) {
+    purchaseitem.belongsTo(models.purchase, {foreignKey: 'idPurchase'})
+    purchaseitem.hasOne(models.productcolor, {foreignKey:'idProductColor'})
+    purchaseitem.hasOne(models.productsize, {foreignKey:'idProductSize'})
+  };
+  return purchaseitem
 };

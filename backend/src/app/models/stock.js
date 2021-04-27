@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+
 const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('stock', {
