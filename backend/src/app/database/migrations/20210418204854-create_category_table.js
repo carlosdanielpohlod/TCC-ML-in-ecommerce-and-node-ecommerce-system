@@ -18,7 +18,7 @@ module.exports = {
           key: 'idCategory'
         }
       },
-      name: {
+      category: {
         type: Sequelize.STRING(50),
         allowNull: false
       }

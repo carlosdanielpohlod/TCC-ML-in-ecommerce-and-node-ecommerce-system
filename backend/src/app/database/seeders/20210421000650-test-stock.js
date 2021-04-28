@@ -5,7 +5,7 @@ module.exports = {
     
     await queryInterface.bulkInsert('stock', [{
       idProduct:1,
-      quantity:1,
+      quantity:10,
       idProductSize:1,
       idProductColor:1
     }], {});

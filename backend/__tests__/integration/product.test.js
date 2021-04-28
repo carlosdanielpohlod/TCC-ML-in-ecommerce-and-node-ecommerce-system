@@ -8,7 +8,7 @@ describe('Product resgister validation', () => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
-        thisUser = authUser.body.data
+        var thisUser = authUser.body.data
 
         const response = await request(app)
                         .post('/product')
@@ -30,7 +30,7 @@ describe('Product resgister validation', () => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'user@seed.com',password:'12345'})
-        thisUser = authUser.body.data
+        var thisUser = authUser.body.data
 
         const response = await request(app)
                         .post('/product')
@@ -52,7 +52,7 @@ describe('Product resgister validation', () => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
-        thisUser = authUser.body.data
+        var thisUser = authUser.body.data
 
         const response = await request(app)
                         .post('/product')
@@ -67,6 +67,22 @@ describe('Product resgister validation', () => {
                                 idBrand:1
                             })
         expect(response.status).toBe(201)
+        done()
+    })
+
+    it('Shold deletet a product with success',async(done) => {
+        const authUser = await request(app)
+                        .post('/signin')
+                        .send({email:'admin@seed.com',password:'12345'})
+        var thisUser = authUser.body.data
+
+        const response = await request(app)
+                        .delete('/product')
+                        .set('Authorization',`Bearer ${thisUser.token}`)
+                        .send({
+                              "idProduct":3
+                            })
+        expect(response.status).toBe(200)
         done()
     })
 })

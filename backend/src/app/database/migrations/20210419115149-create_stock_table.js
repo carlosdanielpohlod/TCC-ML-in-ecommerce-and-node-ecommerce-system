@@ -14,7 +14,7 @@ module.exports = {
         idProduct: {
           type: Sequelize.BIGINT.UNSIGNED,
           allowNull: false,
-  
+          onDelete:'cascade',
           references: {
             model: 'product',
             key: 'idProduct'

@@ -1,4 +1,4 @@
-const {product, purchaseitem} = require('../../../models')
+const {product} = require('../../../models')
 const httpStatus = require('../../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../../utils/errorFormat')
 class CreateProductController {
@@ -27,19 +27,34 @@ class CreateProductController {
     }
 
     async delete(req, res){
-        try{
-            
+        // try{
+            const {purchaseitem, stock} = require('../../../models')
             !req.body? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
-            const response = await purchaseitem.findOne({where:{idProduct:req.body.idProduct}})
-            if(response){
-                res.status(500).send({msg:'Não deletado, existem compras ou carrinhos que incluem esse produto', status:false}) 
+            
+            let response = await  purchaseitem.findAll({
+                attributes:['idPurchaseItem'],
+                include: [{
+                  model: stock,
+                  where: {idProduct: req.body.idProduct},
+                  attributes:[]
+                }]
+                
+            })
+            
+            
+            if(response[0] && response[0].dataValues.idPurchaseItem){
+                res.status(400).send({msg:'Não deletado, existem compras ou carrinhos que incluem esse produto', status:false}) 
+                return 
+            }else{
+                await product.destroy({where:{idProduct:req.body.idProduct}})
+                res.status(200).send({msg:httpStatus["200"].value, status:true}) 
+                return
             }
-            product.destroy({where:{idProduct:req.body.idProduct}})
-            res.status(200).send({msg:httpStatus["200"].value, status:true}) 
-        }
-        catch(err){
-            res.status(500).send({msg:httpStatus['500'].value, status:false}) 
-        }
+        // }
+        // catch(err){
+
+        //     res.status(500).send({msg:httpStatus['500'].value, status:false}) 
+        // }
     }
 }
 module.exports = new CreateProductController()

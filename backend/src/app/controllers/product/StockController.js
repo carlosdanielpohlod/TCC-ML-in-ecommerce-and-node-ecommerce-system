@@ -13,6 +13,7 @@ class StockController {
     async update(req, res){
         try{
             const data = req.body
+            !data.idProduct ? res.status(400).send({msg:httpStatus["400"].value,status:false}) : null 
             const response = await stock.update({quantity:data.quantity}, {where:{idProduct:data.idProduct, idProductSize:data.idProductSize}})
             res.status(200).send({msg:httpStatus["200"].value,status:true, data:response})
         }

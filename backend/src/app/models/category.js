@@ -1,6 +1,6 @@
-const Sequelize = require('sequelize');
+const msg = require('../controllers/enum/validationMessages')
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('category', {
+  const category = sequelize.define('category', {
     idCategory: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -15,9 +15,15 @@ module.exports = function(sequelize, DataTypes) {
         key: 'idCategory'
       }
     },
-    name: {
+    category: {
       type: DataTypes.STRING(50),
-      allowNull: false
+      allowNull: false,
+      validate:{
+        len:{
+          args:[3,15],
+          msg:msg['invalidLength'].value
+        }
+      }
     }
   }, {
     sequelize,
@@ -41,4 +47,11 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  category.associate = function(models){
+    category.belongsTo(models.category, {as:'idHasRoot',foreignKey: "idRootCategory"});
+    category.hasMany(models.category, {as:'idHasChildren',foreignKey: "idRootCategory"});
+    category.hasMany(models.product, {foreignKey: "idCategory"});
+    category.hasMany(models.productsize, { foreignKey: "idCategory"});
+  }
+  return category
 };

@@ -53,9 +53,9 @@ module.exports = function(sequelize, DataTypes) {
   });
   
   purchase.associate = function(models) {
-    purchase.hasMany(models.purchaseitem, { as: "purchaseitems", foreignKey: "idPurchase"});
-    purchase.belongsTo(models.purchasestatus, { as: "idPurchaseStatus_purchasestatus", foreignKey: "idPurchaseStatus"});
-    purchase.belongsTo(models.user, { as: "idUser_user", foreignKey: "idUser"});
+    purchase.hasMany(models.purchaseitem, {foreignKey: "idPurchase"});
+    purchase.belongsTo(models.purchasestatus, {foreignKey: "idPurchaseStatus"});
+    purchase.belongsTo(models.user, {foreignKey: "idUser"});
   };
   return purchase
 };

@@ -36,7 +36,8 @@ module.exports = {
           allowNull:true
         },
         createdAt:{
-          type: 'TIMESTAMP',
+          type: 'TIMESTAMP'
+          ,
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
         },
         idPhone:{
