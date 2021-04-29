@@ -4,9 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "db->model": "sequelize-auto -h 127.0.0.1 -d TCC_DEVELOPMENT -u root -x '' -p  3306 --dialect mysql -o src/app/models",
     "start": "yarn nodemon src/server.js",
-    "test": "jest"
+    "test": "sequelize db:seed:all && jest"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

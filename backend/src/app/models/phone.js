@@ -7,14 +7,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    idUser:{
-      type: DataTypes.BIGINT.UNSIGNED,
-      allowNull: false,
-      references: {
-        model: 'user',
-        key: 'idUser'
-      }
-    },
     areaCode: {
       type: DataTypes.STRING(20),
       allowNull: false

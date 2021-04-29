@@ -1,5 +1,4 @@
 const {user} = require('../../../models/')
-const bcrypt = require('bcrypt')
 const httpStatus = require('../../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../../utils/errorFormat')
 class UserController{
@@ -9,12 +8,22 @@ class UserController{
             !req.body.name ? res.status(400).send({status:false, msg:httpStatus['400'].value}) : null
             user.usedVerify({email:req.body.email}, res)
             user.usedVerify({cpf:req.body.cpf}, res)
-            req.headers.password = bcrypt.hashSync(req.body.password, 10)
+            req.body.password = user.passwordHash(req.body.password) 
+            req.body.idUserPrivilege = 2     
             const response = await user.create(req.body)
-            response ? res.status(201).send({status:true, data:response}) : res.status(500).send({status:false, msg:httpStatus['500'].value})
+            return res.status(201).send({status:true,msg:httpStatus['200'].value, data:response})
         }
         catch(err){
             sequelizeOrGeneric(err,res)
+        }
+    }
+
+    async update(req, res){
+        try{
+
+        }
+        catch(err){
+
         }
     }
 }

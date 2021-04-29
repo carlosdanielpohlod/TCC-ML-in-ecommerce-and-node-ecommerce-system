@@ -15,13 +15,20 @@ class AddressController{
         }
     }
     async update(req, res){
-        const data = req.body
-        const response = await user.findOne({where:{idUser:req.body.idUser}})
-        const a =  await address.update({data},{where:{idAddress:response.idAddress}})
-        const addres = await address.findOne({where:{idAddress:response.idAddress}})
-        return res.status(200).send({msg:httpStatus["200"].value, status:true, data:addres})
+        try{
+            const userData = await user.findOne({where:{idUser:req.body.idUser}})
             
-            // .catch(err => sequelizeOrGeneric(err, res))
+            const response =  await address.update({
+                cep:req.body.cep,
+                state:req.body.state,
+                city: req.body.city,
+                street:req.body.street,
+                number:req.body.number
+            },{where:{idAddress:userData.idAddress}})
+            return res.status(200).send({msg:httpStatus["200"].value, status:true})
+        }
+
+        catch(err){ sequelizeOrGeneric(err, res)}
       
     }
 

@@ -1,7 +1,7 @@
 
 const msg = require('../controllers/enum/validationMessages');
+const bcrypt = require('bcrypt')
 
-// const { user } = require('../middlewares/authenticateRoute');
 module.exports = function(sequelize, DataTypes) {
   const user = sequelize.define('user', {
     idUser: {
@@ -25,6 +25,14 @@ module.exports = function(sequelize, DataTypes) {
       references: {
         model: 'userprivilege',
         key: 'idUserPrivilege'
+      }
+    },
+    idPhone: {
+      type: DataTypes.BIGINT.UNSIGNED,
+      allowNull: true,
+      references: {
+        model: 'phone',
+        key: 'idPhone'
       }
     },
     name: {
@@ -150,6 +158,8 @@ module.exports = function(sequelize, DataTypes) {
     
     data != null ? res.status(400).send({status:false, msg:'Email ou senha já utilizados'}) : false
   }
-  
+  user.passwordHash = function(value){
+    return bcrypt.hashSync(value, 10)
+  }
   return user
 };

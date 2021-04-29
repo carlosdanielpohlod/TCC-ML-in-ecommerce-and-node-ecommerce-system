@@ -17,7 +17,6 @@ describe('Product category tests', () => {
                                 category:"category.test",
                                 idCategory:30    //valor grande aleatorio escolhido   
                             })
-        console.log(response)
         expect(response.status).toBe(201)
         done()
     })
