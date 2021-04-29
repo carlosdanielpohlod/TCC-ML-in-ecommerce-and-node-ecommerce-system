@@ -32,13 +32,12 @@ module.exports = {
         },
         deletedAt:{
           type: 'TIMESTAMP',
-          default:null,
           allowNull:true
         },
         createdAt:{
           type: 'TIMESTAMP'
-          // ,
-          // defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
+          ,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
         },
         idPhone:{
           type: Sequelize.BIGINT.UNSIGNED,

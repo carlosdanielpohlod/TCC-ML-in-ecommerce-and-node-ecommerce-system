@@ -12,8 +12,14 @@ routes.route('/product')
 routes.route('/category')
     .post(admin(require('../controllers/product/additionalInfos/CategoryController.js').store))
     .delete(admin(require('../controllers/product/additionalInfos/CategoryController.js').delete))
+
 routes.route('/stock')
     .post(admin(require('../controllers/product/StockController.js').store))
     .put(admin(require('../controllers/product/StockController.js').update))
 
+routes.route('/user/all')
+        .get(admin(require('../controllers/user/register/UserController').getAll))
+        
+routes.route('/user/:idUser')
+        .get(admin(require('../controllers/user/register/UserController').getById))
 module.exports = routes

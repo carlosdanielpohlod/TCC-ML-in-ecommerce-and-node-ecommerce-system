@@ -152,12 +152,20 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
- 
-  user.usedVerify = async function(query, res){
-    const data = await user.findOne({where:query})
+
+  user.basicInfosTemplate = ['name','surname','email','birthday','createdAt','deletedAt','profilePic','cpf']
+
+  user.usedVerify = function(query, res, errMsg){
+    user.findOne({where:query})
+    .then(data => {
+        if(data){
+          return res.status(400).send({status:false, msg:errMsg})  
+        }
+    })
     
-    data != null ? res.status(400).send({status:false, msg:'Email ou senha já utilizados'}) : false
   }
+  
+
   user.passwordHash = function(value){
     return bcrypt.hashSync(value, 10)
   }

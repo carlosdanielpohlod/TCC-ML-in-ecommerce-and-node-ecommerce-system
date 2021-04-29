@@ -18,7 +18,7 @@ class AddressController{
         try{
             const userData = await user.findOne({where:{idUser:req.body.idUser}})
             
-            const response =  await address.update({
+            await address.update({
                 cep:req.body.cep,
                 state:req.body.state,
                 city: req.body.city,

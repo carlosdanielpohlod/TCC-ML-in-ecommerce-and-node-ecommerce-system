@@ -14,5 +14,7 @@ routes.route('/address')
     .post(require('../controllers/user/register/additionalInfo/AddressController').store)
     .put(require('../controllers/user/register/additionalInfo/AddressController').update)
 
+routes.route('/user')
+    .put(require('../controllers/user/register/UserController').update)
     
 module.exports = routes
