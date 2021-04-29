@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('brand', {
     idBrand: {
@@ -7,9 +7,18 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    name: {
+    brand: {
       type: DataTypes.STRING(30),
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isAlpha:{
+          msg:msg['isAlpha'].value
+        },
+        len:{
+          args:[1,15],
+          msg:msg['invalidLength'].value
+        }
+      },
     }
   }, {
     sequelize,

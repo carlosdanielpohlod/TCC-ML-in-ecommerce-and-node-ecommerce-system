@@ -6,6 +6,9 @@ module.exports = function(sequelize, DataTypes) {
     idAddress: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
+      // validation:{
+      //   isNull:true
+      // },
       allowNull: false,
       primaryKey: true
     },

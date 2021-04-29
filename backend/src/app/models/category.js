@@ -4,7 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     idCategory: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
-      allowNull: false,
+      allowNull: true,
       primaryKey: true
     },
     idRootCategory: {
@@ -49,7 +49,7 @@ module.exports = function(sequelize, DataTypes) {
   });
   category.associate = function(models){
     category.belongsTo(models.category, {as:'idHasRoot',foreignKey: "idRootCategory"});
-    category.hasMany(models.category, {as:'idHasChildren',foreignKey: "idRootCategory"});
+    category.hasMany(models.category, {as:'idHasChildren',foreignKey: "idCategory"});
     category.hasMany(models.product, {foreignKey: "idCategory"});
     category.hasMany(models.productsize, { foreignKey: "idCategory"});
   }

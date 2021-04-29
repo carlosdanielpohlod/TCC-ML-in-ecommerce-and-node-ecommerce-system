@@ -85,4 +85,20 @@ describe('Product resgister validation', () => {
         expect(response.status).toBe(200)
         done()
     })
+
+    it('Shold not delete the product they are relationed with a purchaseitem',async(done) => {
+        const authUser = await request(app)
+                        .post('/signin')
+                        .send({email:'admin@seed.com',password:'12345'})
+        var thisUser = authUser.body.data
+
+        const response = await request(app)
+                        .delete('/product')
+                        .set('Authorization',`Bearer ${thisUser.token}`)
+                        .send({
+                              "idProduct":1
+                            })
+        expect(response.status).toBe(400)
+        done()
+    })
 })

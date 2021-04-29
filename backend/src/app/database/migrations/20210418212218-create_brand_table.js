@@ -10,7 +10,7 @@ module.exports = {
         allowNull: false,
         primaryKey: true
       },
-      name: {
+      brand: {
         type: Sequelize.STRING(30),
         allowNull: false
       } 

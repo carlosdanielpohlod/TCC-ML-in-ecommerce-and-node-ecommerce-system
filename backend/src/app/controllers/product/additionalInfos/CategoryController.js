@@ -2,6 +2,7 @@
 const {category} = require('../../../models')
 const httpStatus = require('../../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../../utils/errorFormat')
+
 class CategoryController {
     async store(req, res){
         try{
@@ -36,29 +37,39 @@ class CategoryController {
         }
     }
     async delete(req, res){
-        const {product} = require('../../../models')
-        // try{
-            const relation = await category.findOne({
-                attributes:['idCategory'],
-                where:{idCategory:req.body.idCategory},
-                
-                include: [{
-                    model: product,
-                    where: {idCategory: req.body.idCategory},
-                    attributes:[]
-                }]
-            })
-            
-            if(relation){
+        
+        try{
+            const {product} = require('../../../models')
+            // const relation = await category.findOne({
+            //     attributes:['idCategory'],
+            //     where:{idCategory:req.body.idCategory},
+            //     // as:'idHasRoot',
+            //     include: [
+            //         {
+            //             model: product,
+            //             where: {idCategory: req.body.idCategory},
+            //             attributes:[]
+            //         }, 
+            //         {
+            //             model: category,
+            //             attributes:[]
+            //             ,
+            //             as:'idHasRoot'
+            //         }
+            //     ]
+            // })
+            const relation = await product.findOne({where:{idCategory:req.body.idCategory}})
+            const subCategory = await category.findOne({where:{idRootCategory:req.body.idCategory}})
+            if(subCategory != null || relation != null){
                 return res.status(400).send({status:false, msg:'Você não pode deletar pois existem produtos ou subcategorias com essa categoria'})
             }else{
                 await category.destroy({where:{idCategory:req.body.idCategory}})
                 return res.status(200).send({status:true, msg:httpStatus["200"].value})
             }
-        // }
-        // catch(err){
+        }
+        catch(err){
 
-        // }
+        }
     }
     // DOES NOT WORK YET
     async get(req, res){

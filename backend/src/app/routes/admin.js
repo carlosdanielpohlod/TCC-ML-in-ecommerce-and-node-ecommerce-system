@@ -6,6 +6,7 @@ routes.use(authenticate)
 
 routes.route('/product')
     .post(admin(require('../controllers/product/register/ProductController').store))
+    .put(admin(require('../controllers/product/register/ProductController').update))
     .delete(admin(require('../controllers/product/register/ProductController').delete))
 
 routes.route('/category')

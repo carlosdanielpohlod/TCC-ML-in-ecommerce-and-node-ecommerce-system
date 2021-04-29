@@ -14,8 +14,16 @@ class AddressController{
             sequelizeOrGeneric(err, res)
         }
     }
-
-
+    async update(req, res){
+        const data = req.body
+        const response = await user.findOne({where:{idUser:req.body.idUser}})
+        const a =  await address.update({data},{where:{idAddress:response.idAddress}})
+        const addres = await address.findOne({where:{idAddress:response.idAddress}})
+        return res.status(200).send({msg:httpStatus["200"].value, status:true, data:addres})
+            
+            // .catch(err => sequelizeOrGeneric(err, res))
+      
+    }
 
 }
 module.exports = new AddressController()

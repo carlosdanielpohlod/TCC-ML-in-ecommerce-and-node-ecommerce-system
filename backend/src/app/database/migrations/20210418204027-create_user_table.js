@@ -40,15 +40,6 @@ module.exports = {
           ,
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
         },
-        idPhone:{
-          type: Sequelize.BIGINT.UNSIGNED,
-          allowNull: true,
-          references: {
-            model: 'phone',
-            key: 'idPhone'
-          }
-          
-        },
         name: {
           type: Sequelize.STRING(255),
           allowNull: false

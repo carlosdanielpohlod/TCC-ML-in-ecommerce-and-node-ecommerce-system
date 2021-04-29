@@ -68,7 +68,7 @@ describe('Admin Routes', () => {
                                 name:"shold fail",
                                 price:"4.050",
                                 idProvider:1,
-                                description:"admin.test.js validation test",
+                                description:"admin.test.js validation, deve falhar",
                                 idCategory:1,
                                 idProductStatus:1,
                                 idBrand:1
@@ -87,10 +87,10 @@ describe('Admin Routes', () => {
                             .post('/product')
                             .set('Authorization',`Bearer ${user.body.data.token}`)
                             .send({
-                                name:"sjsjs",
+                                name:"Produto valido",
                                 price:"4.050",
                                 idProvider:1,
-                                description:"Produto para teste",
+                                description:"Produto criado no teste de valid admin token",
                                 idCategory:1,
                                 idProductStatus:1,
                                 idBrand:1

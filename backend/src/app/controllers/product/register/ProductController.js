@@ -1,3 +1,4 @@
+
 const {product} = require('../../../models')
 const httpStatus = require('../../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../../utils/errorFormat')
@@ -18,7 +19,7 @@ class CreateProductController {
         try{       
             const data = req.body 
             !data? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
-            const response = await product.create(data)
+            const response = await product.update(data, {where:{idProduct:req.body.idProduct}})
             res.status(201).send({msg:httpStatus["201"].value, status:true, data:response})        
         }
         catch(err){
@@ -27,7 +28,7 @@ class CreateProductController {
     }
 
     async delete(req, res){
-        // try{
+        try{
             const {purchaseitem, stock} = require('../../../models')
             !req.body? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
             
@@ -50,11 +51,11 @@ class CreateProductController {
                 res.status(200).send({msg:httpStatus["200"].value, status:true}) 
                 return
             }
-        // }
-        // catch(err){
+        }
+        catch(err){
 
-        //     res.status(500).send({msg:httpStatus['500'].value, status:false}) 
-        // }
+            res.status(500).send({msg:httpStatus['500'].value, status:false}) 
+        }
     }
 }
 module.exports = new CreateProductController()

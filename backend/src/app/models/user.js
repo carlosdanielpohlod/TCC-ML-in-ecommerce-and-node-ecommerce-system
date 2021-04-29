@@ -27,14 +27,6 @@ module.exports = function(sequelize, DataTypes) {
         key: 'idUserPrivilege'
       }
     },
-    idPhone: {
-      type: DataTypes.BIGINT.UNSIGNED,
-      allowNull: true,
-      references: {
-        model: 'phone',
-        key: 'idPhone'
-      }
-    },
     name: {
       type: DataTypes.STRING(255),
       allowNull: false,
