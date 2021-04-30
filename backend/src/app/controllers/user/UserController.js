@@ -59,7 +59,7 @@ class UserController{
             }
         })
         if(response){
-           return res.send({msg:"Usuário possui compras pendentes na plataforma", data:response})
+           return res.send({msg:"Usuário possui compras pendentes na plataforma", status:false})
         }else{
           await user.update({deletedAt:(new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ')}, {where:{idUser:req.body.idUserDelete}}) == 1? res.status(200).send({msg:httpStatus["200"].value, status:true}) : res.status(400).send({msg:'Não foi possivel deletar', status:false})      
         }

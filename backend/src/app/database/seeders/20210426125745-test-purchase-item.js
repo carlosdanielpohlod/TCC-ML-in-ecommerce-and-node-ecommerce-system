@@ -9,7 +9,20 @@ module.exports = {
         idStock:1,
         
         quantity:2
-      }], {});
+      },
+      {
+        idPurchaseItem:2,
+        idPurchase:2,
+        idStock:2,  
+        quantity:1
+      },
+      {
+        idPurchaseItem:3,
+        idPurchase:2,
+        idStock:2,  
+        quantity:2
+      }
+    ], {});
    
   },
 

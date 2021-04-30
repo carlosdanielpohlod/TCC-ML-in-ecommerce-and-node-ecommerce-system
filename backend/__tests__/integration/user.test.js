@@ -4,7 +4,7 @@ const app = require('../../src/app')
 
 describe('User validation', () => {
   
-    it('Shold create an user with irregular name', async (done) => {
+    it('Should create an user with irregular name', async (done) => {
 
        const response = await request(app)
                        .post('/signup')
@@ -23,7 +23,7 @@ describe('User validation', () => {
        done()
    })
 
-    it('Shold create an user with idPrivilege = 2', async (done) => {
+    it('Should create an user with idPrivilege = 2', async (done) => {
 
          await request(app)
                         .post('/signup')
@@ -44,7 +44,7 @@ describe('User validation', () => {
 
    
 
-    it('Shold not update an user with email already utilized by other user', async (done) => {
+    it('Should not update an user with email already utilized by other user', async (done) => {
 
         const authUser = await request(app)
                         .post('/signin')
@@ -68,7 +68,7 @@ describe('User validation', () => {
         done()
     })
 
-    // it('Shold not update an user with CPF aready been utilized by other user', async (done) => {
+    // it('Should not update an user with CPF aready been utilized by other user', async (done) => {
 
     //     const authUser = await request(app)
     //                     .post('/signin')
@@ -93,7 +93,7 @@ describe('User validation', () => {
     // })
 
 
-    it('Shold Update the user name to "test updated"', async (done) => {
+    it('Should Update the user name to "test updated"', async (done) => {
 
         const authUser = await request(app)
                         .post('/signin')
@@ -120,7 +120,7 @@ describe('User validation', () => {
    
 
 
-    it('Shold return all users limited by the pre definition (10)', async (done) => {
+    it('Should return all users limited by the pre definition (10)', async (done) => {
         const authUser = await request(app)
             .post('/signin')
             .send({email:'admin@seed.com',password:'12345'})
@@ -137,4 +137,58 @@ describe('User validation', () => {
        expect(response.body.status).toBe(true)
        done()
    })
+
+    it('Should not delete an user who has a purchase active', async (done) => {
+        const authUser = await request(app)
+            .post('/signin')
+            .send({email:'admin@seed.com',password:'12345'})
+
+        var thisUser = authUser.body.data
+        const response = await request(app)
+                    .delete('/user/deleteOtherUser')
+                    .set('Authorization',`Bearer ${thisUser.token}`)
+                    .send({
+                        idUserDelete:4
+                    })
+    
+
+        expect(response.body.status).toBe(false)
+        done()
+    })
+
+    it('Should delete an user who does not have a purchase', async (done) => {
+        const authUser = await request(app)
+            .post('/signin')
+            .send({email:'admin@seed.com',password:'12345'})
+
+        var thisUser = authUser.body.data
+        const response = await request(app)
+                    .delete('/user/deleteOtherUser')
+                    .set('Authorization',`Bearer ${thisUser.token}`)
+                    .send({
+                        idUserDelete:5
+                    })
+    
+
+        expect(response.body.status).toBe(true)
+        done()
+    })
+
+    it('Should delete an user who has only a canceled purchase', async (done) => {
+        const authUser = await request(app)
+            .post('/signin')
+            .send({email:'admin@seed.com',password:'12345'})
+
+        var thisUser = authUser.body.data
+        const response = await request(app)
+                    .delete('/user/deleteOtherUser')
+                    .set('Authorization',`Bearer ${thisUser.token}`)
+                    .send({
+                        idUserDelete:6
+                    })
+    
+
+        expect(response.body.status).toBe(true)
+        done()
+    })
 })

@@ -30,9 +30,39 @@ module.exports = {
       cpf:"9933399",	
       email:"deletado@seed.com",
       password:bcrypt.hashSync('12345', 10),
-      deletedAt: Date.now()
-       
-    }]);
+      deletedAt: (new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' '),
+       idUser:3
+    },
+    {
+      idUserPrivilege:2,
+      name:"User",
+      surname:"com compra",
+      cpf:"11111111111",	
+      email:"comcompra@seed.com",
+      password:bcrypt.hashSync('12345', 10),
+      idUser:4
+    },
+    {
+      idUserPrivilege:2,
+      name:"user",
+      surname:"to delete",
+      cpf:"555555555",	
+      email:"semcompra@seed.com",
+      password:bcrypt.hashSync('12345', 10),
+      
+      idUser:5
+    },
+    {
+      idUserPrivilege:2,
+      name:"user with",
+      surname:"paymentcanceled",
+      cpf:"7777777777",	
+      email:"paymentcanceled@seed.com",
+      password:bcrypt.hashSync('12345', 10),
+      
+      idUser:6
+    }
+  ]);
  
  },
 
