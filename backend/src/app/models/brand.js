@@ -11,9 +11,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(30),
       allowNull: false,
       validate:{
-        isAlpha:{
-          msg:msg['isAlpha'].value
-        },
         len:{
           args:[1,15],
           msg:msg['invalidLength'].value

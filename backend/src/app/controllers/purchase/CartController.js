@@ -4,12 +4,17 @@ const {sequelizeOrGeneric} = require('../utils/errorFormat')
 class CartController {
 
     async store(req, res){
-        // try{
+        try{
             const data = req.body
+
+            data.quantity < 0 ? res.status(400).send({status:false, msg:httpStatus["400"].value}) : null
+
             const productStock = await stock.findOne({where:{idStock:data.idStock}})
             
             let userCart = await purchase.findOne({where:{idUser:req.body.idUser, idPurchaseStatus:1}})
             
+
+
             if(!userCart){
                 userCart = await purchase.create(data)
             }
@@ -37,10 +42,10 @@ class CartController {
             }
 
             res.status(201).send({status:true,data:response})
-        // }
-        // catch(err){
-        //     sequelizeOrGeneric(err, res)
-        // }
+        }
+        catch(err){
+            sequelizeOrGeneric(err, res)
+        }
     }
 
 
@@ -95,19 +100,25 @@ class CartController {
             )
             const response = result.purchaseitems[0]    
             if(!response){
-                return res.status(400).send({status:false, msg:httpStatus["400"].value})
+                res.status(400).send({status:false, msg:httpStatus["400"].value})
+                return 
             }
 
             if(req.body.quantity > 0 ){
+                console.log(req.body.quantity)
                 if(response.quantity + req.body.quantity > response.stock.quantity){
-                   return res.status(400).send({msg:`Quantidade excede o estoque (${response.stock.quantity})`, status:false}) 
+                    res.status(400).send({msg:`Quantidade excede o estoque (${response.stock.quantity})`, status:false}) 
+                    return 
                 }
                 var verb ="increment"
             }
             else{ 
                 req.body.quantity  = req.body.quantity * (-1)
+                
                 if(response.quantity - req.body.quantity < 0){
-                   return res.status(400).send({msg:'Você não pode comprar uma quantidade negativa de produtos', status:false})
+                    console.log("entrei dnv")
+                    res.status(400).send({msg:'Você não pode comprar uma quantidade negativa de produtos', status:false})
+                    return
                 }
                 var verb = "decrement"
             }

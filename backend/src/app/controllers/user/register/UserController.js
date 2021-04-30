@@ -22,13 +22,14 @@ class UserController{
     async update(req, res){
         try{
             const data = req.body
-            user.usedVerify({email:req.body.email, idUser:{
-                        [Op.ne]:req.body.idUser
-                    }}, res, 'Email já utilizado por outro usuário')
-            user.usedVerify({cpf:req.body.cpf,idUser:{
-                        [Op.ne]:req.body.idUser
-                    }}, res, 'Email já utilizado por outro usuário') 
-
+        //    if( || user.usedVerify({cpf:req.body.cpf,idUser:{[Op.ne]:req.body.idUser}}) )
+        //    {
+        //        res.status(400).send('invalido')
+        //    }
+            
+            user.usedVerify({email:req.body.email, idUser:{[Op.ne]:req.body.idUser}}, res) 
+            user.usedVerify({cpf:req.body.cpf,idUser:{[Op.ne]:req.body.idUser}}, res)
+            
             await user.update({
                 name:data.name,
                 cpf:data.cpf,
@@ -36,6 +37,7 @@ class UserController{
                 birthday:data.birthday,
                 surname:data.surname
             }, {where:{idUser:data.idUser}})
+
             return res.status(200).send({status:true, msg:httpStatus['200']})
         }
         catch(err){
@@ -47,8 +49,8 @@ class UserController{
         try{
             const limitByPage = 10
             const page = req.body.page
-            const result = await user.findAll({attributes:user.basicInfosTemplate,offset:req.body.page * limitByPage - limitByPage, limit:limitByPage})
-            return res.status(200).send({data:result, limitByPage, page})
+            const result = await user.findAll({attributes:user.basicInfosTemplate, offset:req.body.page * limitByPage - limitByPage, limit:limitByPage})
+            return res.status(200).send({status:true,data:result, limitByPage, page})
         }
         catch(err){
             return res.status(500).send({status:false, msg:httpStatus["500"].value})
@@ -66,6 +68,8 @@ class UserController{
         .catch(err => res.status(500).send({status:false, msg:httpStatus['500'].value}))
 
     }
+
+
 
 }
 

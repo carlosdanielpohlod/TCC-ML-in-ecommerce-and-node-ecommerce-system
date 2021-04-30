@@ -1,11 +1,12 @@
 const request = require('supertest')
+const { post } = require('../../src/app')
 // const {purchase, purchaseitem, user} = require('../../src/app/models')
 const app = require('../../src/app')
 
 describe('User cart tests', () => {
     
 
-    it('Shold Add a product into user cart', async (done) => {
+    it('Should Add a product into user cart', async (done) => {
         
        
         const authUser = await request(app)
@@ -27,7 +28,7 @@ describe('User cart tests', () => {
         done()
     })
   
-    it('Shold try to update a product with negative quantity from user cart with fail', async (done) => {
+    it('Should try to update a product with negative quantity from user cart with fail', async (done) => {
         
         const authUser = await request(app)
         .post('/signin')
@@ -50,7 +51,7 @@ describe('User cart tests', () => {
        
     })
 
-    it('shold try to increment product into the cart with a quantity most long of the quantity into stock', async (done) => {
+    it('should try to increment product into the cart with a quantity most long of the quantity into stock', async (done) => {
         const authUser = await request(app)
         .post('/signin')
         .send({email:'admin@seed.com',password:'12345'})
@@ -69,3 +70,4 @@ describe('User cart tests', () => {
         done()
     })
 })
+

@@ -4,7 +4,7 @@ const app = require('../../src/app')
 
 describe('Product resgister validation', () => {
   
-    it('Shold throws a fail because incorrectly price', async (done) => {
+    it('Should throws a fail because incorrectly price', async (done) => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
@@ -26,7 +26,7 @@ describe('Product resgister validation', () => {
         done()
     })
 
-    it('Shold throws a fail with invalide user privilege', async (done) => {
+    it('Should throws a fail with invalide user privilege', async (done) => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'user@seed.com',password:'12345'})
@@ -48,7 +48,7 @@ describe('Product resgister validation', () => {
         done()
     })
 
-    it('Shold create with success', async (done) => {
+    it('Should create with success', async (done) => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
@@ -70,7 +70,7 @@ describe('Product resgister validation', () => {
         done()
     })
 
-    it('Shold deletet a product with success',async(done) => {
+    it('Should deletet a product with success',async(done) => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
@@ -86,7 +86,7 @@ describe('Product resgister validation', () => {
         done()
     })
 
-    it('Shold not delete the product they are relationed with a purchaseitem',async(done) => {
+    it('Should not delete the product they are relationed with a purchaseitem',async(done) => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})

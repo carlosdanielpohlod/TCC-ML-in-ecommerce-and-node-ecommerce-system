@@ -30,23 +30,24 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(30),
       allowNull: false,
       validate:{
-      isAlpha:{
-        msg:msg['isAlpha'].value   
-      },
-      len:{
-        args:[2,2],
-        msg:msg['invalidLength'].value
-      }
+        is:{
+          args:[/\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi],
+          msg:msg["letterAndSpace"].value
+        },
+        len:{
+          args:[2,2],
+          msg:msg['invalidLength'].value
+        }
     }
     },
     city: {
       type: DataTypes.STRING(30),
       allowNull: false,
       validate:{
-      isAlpha:{
-        msg:msg['isAlpha'].value
-        
-      },
+        is:{
+          args:[/\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi],
+          msg:msg["letterAndSpace"].value
+        },
       len:{
         args:[2,30],
         msg:msg['invalidLength'].value

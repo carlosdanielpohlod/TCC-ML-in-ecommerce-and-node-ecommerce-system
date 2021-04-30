@@ -8,7 +8,7 @@ class CreateProductController {
             const data = req.body 
             !data? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
             const response = await product.create(data)
-            res.status(201).send({msg:httpStatus["201"].value, status:true, data:response})        
+            return res.status(201).send({msg:httpStatus["201"].value, status:true, data:response})        
         }
         catch(err){
             sequelizeOrGeneric(err, res)

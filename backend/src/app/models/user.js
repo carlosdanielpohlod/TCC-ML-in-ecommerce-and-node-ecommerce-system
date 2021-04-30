@@ -40,8 +40,9 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
 
       validate:{
-        isAlpha:{
-          msg:msg['isAlpha'].value
+        is:{
+          args:[/\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi],
+          msg:msg["letterAndSpace"].value
         },
         len:{
           args:[3,30],
@@ -155,13 +156,10 @@ module.exports = function(sequelize, DataTypes) {
 
   user.basicInfosTemplate = ['name','surname','email','birthday','createdAt','deletedAt','profilePic','cpf']
 
-  user.usedVerify = function(query, res, errMsg){
-    user.findOne({where:query})
-    .then(data => {
-        if(data){
-          return res.status(400).send({status:false, msg:errMsg})  
-        }
-    })
+  user.usedVerify = async function(query, res, errMsg){
+    const data = await user.findOne({where:query})
+    
+    data != null ? res.status(400).send({status:false, msg:'Email ou senha já utilizados'}) : false
     
   }
   
