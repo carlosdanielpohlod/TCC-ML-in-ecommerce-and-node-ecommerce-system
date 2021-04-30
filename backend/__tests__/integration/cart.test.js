@@ -4,7 +4,27 @@ const { post } = require('../../src/app')
 const app = require('../../src/app')
 
 describe('User cart tests', () => {
-    
+    // it('Should not Add a product into user cart with a negative value', async (done) => {
+        
+       
+    //     const authUser = await request(app)
+    //     .post('/signin')
+    //     .send({email:'admin@seed.com',password:'12345'})
+    //     var thisUser = authUser.body.data
+
+     
+    //     const response = await request(app)
+    //                         .post('/cart')
+    //                         .set('Authorization',`Bearer ${thisUser.token}`)
+    //                         .send({
+                                    
+    //                                 idStock:1,
+    //                                 quantity:-1
+    //                         })
+
+    //     expect(response.status).toBe(400)
+    //     done()
+    // })
 
     it('Should Add a product into user cart', async (done) => {
         

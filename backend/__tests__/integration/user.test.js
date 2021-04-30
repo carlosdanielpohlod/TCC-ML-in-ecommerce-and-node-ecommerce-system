@@ -4,13 +4,32 @@ const app = require('../../src/app')
 
 describe('User validation', () => {
   
+    it('Shold create an user with irregular name', async (done) => {
+
+       const response = await request(app)
+                       .post('/signup')
+                       .send({
+                               name:"Name01 name02",
+                               surname:"Test",
+                               cpf:"99999999997",	
+                               email:"irregularUser@test.com",
+                               password:"12345",
+                               idUserPrivilege:"1"
+                               
+                           })
+       
+       
+       expect(response.status).toBe(400)
+       done()
+   })
+
     it('Shold create an user with idPrivilege = 2', async (done) => {
 
          await request(app)
                         .post('/signup')
                         .send({
-                                name:"User",
-                                surname:"Test",
+                                name:"User Test",
+                                surname:"Surname",
                                 cpf:"99999999999",	
                                 email:"newUser@test.com",
                                 password:"12345",
@@ -39,7 +58,7 @@ describe('User validation', () => {
                                 name:"Invalid user",
                                 surname:"Test",
                                 cpf:"99999999999",	
-                                email:"admin@test.com",
+                                email:"admin@seed.com",
                                 password:"12345"
                         })
         

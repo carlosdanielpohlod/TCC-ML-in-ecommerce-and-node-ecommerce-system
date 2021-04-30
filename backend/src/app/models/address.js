@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       validate:{
         is:{
-          args:[/\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi],
+          args:[/^[ a-zA-Z á]*$/],
           msg:msg["letterAndSpace"].value
         },
         len:{
@@ -45,7 +45,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       validate:{
         is:{
-          args:[/\b[A-Za-zÀ-ú][A-Za-zÀ-ú]+,?\s[A-Za-zÀ-ú][A-Za-zÀ-ú]{2,19}\b/gi],
+          args:[/^[ a-zA-Z á]*$/],
           msg:msg["letterAndSpace"].value
         },
       len:{
