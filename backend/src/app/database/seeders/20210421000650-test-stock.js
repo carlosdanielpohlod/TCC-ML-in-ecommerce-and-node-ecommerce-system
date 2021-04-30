@@ -3,12 +3,50 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     
-    await queryInterface.bulkInsert('stock', [{
+    await queryInterface.bulkInsert('stock', [
+    {
       idProduct:1,
       quantity:10,
       idProductSize:1,
       idProductColor:1
-    }], {});
+    },
+    { 
+      idProduct:1,
+      quantity:3,
+      idProductSize:2,
+      idProductColor:1
+    },
+    { 
+      idProduct:1,
+      quantity:3,
+      idProductSize:2,
+      idProductColor:2
+    },
+    { 
+      idProduct:2,
+      quantity:8,
+      idProductSize:1,
+      idProductColor:1
+    },
+    { 
+      idProduct:2,
+      quantity:8,
+      idProductSize:1,
+      idProductColor:2
+    },
+    { 
+      idProduct:2,
+      quantity:15,
+      idProductSize:2,
+      idProductColor:2
+    },
+    { 
+      idProduct:2,
+      quantity:7,
+      idProductSize:1,
+      idProductColor:3
+    }
+  ], {});
  
  },
 

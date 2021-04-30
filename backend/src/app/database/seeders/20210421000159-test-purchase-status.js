@@ -5,9 +5,20 @@ module.exports = {
     
     await queryInterface.bulkInsert('purchasestatus', [{
       status: 'No carrinho',
-      idPurchaseStatus:1
-    
-    }], {});
+      idPurchaseStatus:1 
+    },{
+      status: 'Aguardando Pagamento',
+      idPurchaseStatus:2
+    },
+    { 
+      status: 'Pagamento concluido',
+      idPurchaseStatus:3
+    },
+    { 
+      status:'Cancelado',
+      idPurchaseStatus:4
+    }
+  ], {});
    
  },
 

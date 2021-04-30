@@ -7,6 +7,9 @@ module.exports = {
       status: 'Rascunho',
       idProductStatus:1
     
+    },{
+      status:'disponivel',
+      idProductStatus:2
     }], {});
    
  },

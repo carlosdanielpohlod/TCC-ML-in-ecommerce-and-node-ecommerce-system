@@ -12,7 +12,8 @@ module.exports = {
         idCategory:1,
         idProductStatus:1,	
         idBrand:1
-     }, {
+     }, 
+     {
       name:'produto seed',
       idProduct:2,
       price:100.00,

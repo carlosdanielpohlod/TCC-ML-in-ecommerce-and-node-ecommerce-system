@@ -5,9 +5,9 @@ const {authenticate} = require('../middlewares/authenticateRoute')
 routes.use(authenticate)
 
 routes.route('/product')
-    .post(admin(require('../controllers/product/register/ProductController').store))
-    .put(admin(require('../controllers/product/register/ProductController').update))
-    .delete(admin(require('../controllers/product/register/ProductController').delete))
+    .post(admin(require('../controllers/product/ProductController').store))
+    .put(admin(require('../controllers/product/ProductController').update))
+    .delete(admin(require('../controllers/product/ProductController').delete))
 
 routes.route('/category')
     .post(admin(require('../controllers/product/additionalInfos/CategoryController.js').store))

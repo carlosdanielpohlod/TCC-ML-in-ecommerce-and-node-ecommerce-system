@@ -1,7 +1,7 @@
 
-const {product} = require('../../../models')
-const httpStatus = require('../../enum/httpStatus')
-const {sequelizeOrGeneric} = require('../../utils/errorFormat')
+const {product} = require('../../models')
+const httpStatus = require('../enum/httpStatus')
+const {sequelizeOrGeneric} = require('../utils/errorFormat')
 class CreateProductController {
     async store(req, res){
         try{       
@@ -29,7 +29,7 @@ class CreateProductController {
 
     async delete(req, res){
         try{
-            const {purchaseitem, stock} = require('../../../models')
+            const {purchaseitem, stock} = require('../../models')
             !req.body? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
             
             let response = await  purchaseitem.findAll({
@@ -56,6 +56,14 @@ class CreateProductController {
 
             res.status(500).send({msg:httpStatus['500'].value, status:false}) 
         }
+    }
+
+    async getById(req, res){
+        const {stock} = require('../../models')
+        const result = await stock.findAll({
+            where:{idProduct:req.params.idProduct}
+        })
+        console.log(result)
     }
 }
 module.exports = new CreateProductController()

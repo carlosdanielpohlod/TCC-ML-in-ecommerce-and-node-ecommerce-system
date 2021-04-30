@@ -13,4 +13,7 @@ routes.route('/validateToken')
         .post(authController.validateToken)
 routes.route('/category')
         .get(CategoryController.get)
+
+routes.route('/product/:idProduct')
+        .get(require('../controllers/product/ProductController').getById)
 module.exports = routes

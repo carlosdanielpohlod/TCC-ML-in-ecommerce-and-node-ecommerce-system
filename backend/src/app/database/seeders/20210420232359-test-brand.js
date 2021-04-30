@@ -6,7 +6,20 @@ module.exports = {
   await queryInterface.bulkInsert('brand', [{
     brand: 'Viamart'
     ,idBrand:1
-  }], {});
+  },
+  {
+    brand: 'Coca cola'
+    ,idBrand:2
+  },
+  {
+    brand: 'Umbro'
+    ,idBrand:3
+  },
+  {
+    brand: 'Nike'
+    ,idBrand:4
+  }
+  ], {});
 
   },
 

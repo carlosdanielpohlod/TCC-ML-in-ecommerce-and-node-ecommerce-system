@@ -6,7 +6,17 @@ module.exports = {
      await queryInterface.bulkInsert('productcolor', [{
        color: 'cor padrão',
        idProductColor:1
-     }], {});
+     },
+     { 
+      color: 'Verde'
+     },
+     { 
+      color: 'Vermelhor'
+     },
+     { 
+       color:'azul'
+     }
+    ], {});
     
   },
 
