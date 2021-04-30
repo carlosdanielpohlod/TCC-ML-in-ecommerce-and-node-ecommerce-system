@@ -1,7 +1,7 @@
 const routes = require('express').Router()
 const authController = require('../controllers/auth/AuthController')
 const CategoryController = require('../controllers/product/additionalInfos/CategoryController')
-const UserController = require('../controllers/user/register/UserController')
+const UserController = require('../controllers/user/UserController')
 
 routes.route('/signin')
         .post(authController.signin)
@@ -14,6 +14,6 @@ routes.route('/validateToken')
 routes.route('/category')
         .get(CategoryController.get)
 
-routes.route('/product/:idProduct')
-        .get(require('../controllers/product/ProductController').getById)
+routes.route('/product/details/:idProduct')
+        .get(require('../controllers/product/ProductController').getDetailsById)
 module.exports = routes

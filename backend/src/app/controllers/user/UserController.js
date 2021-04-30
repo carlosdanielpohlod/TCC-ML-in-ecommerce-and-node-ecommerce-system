@@ -1,6 +1,6 @@
-const {user} = require('../../../models/')
-const httpStatus = require('../../enum/httpStatus')
-const {sequelizeOrGeneric} = require('../../utils/errorFormat')
+const {user} = require('../../models')
+const httpStatus = require('../enum/httpStatus')
+const {sequelizeOrGeneric} = require('../utils/errorFormat')
 const { Op } = require("sequelize");
 class UserController{
    
@@ -44,7 +44,26 @@ class UserController{
             sequelizeOrGeneric(err,res)
         }
     }
-
+    async deleteOtherUser(req, res){
+        const {purchase} = require('../../models')
+        const purchaseStatus = require('../enum/purchaseStatus')
+        const response = await purchase.findOne({
+            where:{idUser:req.body.idUserDelete,
+                idPurchaseStatus:{
+                    [Op.or]:[
+                        purchaseStatus["aguardando_pagamento"].value, 
+                        purchaseStatus["pagamento_efetuado"].value, 
+                        purchaseStatus["produto_em_transito"].value
+                    ]
+                }
+            }
+        })
+        if(response){
+           return res.send({msg:"Usuário possui compras pendentes na plataforma", data:response})
+        }else{
+          await user.update({deletedAt:(new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' ')}, {where:{idUser:req.body.idUserDelete}}) == 1? res.status(200).send({msg:httpStatus["200"].value, status:true}) : res.status(400).send({msg:'Não foi possivel deletar', status:false})      
+        }
+    }
     async getAll(req, res){
         try{
             const limitByPage = 10

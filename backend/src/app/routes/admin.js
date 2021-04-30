@@ -18,8 +18,11 @@ routes.route('/stock')
     .put(admin(require('../controllers/product/StockController.js').update))
 
 routes.route('/user/all')
-        .get(admin(require('../controllers/user/register/UserController').getAll))
+        .get(admin(require('../controllers/user/UserController').getAll))
         
 routes.route('/user/:idUser')
-        .get(admin(require('../controllers/user/register/UserController').getById))
+        .get(admin(require('../controllers/user/UserController').getById))
+        
+routes.route('/user/deleteOtherUser')
+        .delete(admin(require('../controllers/user/UserController').deleteOtherUser))
 module.exports = routes

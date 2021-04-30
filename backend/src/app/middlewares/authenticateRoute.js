@@ -1,4 +1,3 @@
-const { request } = require('express')
 const jwt = require('jwt-simple')
 require('dotenv').config({path:'.env'})
 existsBearer = function(scheme){

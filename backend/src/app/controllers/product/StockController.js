@@ -21,5 +21,7 @@ class StockController {
             sequelizeOrGeneric(err, res)
         }
     }
+
+    
 }
 module.exports = new StockController()

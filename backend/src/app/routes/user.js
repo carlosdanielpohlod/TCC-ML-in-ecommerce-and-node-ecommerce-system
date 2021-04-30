@@ -11,10 +11,10 @@ routes.route('/cart')
     .get(require('../controllers/purchase/CartController').get)
 
 routes.route('/address')
-    .post(require('../controllers/user/register/additionalInfo/AddressController').store)
-    .put(require('../controllers/user/register/additionalInfo/AddressController').update)
+    .post(require('../controllers/user/additionalInfo/AddressController').store)
+    .put(require('../controllers/user/additionalInfo/AddressController').update)
 
 routes.route('/user')
-    .put(require('../controllers/user/register/UserController').update)
+    .put(require('../controllers/user/UserController').update)
     
 module.exports = routes

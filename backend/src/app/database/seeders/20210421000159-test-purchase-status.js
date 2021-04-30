@@ -11,12 +11,24 @@ module.exports = {
       idPurchaseStatus:2
     },
     { 
-      status: 'Pagamento concluido',
+      status: 'Pagamento efetuado',
       idPurchaseStatus:3
     },
     { 
-      status:'Cancelado',
+      status: 'Produto em transito',
       idPurchaseStatus:4
+    },
+    { 
+      status: 'Compra concluida',
+      idPurchaseStatus:5
+    },
+    { 
+      status:'Cancelado',
+      idPurchaseStatus:6
+    },
+    { 
+      status:"Pagamento não efetuado",
+      idPurchaseStatus:7
     }
   ], {});
    

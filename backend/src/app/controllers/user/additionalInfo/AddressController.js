@@ -1,6 +1,6 @@
 
-const {address, user} = require('../../../../models')
-const {sequelizeOrGeneric} = require('../../../utils/errorFormat')
+const {address, user} = require('../../../models')
+const {sequelizeOrGeneric} = require('../../utils/errorFormat')
 
 class AddressController{
     async store(req, res){

@@ -58,12 +58,12 @@ class CreateProductController {
         }
     }
 
-    async getById(req, res){
+    async getDetailsById(req, res){
         const {stock} = require('../../models')
         const result = await stock.findAll({
             where:{idProduct:req.params.idProduct}
         })
-        console.log(result)
+        res.send(result)
     }
 }
 module.exports = new CreateProductController()
