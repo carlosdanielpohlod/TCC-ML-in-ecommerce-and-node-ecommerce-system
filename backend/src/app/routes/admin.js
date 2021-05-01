@@ -9,6 +9,11 @@ routes.route('/product')
     .put(admin(require('../controllers/product/ProductController').update))
     .delete(admin(require('../controllers/product/ProductController').delete))
 
+routes.route('/brand')
+    .post(admin(require('../controllers/product/additionalInfos/BrandController').store))
+    .put(admin(require('../controllers/product/additionalInfos/BrandController').update))
+    .delete(admin(require('../controllers/product/additionalInfos/BrandController').delete))
+    
 routes.route('/category')
     .post(admin(require('../controllers/product/additionalInfos/CategoryController.js').store))
     .delete(admin(require('../controllers/product/additionalInfos/CategoryController.js').delete))

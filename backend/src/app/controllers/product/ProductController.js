@@ -54,7 +54,7 @@ class CreateProductController {
         }
         catch(err){
 
-            res.status(500).send({msg:httpStatus['500'].value, status:false}) 
+           return res.status(500).send({msg:httpStatus['500'].value, status:false}) 
         }
     }
 
@@ -63,7 +63,7 @@ class CreateProductController {
         const result = await stock.findAll({
             where:{idProduct:req.params.idProduct}
         })
-        res.send(result)
+        return res.send(result)
     }
 }
 module.exports = new CreateProductController()

@@ -105,7 +105,7 @@ class CartController {
             }
 
             if(req.body.quantity > 0 ){
-                console.log(req.body.quantity)
+               
                 if(response.quantity + req.body.quantity > response.stock.quantity){
                     res.status(400).send({msg:`Quantidade excede o estoque (${response.stock.quantity})`, status:false}) 
                     return 
@@ -116,7 +116,7 @@ class CartController {
                 req.body.quantity  = req.body.quantity * (-1)
                 
                 if(response.quantity - req.body.quantity < 0){
-                    console.log("entrei dnv")
+                   
                     res.status(400).send({msg:'Você não pode comprar uma quantidade negativa de produtos', status:false})
                     return
                 }

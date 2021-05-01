@@ -44,6 +44,7 @@ module.exports = function(sequelize, DataTypes) {
           args:[/^[ a-zA-Z á]*$/],
           msg:msg["letterAndSpace"].value
         },
+        
         len:{
           args:[3,30],
           msg:msg['invalidLength'].value

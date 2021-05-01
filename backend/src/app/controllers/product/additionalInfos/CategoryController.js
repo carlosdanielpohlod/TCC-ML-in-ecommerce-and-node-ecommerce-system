@@ -30,7 +30,7 @@ class CategoryController {
     async update(req, res){
         try{
             const response = await category.update({data}, {where:{idCategory:req.body.idCategory}})
-            res.send(200).send({status:true, msg:httpStatus["200"].value, data:response})
+            return res.send(200).send({status:true, msg:httpStatus["200"].value, data:response})
         }
         catch(err){
             sequelizeOrGeneric(err, res)

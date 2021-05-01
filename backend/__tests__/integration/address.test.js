@@ -30,4 +30,31 @@ describe('Address validation', () => {
         userWithAddress.update({idAddress:null})
         done()
     })
+
+
+    it('Shold not create address with empty fields', async (done) => {
+
+        // const userWithoutAddress = await user.findOne({where:{idAddress:null}})
+        const authUser = await request(app)
+                        .post('/signin')
+                        .send({email:'user@seed.com',password:'12345'})
+        var thisUser = authUser.body.data
+
+        // console.log(thisUser)
+
+        const response = await request(app)
+                        .post('/address')
+                        .set('Authorization',`Bearer ${thisUser.token}`)
+                        .send({
+                                cep:"85200007",
+                                city:"   ",
+                                state:"  ",
+                                street:"   ",
+                                number:"4"
+                            })
+       
+        
+        expect(response.status).toBe(400)
+        done()
+    })
 })
