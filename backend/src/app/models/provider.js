@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const msg = require('../controllers/enum/validationMessages')
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('provider', {
     idProvider: {
@@ -9,7 +9,14 @@ module.exports = function(sequelize, DataTypes) {
     },
     name: {
       type: DataTypes.STRING(20),
-      allowNull: true
+      allowNull: true,
+      validate:{
+        trim(value){
+          if(value.trim() < 1){
+            throw new Error(msg["trimError"].value);
+          }
+        }
+      }
     },
     cnpj: {
       type: DataTypes.STRING(15),

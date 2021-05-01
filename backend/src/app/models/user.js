@@ -48,6 +48,11 @@ module.exports = function(sequelize, DataTypes) {
         len:{
           args:[3,30],
           msg:msg['invalidLength'].value
+        },
+        trim(value){
+          if(value.trim() < 3){
+            throw new Error(msg["trimError"].value);
+          }
         }
       },
     },
@@ -60,6 +65,7 @@ module.exports = function(sequelize, DataTypes) {
         },
         min(value){
           value = String(value)
+          value.trim()
           if(value.length != 11){
             throw new Error('Deve conter 11 digitos numericos');
           }
@@ -102,6 +108,12 @@ module.exports = function(sequelize, DataTypes) {
         len:{
           args:[1,40],
           msg:msg['invalidLength'].value
+        },
+        
+        trim(value){
+          if(value.trim() < 1){
+            throw new Error(msg["trimError"].value);
+          }
         }
       }
     },

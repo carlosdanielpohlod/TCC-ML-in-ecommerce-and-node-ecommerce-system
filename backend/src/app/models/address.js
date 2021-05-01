@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+
 const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('address', {
@@ -37,6 +37,11 @@ module.exports = function(sequelize, DataTypes) {
         len:{
           args:[2,2],
           msg:msg['invalidLength'].value
+        },
+        trim(value){
+          if(value.trim() < 2){
+            throw new Error(msg["trimError"].value);
+          }
         }
     }
     },
@@ -51,6 +56,11 @@ module.exports = function(sequelize, DataTypes) {
       len:{
         args:[2,30],
         msg:msg['invalidLength'].value
+      },
+      trim(value){
+        if(value.trim() < 2){
+          throw new Error(msg["trimError"].value);
+        }
       }
       }
     },
@@ -62,6 +72,11 @@ module.exports = function(sequelize, DataTypes) {
       len:{
         args:[2,50],
         msg:msg['invalidLength'].value
+      },
+      trim(value){
+        if(value.trim() < 2){
+          throw new Error(msg["trimError"].value);
+        }
       }
     }
     },

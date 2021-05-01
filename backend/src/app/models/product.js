@@ -22,6 +22,11 @@ module.exports = function(sequelize, DataTypes) {
           if(value.length > 30){
             throw new Error(msg['max'].value);
           }
+        },
+        trim(value){
+          if(value.trim() < 3){
+            throw new Error(msg["trimError"].value);
+          }
         }
       }
     },
@@ -50,6 +55,12 @@ module.exports = function(sequelize, DataTypes) {
         max(value){
           if(value.length > 700){
             throw new Error(msg['max'].value);
+          }
+        },
+        
+        trim(value){
+          if(value.trim() < 1){
+            throw new Error(msg["trimError"].value);
           }
         }
       }

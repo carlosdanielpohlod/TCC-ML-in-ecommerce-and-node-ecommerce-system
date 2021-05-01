@@ -22,6 +22,11 @@ module.exports = function(sequelize, DataTypes) {
         len:{
           args:[3,15],
           msg:msg['invalidLength'].value
+        },
+        trim(value){
+          if(value.trim() < 3){
+            throw new Error(msg["trimError"].value);
+          }
         }
       }
     }
