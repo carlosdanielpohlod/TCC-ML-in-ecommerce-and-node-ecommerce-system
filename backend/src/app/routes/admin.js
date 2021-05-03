@@ -11,6 +11,7 @@ routes.route('/product')
 
 routes.route('/brand')
     .post(admin(require('../controllers/product/additionalInfos/BrandController').store))
+    .get(admin(require('../controllers/product/additionalInfos/BrandController').get))
     .put(admin(require('../controllers/product/additionalInfos/BrandController').update))
     .delete(admin(require('../controllers/product/additionalInfos/BrandController').delete))
     

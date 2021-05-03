@@ -8,9 +8,9 @@ class PhoneController{
             if(req.body.idPhone)
                 req.body.idPhone = null
 
-            const oldPhone = await user.findOne({attributes:['idPhone'], where:{idUser:req.user.idUser}})
+            const oldPhone = await user.findOne({where:{idUser:req.user.idUser}})
             
-            if(oldPhone){
+            if(oldPhone.idPhone){
                 return res.status(400).send({status:false,msg:'Usuário já possui um telefone'})
             }else{
                 phone.create(req.body)

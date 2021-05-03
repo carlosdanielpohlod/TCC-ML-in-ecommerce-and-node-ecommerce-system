@@ -74,4 +74,17 @@ describe('Brand resgister validation', () => {
         expect(response.status).toBe(400)
         done()
     })
+    it('Shold get all brand', async (done)=>{
+        const authUser = await request(app)
+                        .post('/signin')
+                        .send({email:'admin@seed.com',password:'12345'})
+        var thisUser = authUser.body.data
+
+        const response = await request(app)
+                        .get('/brand')
+                        .set('Authorization',`Bearer ${thisUser.token}`)
+                        
+        expect(response.status).toBe(200)
+        done()
+    })
 })

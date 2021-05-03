@@ -32,7 +32,15 @@ class BrandController {
         }
     }
 
-
+    async get(req, res){
+        brand.findAll()
+        .then(response => {
+            return res.status(200).send({data:response, status:true})
+        })
+        .catch(err => {
+            return res.status(500).send({msg:httpStatus["500"].value})
+        })
+    }
    
 }
 
