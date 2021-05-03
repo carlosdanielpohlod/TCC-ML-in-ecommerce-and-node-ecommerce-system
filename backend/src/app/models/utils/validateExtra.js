@@ -1,3 +1,0 @@
-trim =function(value){
-
-}

@@ -1,4 +1,4 @@
-
+const httpStatus = require('../../enum/httpStatus')
 const {address, user} = require('../../../models')
 const {sequelizeOrGeneric} = require('../../utils/errorFormat')
 
@@ -7,7 +7,7 @@ class AddressController{
         try{
             !req.body ? res.status(400).send({status:false, msg:httpStatus['400'].value}) : null
             const newAddress = await address.create(req.body)    
-            await user.update({idAddress:newAddress.idAddress},{ where:{idUser:req.body.idUser}} )
+            await user.update({idAddress:newAddress.idAddress},{ where:{idUser:req.user.idUser}} )
             res.status(201).send({status:true, data:newAddress})
         }
         catch(err){
@@ -16,7 +16,7 @@ class AddressController{
     }
     async update(req, res){
         try{
-            const userData = await user.findOne({where:{idUser:req.body.idUser}})
+            const userData = await user.findOne({where:{idUser:req.user.idUser}})
             
             await address.update({
                 cep:req.body.cep,

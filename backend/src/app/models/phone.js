@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize');
+const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('phone', {
     idPhone: {
@@ -9,11 +9,29 @@ module.exports = function(sequelize, DataTypes) {
     },
     areaCode: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isNumeric:{
+          msg:msg["isNumeric"].value
+        },
+        len:{
+          args:[1,5],
+          msg:msg["invalidLength"].value
+        }
+      }
     },
     number: {
       type: DataTypes.STRING(20),
-      allowNull: false
+      allowNull: false,
+      validate:{
+        isNumeric:{
+          msg:msg["isNumeric"].value
+        },
+        len:{
+          args:[7,15],
+          msg:msg["invalidLength"].value
+        }
+      }
     }
   }, {
     sequelize,

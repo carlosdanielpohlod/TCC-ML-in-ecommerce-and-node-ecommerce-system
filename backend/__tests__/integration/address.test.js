@@ -6,13 +6,13 @@ describe('Address validation', () => {
   
     it('Shold create address and associate a one user', async (done) => {
 
-        // const userWithoutAddress = await user.findOne({where:{idAddress:null}})
+       
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'user@seed.com',password:'12345'})
         var thisUser = authUser.body.data
 
-        // console.log(thisUser)
+
 
         const response = await request(app)
                         .post('/address')

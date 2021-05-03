@@ -14,6 +14,10 @@ routes.route('/address')
     .post(require('../controllers/user/additionalInfo/AddressController').store)
     .put(require('../controllers/user/additionalInfo/AddressController').update)
 
+routes.route('/phone')
+    .post(require('../controllers/user/additionalInfo/PhoneController').store)
+    .put(require('../controllers/user/additionalInfo/PhoneController').update)
+
 routes.route('/user')
     .put(require('../controllers/user/UserController').update)
     

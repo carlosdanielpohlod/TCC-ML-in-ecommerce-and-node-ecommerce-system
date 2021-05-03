@@ -59,11 +59,36 @@ class CreateProductController {
     }
 
     async getDetailsById(req, res){
-        const {stock} = require('../../models')
+        const {stock, product, color, category,brand} = require('../../models')
         const result = await stock.findAll({
-            where:{idProduct:req.params.idProduct}
-        })
+            include: 
+            [
+                {
+                    model: product,
+                    attributes:["name","price","description","idProduct"],
+                    include:
+                    [
+                        {
+                            model:category,
+                            attributes:["category"]
+                        },
+                        {
+                            model:brand,
+                            attributes:["brand"]
+                        }
+                    ]
+
+                },
+                {
+                    model:color,
+                    attributes:["color"]
+                }
+            ]
+        },{where:{idProduct:req.params.idProduct}})
         return res.send(result)
+
+
+        
     }
 }
 module.exports = new CreateProductController()

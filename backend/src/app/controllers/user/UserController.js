@@ -7,11 +7,21 @@ class UserController{
     async store(req, res){
         try{
             !req.body.name ? res.status(400).send({status:false, msg:httpStatus['400'].value}) : null
-            user.usedVerify({email:req.body.email}, res)
-            user.usedVerify({cpf:req.body.cpf}, res)
+            let response =  await user.findOne({where:{email:req.body.email}})
+            if(response != null){
+                return res.status(400).send({msg:"Email já utilizado", status:false})
+            }
+            
+            response  = await user.findOne({where:{cpf:req.body.cpf}})
+            // console.log(response)
+            if(response != null){
+                return res.status(400).send({msg:"CPF já utilizado", status:false})
+                
+            }
+           
             req.body.password = user.passwordHash(req.body.password) 
             req.body.idUserPrivilege = 2     
-            const response = await user.create(req.body)
+            response = await user.create(req.body)
             return res.status(201).send({status:true,msg:httpStatus['201'].value, data:response})
         }
         catch(err){
@@ -20,29 +30,32 @@ class UserController{
     }
 
     async update(req, res){
-        try{
+        // try{
             const data = req.body
-        //    if( || user.usedVerify({cpf:req.body.cpf,idUser:{[Op.ne]:req.body.idUser}}) )
-        //    {
-        //        res.status(400).send('invalido')
-        //    }
+     
+            let response =  await user.findOne({where:{email:req.body.email, idUser:{[Op.ne]:req.user.idUser}}})
+            if(response != null){
+                return res.status(400).send({msg:"Email já utilizado", status:false})
+            }       
+            response  = await user.findOne({where:{cpf:req.body.cpf,idUser:{[Op.ne]:req.user.idUser}}})
             
-            user.usedVerify({email:req.body.email, idUser:{[Op.ne]:req.body.idUser}}, res) 
-            user.usedVerify({cpf:req.body.cpf,idUser:{[Op.ne]:req.body.idUser}}, res)
-            
+            if(response != null){
+                return res.status(400).send({msg:"CPF já utilizado", status:false})
+                
+            }
             await user.update({
                 name:data.name,
                 cpf:data.cpf,
                 email:data.email,
                 birthday:data.birthday,
                 surname:data.surname
-            }, {where:{idUser:data.idUser}})
+            }, {where:{idUser:req.user.idUser}})
 
             return res.status(200).send({status:true, msg:httpStatus['200']})
-        }
-        catch(err){
-            sequelizeOrGeneric(err,res)
-        }
+        // }
+        // catch(err){
+        //     sequelizeOrGeneric(err,res)
+        // }
     }
     async deleteOtherUser(req, res){
         const {purchase} = require('../../models')

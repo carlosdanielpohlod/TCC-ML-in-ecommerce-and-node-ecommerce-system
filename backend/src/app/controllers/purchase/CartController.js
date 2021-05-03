@@ -11,7 +11,7 @@ class CartController {
 
             const productStock = await stock.findOne({where:{idStock:data.idStock}})
             
-            let userCart = await purchase.findOne({where:{idUser:req.body.idUser, idPurchaseStatus:1}})
+            let userCart = await purchase.findOne({where:{idUser:req.user.idUser, idPurchaseStatus:1}})
             
 
 
@@ -56,7 +56,7 @@ class CartController {
     async deleteItemFromCart(req, res){
         try{
             !req.body.idPurchaseItem ? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
-            const userCart = await purchase.findOne({where:{idUser:req.body.idUser, idPurchaseStatus:1}})
+            const userCart = await purchase.findOne({where:{idUser:req.user.idUser, idPurchaseStatus:1}})
             
             if(userCart){
                 await purchaseitem.destroy({where:{idPurchaseItem:req.body.idPurchaseItem, idPurchase:userCart.idPurchase}})
@@ -82,7 +82,7 @@ class CartController {
             // !req.body.idPurchaseItem ? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
             const result = await purchase.findOne({
                     attributes:[],
-                    where:{idUser:req.body.idUser, idPurchaseStatus:1},
+                    where:{idUser:req.user.idUser, idPurchaseStatus:1},
                     include:[
                     {
                         model:purchaseitem,
@@ -141,7 +141,7 @@ class CartController {
                 attributes:['idPurchaseItem','quantity'],
                 include: [{
                   model: purchase,
-                  where: {idUser: req.body.idUser},
+                  where: {idUser: req.user.idUser},
                   attributes:[]
                 }, {
                     model:stock,

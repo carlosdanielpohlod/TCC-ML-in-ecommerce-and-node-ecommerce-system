@@ -1,8 +1,8 @@
 const routes = require('express').Router()
 const admin = require('../middlewares/admin')
-const {authenticate} = require('../middlewares/authenticateRoute')
+// const {authenticate} = require('../middlewares/authenticateRoute')
 
-routes.use(authenticate)
+// routes.use(authenticate)
 
 routes.route('/product')
     .post(admin(require('../controllers/product/ProductController').store))

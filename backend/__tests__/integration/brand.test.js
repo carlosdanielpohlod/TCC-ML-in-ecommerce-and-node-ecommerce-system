@@ -5,7 +5,7 @@ const app = require('../../src/app')
 const {brand} = require('../../src/app/models')
 describe('Brand resgister validation', () => {
   
-    it('Should throws a fail because incorrectly price', async (done) => {
+    it('Should create a brand with success', async (done) => {
         const authUser = await request(app)
                         .post('/signin')
                         .send({email:'admin@seed.com',password:'12345'})
@@ -17,6 +17,7 @@ describe('Brand resgister validation', () => {
                         .send({
                                brand:"Test"
                             })
+        console.log(response)
         expect(response.data.brand).toBe("Test")
         done()
     })
@@ -28,10 +29,11 @@ describe('Brand resgister validation', () => {
         var thisUser = authUser.body.data
 
                 await request(app)
-                        .post('/brand')
+                        .put('/brand')
                         .set('Authorization',`Bearer ${thisUser.token}`)
                         .send({
-                               brand:"updated"
+                               brand:"updated",
+                               idBrand:"2"
                             })
                         
         const brandUpdated = await brand.findOne({where:{idBrand:2}})

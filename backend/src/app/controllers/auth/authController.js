@@ -1,5 +1,5 @@
 const jwt = require('jwt-simple')
-const httpStatus = require('../enum/httpStatus')
+// const httpStatus = require('../enum/httpStatus')
 const {user} = require('../../models')
 const bcrypt = require('bcrypt')
 require('dotenv').config({path:'.env'})

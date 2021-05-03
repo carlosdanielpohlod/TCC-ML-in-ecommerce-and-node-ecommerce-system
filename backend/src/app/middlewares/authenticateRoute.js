@@ -18,8 +18,8 @@ authenticate = function(req, res, next){
     const decode = jwt.decode(token, process.env.AUTHSECRET) 
     
     if(decode.idUserPrivilege){
-        req.body.idUser = decode.idUser
-        req.body.idUserPrivilege = decode.idUserPrivilege
+        // req.body.idUser = decode.idUser
+        req.user = {idUser:decode.idUser, idUserPrivilege:decode.idUserPrivilege}
         next()
     }
     else

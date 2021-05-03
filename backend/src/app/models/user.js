@@ -169,10 +169,15 @@ module.exports = function(sequelize, DataTypes) {
 
   user.basicInfosTemplate = ['name','surname','email','birthday','createdAt','deletedAt','profilePic','cpf']
 
-  user.usedVerify = async function(query, res, errMsg){
-    const data = await user.findOne({where:query})
-    
-    data != null ? res.status(400).send({status:false, msg:'Email ou senha já utilizados'}) : false
+  user.usedVerify = async function(query){
+   user.findOne({where:query})
+   .then(res => {
+     if(res){
+       return true
+     }else{
+       return false
+     }
+   })
     
   }
   
