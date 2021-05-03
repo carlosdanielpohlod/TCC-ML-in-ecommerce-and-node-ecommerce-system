@@ -17,8 +17,9 @@ describe('Brand resgister validation', () => {
                         .send({
                                brand:"Test"
                             })
-        console.log(response)
-        expect(response.data.brand).toBe("Test")
+                    
+        // console.log(response.body.data)
+        expect(response.body.data.brand).toBe("Test")
         done()
     })
 
