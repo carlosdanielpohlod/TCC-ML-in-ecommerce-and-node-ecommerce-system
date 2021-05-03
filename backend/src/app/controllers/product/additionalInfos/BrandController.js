@@ -38,7 +38,7 @@ class BrandController {
             return res.status(200).send({data:response, status:true})
         })
         .catch(err => {
-            return res.status(500).send({msg:httpStatus["500"].value})
+            return res.status(500).send({msg:httpStatus["500"].value, status:false})
         })
     }
    

@@ -59,32 +59,35 @@ class CreateProductController {
     }
 
     async getDetailsById(req, res){
-        const {stock, product, color, category,brand} = require('../../models')
-        const result = await stock.findAll({
-            include: 
-            [
-                {
-                    model: product,
-                    attributes:["name","price","description","idProduct"],
-                    include:
-                    [
-                        {
-                            model:category,
-                            attributes:["category"]
-                        },
-                        {
-                            model:brand,
-                            attributes:["brand"]
-                        }
-                    ]
-
-                },
-                {
-                    model:color,
-                    attributes:["color"]
-                }
-            ]
-        },{where:{idProduct:req.params.idProduct}})
+        const {stock, product, productcolor, category,brand, productsize} = require('../../models')
+        const Sequelize = require('sequelize');
+        const result = await product.findAll({
+            attributes:["name", "price", "description"],
+           include: [
+            {
+                model:category,
+                attributes:["category"]
+            },
+            {
+                model:brand,
+                attributes:["brand"]
+            },
+            { 
+                model:stock,
+                attributes:['quantity',"idStock"],
+                include:[
+                    {
+                        model:productsize,
+                        attributes:["size"]
+                    }
+                    ,{
+                        model:productcolor,
+                        attributes:["color"]   
+                    }
+                ]
+            }
+           ]
+        ,where:{idProduct:req.params.idProduct}})
         return res.send(result)
 
 
