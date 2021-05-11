@@ -58,9 +58,8 @@ class CreateProductController {
         }
     }
 
-    async getDetailsById(req, res){
+    async getBasicDetailsById(req, res){
         const {stock, product, productcolor, category,brand, productsize} = require('../../models')
-        const Sequelize = require('sequelize');
         const result = await product.findAll({
             attributes:["name", "price", "description"],
            include: [
@@ -75,6 +74,7 @@ class CreateProductController {
             { 
                 model:stock,
                 attributes:['quantity',"idStock"],
+                group:["color"],
                 include:[
                     {
                         model:productsize,
@@ -93,6 +93,9 @@ class CreateProductController {
 
         
     }
+
+    
+    
 }
 module.exports = new CreateProductController()
 

@@ -5,7 +5,7 @@ class StockController {
     async store(req, res){
         try{
             const response = await stock.create(req.body)
-            res.status(201).send({msg:httpStatus["201"].value,status:true, data:response})   
+            return res.status(201).send({msg:httpStatus["201"].value,status:true, data:response})   
         }catch(err){
             sequelizeOrGeneric(err, res)
         }
@@ -15,7 +15,7 @@ class StockController {
             const data = req.body
             !data.idProduct ? res.status(400).send({msg:httpStatus["400"].value,status:false}) : null 
             const response = await stock.update({quantity:data.quantity}, {where:{idProduct:data.idProduct, idProductSize:data.idProductSize}})
-            res.status(200).send({msg:httpStatus["200"].value,status:true, data:response})
+            return res.status(200).send({msg:httpStatus["200"].value,status:true, data:response})
         }
         catch(err){
             sequelizeOrGeneric(err, res)

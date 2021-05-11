@@ -31,4 +31,6 @@ routes.route('/user/:idUser')
         
 routes.route('/user/deleteOtherUser')
         .delete(admin(require('../controllers/user/UserController').deleteOtherUser))
+
+        
 module.exports = routes
