@@ -61,7 +61,7 @@ class CreateProductController {
     async getBasicDetailsById(req, res){
         const {stock, product, productcolor, category,brand, productsize} = require('../../models')
         const result = await product.findAll({
-            attributes:["name", "price", "description"],
+            attributes:["idProduct","name", "price", "description"],
            include: [
             {
                 model:category,
@@ -88,7 +88,7 @@ class CreateProductController {
             }
            ]
         ,where:{idProduct:req.params.idProduct}})
-        return res.send(result)
+        return res.status(200).send({status:true, data:result})
 
 
         

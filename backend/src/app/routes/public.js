@@ -15,5 +15,5 @@ routes.route('/category')
         .get(CategoryController.get)
 
 routes.route('/product/details/:idProduct')
-        .get(require('../controllers/product/ProductController').getBasicDetailsById) 
+        .patch(require('../controllers/product/ProductController').getBasicDetailsById) 
 module.exports = routes

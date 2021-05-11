@@ -101,4 +101,15 @@ describe('Product resgister validation', () => {
         expect(response.status).toBe(400)
         done()
     })
+
+    it('Should get a product by ID', async (done) => {
+        
+
+        const response = await request(app)
+                        .patch('/product/details/1')
+                        
+        
+        expect(response.body.data[0].idProduct).toBe(1)
+        done()
+    })
 })

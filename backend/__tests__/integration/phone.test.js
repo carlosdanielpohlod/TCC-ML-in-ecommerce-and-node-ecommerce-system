@@ -40,11 +40,58 @@ describe('Phone tests', () => {
                             .set('Authorization',`Bearer ${thisUser.token}`)
                             .send({
                                     
-                                    areaCode:'42',
+                                    areaCode:'',
                                     number:'         '
                             })
 
         expect(response.status).toBe(400)
         done()
     })
+
+    it('Should not create a phone number with a character most longer to permited', async (done) => {
+        
+       
+        const authUser = await request(app)
+        .post('/signin')
+        .send({email:'user@seed.com',password:'12345'})
+        var thisUser = authUser.body.data
+
+     
+        const response = await request(app)
+                            .post('/phone')
+                            .set('Authorization',`Bearer ${thisUser.token}`)
+                            .send({
+                                    
+                                    areaCode:'42',
+                                    number:'1000000000000000'
+                            })
+
+        expect(response.status).toBe(400)
+        done()
+    })
+
+
+    it('Should not create a phone number with a character most small to permited', async (done) => {
+        
+       
+        const authUser = await request(app)
+        .post('/signin')
+        .send({email:'user@seed.com',password:'12345'})
+        var thisUser = authUser.body.data
+
+     
+        const response = await request(app)
+                            .post('/phone')
+                            .set('Authorization',`Bearer ${thisUser.token}`)
+                            .send({
+                                    
+                                    areaCode:'4',
+                                    number:'9955446621'
+                            })
+
+        expect(response.status).toBe(400)
+        done()
+    })
+
+
 })
