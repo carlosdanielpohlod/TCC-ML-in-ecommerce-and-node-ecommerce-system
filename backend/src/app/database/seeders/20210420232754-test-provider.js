@@ -7,6 +7,9 @@ module.exports = {
       name: 'John Doe',
       idProvider:1
      
+     },{
+       name:'Louise SA',
+       idProvider:2
      }], {});
     
   },

@@ -61,6 +61,17 @@ module.exports = {
       password:bcrypt.hashSync('12345', 10),
       
       idUser:6
+    },
+    {
+      idUserPrivilege:2,
+      name:'Mercado pago',
+      surname:'Customer',
+      cpf:'08058735215',
+      email:'mercadopagocustommer@seed.com',
+      password:bcrypt.hashSync('12345', 10),
+      idPhone:1,
+      idAddress:1,
+      idUser:7
     }
   ]);
  

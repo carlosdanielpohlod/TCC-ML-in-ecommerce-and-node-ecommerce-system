@@ -185,5 +185,12 @@ module.exports = function(sequelize, DataTypes) {
   user.passwordHash = function(value){
     return bcrypt.hashSync(value, 10)
   }
+  user.associate = function(models){
+    user.belongsTo(models.address, {foreignKey: "idAddress"});
+    user.belongsTo(models.phone, {foreignKey: "idPhone"});
+    user.hasMany(models.purchase, {foreignKey: "idUser"});
+    user.belongsTo(models.userprivilege, {foreignKey: "idUserPrivilege"});
+  }
+
   return user
 };

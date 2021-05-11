@@ -10,6 +10,7 @@ module.exports = {
         
         quantity:2
       },
+      
       {
         idPurchaseItem:2,
         idPurchase:2,
@@ -21,7 +22,39 @@ module.exports = {
         idPurchase:2,
         idStock:2,  
         quantity:2
-      }
+      },
+      {
+        idPurchaseItem:4,
+        idPurchase:1,
+        idStock:3,  
+        quantity:5
+      },
+      {
+        idPurchaseItem:5,
+        idPurchase:1,
+        idStock:4,  
+        quantity:1
+      },
+      //
+      {
+        idPurchaseItem:6,
+        idPurchase:4,
+        idStock:2,  
+        quantity:2
+      },
+      {
+        idPurchaseItem:7,
+        idPurchase:4,
+        idStock:2,  
+        quantity:5 
+      },
+      {
+        idPurchaseItem:8,
+        idPurchase:4,
+        idStock:7,  
+        quantity:1
+      },
+
     ], {});
    
   },

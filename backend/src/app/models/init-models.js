@@ -34,7 +34,7 @@ function initModels(sequelize) {
   var user = _user(sequelize, DataTypes);
   var userprivilege = _userprivilege(sequelize, DataTypes);
 
-  user.belongsTo(address, { as: "idAddress_address", foreignKey: "idAddress"});
+ 
   address.hasMany(user, { as: "users", foreignKey: "idAddress"});
   
   brand.hasMany(product, { as: "products", foreignKey: "idBrand"});
@@ -44,7 +44,7 @@ function initModels(sequelize) {
  
   productsize.belongsTo(category, { as: "idCategory_category", foreignKey: "idCategory"});
  
-  user.belongsTo(phone, { as: "idPhone_phone", foreignKey: "idPhone"});
+ 
   phone.hasMany(user, { as: "users", foreignKey: "idPhone"});
   
   
@@ -63,9 +63,14 @@ function initModels(sequelize) {
   
   
   
-  user.hasMany(purchase, { as: "purchases", foreignKey: "idUser"});
-  user.belongsTo(userprivilege, { as: "idUserPrivilege_userprivilege", foreignKey: "idUserPrivilege"});
+ 
+ 
   userprivilege.hasMany(user, { as: "users", foreignKey: "idUserPrivilege"});
+
+  // user.belongsTo(address, { as: "idAddress_address", foreignKey: "idAddress"});
+  // user.belongsTo(phone, { as: "idPhone_phone", foreignKey: "idPhone"});
+  // user.hasMany(purchase, { as: "purchases", foreignKey: "idUser"});
+  // user.belongsTo(userprivilege, { as: "idUserPrivilege_userprivilege", foreignKey: "idUserPrivilege"});
 
   // category.belongsTo(category, { as: "idRootCategory_category", foreignKey: "idRootCategory"});
   // category.hasMany(category, { as: "categories", foreignKey: "idRootCategory"});

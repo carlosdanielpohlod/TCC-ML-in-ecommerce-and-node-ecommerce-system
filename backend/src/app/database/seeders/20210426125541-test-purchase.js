@@ -17,6 +17,11 @@ module.exports = {
       idUser:6,
       idPurchase:3,
       idPurchaseStatus:purchaseStatus["cancelado"].value
+    },
+    { 
+      idUser:7,
+      idPurchase:4,
+      idPurchaseStatus:purchaseStatus["no_carrinho"].value
     }
     ], {});
   },

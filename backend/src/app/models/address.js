@@ -1,7 +1,7 @@
 
 const msg = require('../controllers/enum/validationMessages');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('address', {
+  const address = sequelize.define('address', {
 
     idAddress: {
       autoIncrement: true,
@@ -109,4 +109,8 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  address.associate = function(models){
+    address.hasMany(models.user, {foreignKey: "idAddress"});
+  }
+  return address
 };
