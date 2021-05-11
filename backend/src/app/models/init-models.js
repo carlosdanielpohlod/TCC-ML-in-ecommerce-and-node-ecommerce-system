@@ -42,7 +42,7 @@ function initModels(sequelize) {
  
   
  
-  productsize.belongsTo(category, { as: "idCategory_category", foreignKey: "idCategory"});
+  
  
  
   phone.hasMany(user, { as: "users", foreignKey: "idPhone"});
@@ -51,7 +51,7 @@ function initModels(sequelize) {
   
   
   
-  productsize.hasMany(stock, { as: "stocks", foreignKey: "idProductSize"});
+  
   
   productstatus.hasMany(product, { as: "products", foreignKey: "idProductStatus"});
   

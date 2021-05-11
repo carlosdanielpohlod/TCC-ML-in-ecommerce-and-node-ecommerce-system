@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('productsize', {
+  const productsize = sequelize.define('productsize', {
     idProductSize: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -41,4 +41,9 @@ module.exports = function(sequelize, DataTypes) {
       },
     ]
   });
+  productsize.associate = function(models){
+    productsize.belongsTo(models.category, {foreignKey: "idCategory"});
+    productsize.hasMany(models.stock, { foreignKey: "idProductSize"});
+  }
+  return productsize
 };

@@ -1,5 +1,6 @@
 const CheckoutInterface = require('./CheckoutInterface')
 const purchaseStatus = require('../../enum/purchaseStatus')
+const {formatItems, formatPayer} = require('../../utils/mercadoPago')
 class MercadoPago{
 
     constructor(){
@@ -13,7 +14,7 @@ class MercadoPago{
 
     }
     async createPaymentLink(req, res){
-        const {product, stock, address, phone, user, purchase, purchaseitem} = require('../../../models')
+        const {product, stock, address, phone, user, purchase, purchaseitem, productcolor, productsize} = require('../../../models')
         const response = await purchase.findAll({
                 
                     where:{idPurchaseStatus:purchaseStatus["no_carrinho"].value},
@@ -25,10 +26,20 @@ class MercadoPago{
                                 
                                 {   
                                     model:stock,
-                                    include: [{
-                                        model:product,
-                                        attributes:['name','price','description','idCategory']
-                                    }]
+                                    include: [
+                                        {
+                                            model:product,
+                                            attributes:['name','price','description','idCategory']
+                                        },
+                                        {
+                                            model:productcolor,
+                                            attributes:['color']
+                                        },
+                                        {
+                                            model:productsize,
+                                            attributes:['size']
+                                        }
+                                    ]
                                 }
                             ]
 
@@ -51,21 +62,12 @@ class MercadoPago{
                         }
                     ]
                 
-                
-                        // model:user,
-                        // attributes:['name','surname','email','cpf'],
-                        // include: [
-                        //     { 
-                        //         model:address,
-                        //         attributes:['street','number','cep'],
-                        //     },
-                        //     { 
-                        //         model:phone,
-                        //         attributes:['areaCode','number']
-                        //     }
-                        // ]
                 })
-            
+       
+        
+        const items = formatItems(response)
+        const payer = formatPayer(response)
+        console.log(items, payer)
         try{
             return res.send({data:response})
         }catch(err){
