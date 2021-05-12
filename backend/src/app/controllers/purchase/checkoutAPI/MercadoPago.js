@@ -11,7 +11,7 @@ class MercadoPago{
 
     }
     async createPaymentLink(req, res){
-        try{
+        // try{
             const {product, stock, address, phone, user, purchase, purchaseitem, productcolor, productsize} = require('../../../models')
             const response = await purchase.findAll({
                     
@@ -45,7 +45,7 @@ class MercadoPago{
                             {
                                 model:user,
                                     attributes:['name','surname','email','cpf'],
-                                    where:{idUser:req.body.idUser},
+                                    where:{idUser:req.user.idUser},
                                     include: [
                                         { 
                                             model:address,
@@ -67,12 +67,12 @@ class MercadoPago{
             const data = await this.mercadopago.preferences.create({
                 items, payer,  ...config.config})
                 // shipments:{cost:200,mode:"not_specified"},
-                
+
             return res.status(200).send({status:true,data})
-         }
-         catch(err){
-             return res.status(500).send({status:false, msg:'Não foi possivel processar o pagamento, tente mais tarde'})
-        }
+        //  }
+        //  catch(err){
+        //      return res.status(500).send({status:false, msg:'Não foi possivel processar o pagamento, tente mais tarde'})
+        // }
 
     }
 }
