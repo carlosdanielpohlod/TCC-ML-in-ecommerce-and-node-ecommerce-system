@@ -10,17 +10,16 @@ class MercadoPago{
         this.mercadopago.configure({... config.credentials});
 
     }
-    async createPaymentLink(response){
+    async createPaymentLink(data){
         try{
             
-            const items = formatItems(response)
-            const payer = formatPayer(response)
+            const items = formatItems(data)
+            const payer = formatPayer(data)
 
-            const data = await this.mercadopago.preferences.create({
+            const response = await this.mercadopago.preferences.create({
                 items, payer,  ...config.config})
                 // shipments:{cost:200,mode:"not_specified"},
-            console.log(data)
-            return data
+            return response
          }
          catch(err){
              return {status:false, err}

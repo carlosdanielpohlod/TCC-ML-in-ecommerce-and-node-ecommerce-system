@@ -6,21 +6,21 @@ module.exports = {
     await queryInterface.bulkInsert('stock', [
     {
       idProduct:1,
-      quantity:10,
+      quantity:8,
       idProductSize:1,
       idProductColor:1,
       idStock:1
     },
     { 
       idProduct:1,
-      quantity:3,
+      quantity:8,
       idProductSize:2,
       idProductColor:1,
       idStock:2
     },
     { 
       idProduct:1,
-      quantity:3,
+      quantity:8,
       idProductSize:2,
       idProductColor:2,
       idStock:3
@@ -41,14 +41,14 @@ module.exports = {
     },
     { 
       idProduct:2,
-      quantity:15,
+      quantity:8,
       idProductSize:2,
       idProductColor:2,
       idStock:6
     },
     { 
       idProduct:2,
-      quantity:7,
+      quantity:8,
       idProductSize:1,
       idProductColor:3,
       idStock:7

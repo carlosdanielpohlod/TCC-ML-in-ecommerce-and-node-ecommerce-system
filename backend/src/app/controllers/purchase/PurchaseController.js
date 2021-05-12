@@ -12,13 +12,14 @@ class PurchaseController {
 
     }
     async store(req, res){
-        try{
+        // try{
             const checkout = new checkoutController(mercadopago)
             const {product, stock, address, phone, user, purchase, purchaseitem, productcolor, productsize} = require('../../models')
             
             const response = await purchase.findAll({
                         
                             where:{idPurchaseStatus:purchaseStatus["no_carrinho"].value},
+                            attributes:['idPurchase'],
                             include: [
                                 { 
                                     model:purchaseitem,
@@ -63,15 +64,29 @@ class PurchaseController {
                                 }
                             ]
                         
-                        }) 
-                        
-            const data = await checkout.createPaymentLink(response)
+            }) 
+            // const temp = 
             
-            return res.status(200).send({status:true, data})
-        }
-        catch(err){
-            return res.status(500).send({msg:'Não foi possivel processar o pagamento, por favor tente mais tarde'})
-        }
+            // const data = await checkout.createPaymentLink(response)
+            // console.log(response)
+            var undoStock = []
+            response[0].purchaseitems.forEach(async data => {
+                try{
+
+                    await stock.decrement('quantity', {by:data.quantity, where:{idStock:data.stock.idStock}})
+                    undoStock.push({idStock:data.stock.idStock, quantity:data.quantity})
+                    return undoStock
+                }catch(err){
+                    console.log(err)
+                }
+            })
+            
+            console.log(undoStock)
+            return res.status(200).send({status:true, data:response})
+        // }
+        // catch(err){
+        //     return res.status(500).send({msg:'Não foi possivel processar o pagamento, por favor tente mais tarde'})
+        // }
 
     }
 }
