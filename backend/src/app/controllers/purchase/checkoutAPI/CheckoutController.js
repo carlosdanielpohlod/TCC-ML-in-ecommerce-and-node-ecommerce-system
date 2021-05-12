@@ -2,18 +2,18 @@ const mercadoPagoImplementation = require('./MercadoPago')
 
 class CheckoutController {
 
-    constructor(){
+    constructor(implementation){
         
-        // this.implementation = mercadoPagoImplementation
+        this.implementation = mercadoPagoImplementation
         
     }
 
-    createPaymentLink(req, res){
-        // res.send(this.constructor())
-        const implementation = mercadoPagoImplementation
-        return implementation.createPaymentLink(req, res)
+    createPaymentLink(data){
+        return this.implementation.createPaymentLink(data)
+        
     }
+
 
 }
 
-module.exports = new CheckoutController()
+module.exports =  CheckoutController

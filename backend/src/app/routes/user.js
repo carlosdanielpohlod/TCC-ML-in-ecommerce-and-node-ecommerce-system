@@ -21,7 +21,7 @@ routes.route('/phone')
 routes.route('/user')
     .put(require('../controllers/user/UserController').update)
 
-routes.route('/payment/link')
-    .get(require('../controllers/purchase/checkoutAPI/CheckoutController').createPaymentLink)
+routes.route('/purchase')
+    .post(require('../controllers/purchase/PurchaseController').store)
     
 module.exports = routes
