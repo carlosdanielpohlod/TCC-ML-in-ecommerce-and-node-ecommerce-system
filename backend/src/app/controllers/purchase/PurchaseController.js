@@ -1,9 +1,13 @@
 const {stock} = require('../../models')
-const mercadopago = require('./checkoutAPI/MercadoPago')
+const mercadopago = require('../api/payment/checkout/MercadoPago')
 const purchaseStatus = require('../enum/purchaseStatus')
-const checkoutController = require('./checkoutAPI/CheckoutController')
+const stockController = require('../product/StockController')
+
 class PurchaseController {
 
+    constructor(){
+        this.checkout = new checkoutController(mercadopago)
+    }
     async reverseStore(data){
         // const reverseStock = data.reverseStock
         // for(let value in reverseStock){
@@ -12,7 +16,7 @@ class PurchaseController {
 
     }
     async store(req, res){
-        // try{
+        try{
             const checkout = new checkoutController(mercadopago)
             const {product, stock, address, phone, user, purchase, purchaseitem, productcolor, productsize} = require('../../models')
             
@@ -65,30 +69,38 @@ class PurchaseController {
                             ]
                         
             }) 
-            // const temp = 
+        
             
-            // const data = await checkout.createPaymentLink(response)
-            // console.log(response)
-            var undoStock = []
-            response[0].purchaseitems.forEach(async data => {
-                try{
-
-                    await stock.decrement('quantity', {by:data.quantity, where:{idStock:data.stock.idStock}})
-                    undoStock.push({idStock:data.stock.idStock, quantity:data.quantity})
-                    return undoStock
-                }catch(err){
-                    console.log(err)
-                }
-            })
+            if(await stockController.toRemove(response[0].purchaseitems) === true){
+                const data = await checkout.createPaymentLink(response)
+                
+                return res.status(200).send({status:true, data})
+            }
+            else{
+                return res.status(500).send({status:false, msg:'Houve algum problema ao processar a compra, tente novamente.'})
+            } 
             
-            console.log(undoStock)
-            return res.status(200).send({status:true, data:response})
-        // }
-        // catch(err){
-        //     return res.status(500).send({msg:'Não foi possivel processar o pagamento, por favor tente mais tarde'})
-        // }
+        }
+        catch(err){
+            return res.status(500).send({msg:'NHouve algum problema ao processar a compra, tente novamente.'})
+        }
 
     }
+
+    async changeStatus(data){
+        const user = await user.findOne({where:{email:data.email}})
+        const response = await purchase.update({idPurchaseStatus:purchaseStatus["aproved"].value}, {where:{idUser:user.idUser}})
+        if(response == 0){
+            
+        }
+
+        return
+    }
+    async failPayment(req, res){
+        
+    }
 }
+
+
 
 module.exports = new PurchaseController()

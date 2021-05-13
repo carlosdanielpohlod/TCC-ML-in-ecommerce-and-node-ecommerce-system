@@ -12,7 +12,9 @@ class App {
     }
     routes(){
         this.express.use(require('./app/routes/public'))
+     
         this.express.use(require('./app/routes/user'))
+        
         this.express.use(require('./app/routes/admin'))
     }
 }

@@ -21,7 +21,33 @@ class StockController {
             sequelizeOrGeneric(err, res)
         }
     }
+    async toRemove(data){ 
+        try{
+            var undoStock = []
+            for(let i = 0; i < data.length; i++){
+                await stock.decrement('quantity', {by:data[i].quantity, where:{idStock:data[i].stock.idStock}})
+                undoStock.push({idStock:data[i].stock.idStock, quantity:data[i].quantity})
+            }
+            console.log('retirado')
+            return true
+        }catch(err){
+            await this.giveBack(undoStock)
+            console.log(err)
+            return false
+        }   
+    }
 
+    async giveBack(undoStock){
+        try{
+            undoStock.forEach(async data => {
+                await stock.increment('quantity', {by:data.quantity, where:{idStock:data.idStock}})
+            })
+        
+        }catch(err){
+            console.log(err)
+            throw new Error({msg:'Não foi possivel devolver o estoque'})
+        }
+    }
     
 }
 module.exports = new StockController()

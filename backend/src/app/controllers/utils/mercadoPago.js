@@ -3,7 +3,7 @@ formatItems = function(data){
     data[0].purchaseitems.forEach(item => {
         preFomated.push({
                 id:item.stock.idStock,quantity:item.quantity,
-                category_id:String(item.stock.product.idCategory),
+                category_id:"fashion",
                 title:item.stock.product.name, unit_price:item.stock.product.price,
                 description:`${item.stock.product.description} Tamanho: ${item.stock.productsize.size}, Cor: ${item.stock.productcolor.color}`}
         )
@@ -11,7 +11,8 @@ formatItems = function(data){
     return preFomated
 }
 formatPayer = function(data){
-    return {name:data[0].user.name, surname:data[0].user.surname, email:data[0].user.email,
+    return {
+        id:data[0].user.idUser,name:data[0].user.name, surname:data[0].user.surname, email:data[0].user.email,
         identification:{
             type:"CPF",
             number:data[0].user.cpf

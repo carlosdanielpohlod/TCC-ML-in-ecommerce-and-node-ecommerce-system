@@ -7,7 +7,5 @@ status = new Enum ({
     "compra_concluida": '5',
     "cancelado":"6",
     "pagamento_nao_efetuado":"7"
-
-    
 })
 module.exports = status

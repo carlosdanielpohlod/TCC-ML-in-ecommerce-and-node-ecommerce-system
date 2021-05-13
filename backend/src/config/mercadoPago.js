@@ -1,6 +1,6 @@
 module.exports = {
     config:{
-        notification_url: "https://www.your-site.com/ipn",
+        notification_url: "https://webhook.site/37128d5e-0d0e-409b-bc32-868ae84900bb",
         statement_descriptor: "MEUNEGOCIO",
         back_urls: {
             success: "https://www.success.com",

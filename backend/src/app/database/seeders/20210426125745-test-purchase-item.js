@@ -39,7 +39,7 @@ module.exports = {
       {
         idPurchaseItem:6,
         idPurchase:4,
-        idStock:2,  
+        idStock:1,  
         quantity:1
       },
       {
@@ -52,7 +52,7 @@ module.exports = {
         idPurchaseItem:8,
         idPurchase:4,
         idStock:7,  
-        quantity:1
+        quantity:2
       },
 
     ], {});

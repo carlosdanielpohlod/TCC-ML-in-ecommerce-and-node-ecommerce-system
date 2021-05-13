@@ -16,4 +16,8 @@ routes.route('/category')
 
 routes.route('/product/details/:idProduct')
         .patch(require('../controllers/product/ProductController').getBasicDetailsById) 
+
+routes.route('/notification')
+        .post(require('../controllers/purchase/PurchaseController').onPaymentStatusChange)
+
 module.exports = routes
