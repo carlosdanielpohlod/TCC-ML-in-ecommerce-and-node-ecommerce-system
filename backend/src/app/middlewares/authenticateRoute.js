@@ -5,25 +5,30 @@ existsBearer = function(scheme){
 }
 
 authenticate = function(req, res, next){
-    if(!req.headers.authorization){
-        res.status(401).send({status:false,msg:"token não informado"})
-        return
-    }
-    if(existsBearer(req.headers.authorization)){
-        res.status(401).send({status:false,msg:"token incorreto"})
-    }
+    try{
+        if(!req.headers.authorization){
+            res.status(401).send({status:false,msg:"token não informado"})
+            return
+        }
+        if(existsBearer(req.headers.authorization)){
+            res.status(401).send({status:false,msg:"token incorreto"})
+        }
 
-    const [scheme, token] = req.headers.authorization.split(' ')
-
-    const decode = jwt.decode(token, process.env.AUTHSECRET) 
-    
-    if(decode.idUserPrivilege){
-        // req.body.idUser = decode.idUser
-        req.user = {idUser:decode.idUser, idUserPrivilege:decode.idUserPrivilege}
-        next()
+        const [scheme, token] = req.headers.authorization.split(' ')
+        
+        const decode = jwt.decode(token, process.env.AUTHSECRET) 
+        
+        if(decode.idUserPrivilege){
+            // req.body.idUser = decode.idUser
+            req.user = {idUser:decode.idUser, idUserPrivilege:decode.idUserPrivilege}
+            next()
+        }
+        else
+            return res.status(401).send({status:false})
     }
-    else
+    catch(err){
         return res.status(401).send({status:false})
+    }
 }
 
 

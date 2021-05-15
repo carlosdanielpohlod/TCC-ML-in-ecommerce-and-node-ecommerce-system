@@ -36,16 +36,13 @@ class MercadoPago{
             }
         })
         .then(response => {
-            if(response.status == 404){
-                return {status:false, msg:'Compra não encontrada'}
-            }
-            else{
-                return {status:true, data:response}
-            }
+                // console.log()
+                return {status:true, data:response.data.collection}
+            
             
         })
         .catch(err => {
-            return {status:false, msg:'Ocorreu algum erro no sistema'}
+            return {status:false, msg:err.message}
         })
         
     }

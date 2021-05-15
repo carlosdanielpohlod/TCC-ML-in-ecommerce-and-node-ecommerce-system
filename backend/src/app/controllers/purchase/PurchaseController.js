@@ -87,7 +87,7 @@ class PurchaseController {
         return
     }
 
-    async failPayment(data){
+    async undoPurchase(data){
         
         const toGiveBackProducts = await purchase.findAll({
                         
