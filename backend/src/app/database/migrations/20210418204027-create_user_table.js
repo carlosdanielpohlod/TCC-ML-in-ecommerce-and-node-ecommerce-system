@@ -31,7 +31,7 @@ module.exports = {
           }
         },
         deletedAt:{
-          type: 'TIMESTAMP',
+          type: 'TIME',
           allowNull:true
         },
         createdAt:{

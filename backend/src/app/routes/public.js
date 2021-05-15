@@ -18,6 +18,8 @@ routes.route('/product/details/:idProduct')
         .patch(require('../controllers/product/ProductController').getBasicDetailsById) 
 
 routes.route('/notification')
-        .post(require('../controllers/purchase/PurchaseController').onPaymentStatusChange)
-
+        .post(require('../controllers/api/payment/MercadoPagoNotificationController').onNotification)
+        
+routes.route('/test')
+        .get(require('../controllers/api/payment/MercadoPagoNotificationController').teste)
 module.exports = routes

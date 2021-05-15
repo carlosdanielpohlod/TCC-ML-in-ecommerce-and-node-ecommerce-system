@@ -17,8 +17,8 @@ class CheckoutController {
     isUpdatedPaymentStatus(data){
         return this.implementation.isUpdatedPaymentStatus(data)
     }
-    getRequestData(body){
-        return this.implementation.getRequestData(data)
+    formatRequestData(data){
+        return this.implementation.formatRequestData(data)
     }
     isSuccessPaymentStatus(data){
         return this.implementation.isSuccessPaymentStatus(data)

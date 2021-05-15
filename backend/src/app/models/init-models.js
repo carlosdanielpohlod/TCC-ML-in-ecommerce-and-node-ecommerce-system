@@ -15,8 +15,12 @@ var _sequelizemeta = require("./sequelizemeta");
 var _stock = require("./stock");
 var _user = require("./user");
 var _userprivilege = require("./userprivilege");
+var _log = require("./log");
+var _logtype = require("./logtype");
 
 function initModels(sequelize) {
+  var log = _log(sequelize, DataTypes);
+  var logtype = _logtype(sequelize, DataTypes);
   var address = _address(sequelize, DataTypes);
   var brand = _brand(sequelize, DataTypes);
   var category = _category(sequelize, DataTypes);
@@ -41,7 +45,8 @@ function initModels(sequelize) {
  
  
   
- 
+  log.belongsTo(logtype, {foreignKey: "idLogType"});
+  logtype.hasMany(log, {foreignKey: "idLogType"});
   
  
  

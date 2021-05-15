@@ -2,19 +2,13 @@ const {stock} = require('../../models')
 const mercadopago = require('../api/payment/checkout/MercadoPago')
 const purchaseStatus = require('../enum/purchaseStatus')
 const stockController = require('../product/StockController')
-
+const checkoutController = require('../api/payment/checkout/CheckoutController')
 class PurchaseController {
 
     constructor(){
         this.checkout = new checkoutController(mercadopago)
     }
-    async reverseStore(data){
-        // const reverseStock = data.reverseStock
-        // for(let value in reverseStock){
-        //     await Model.increment('quantity', {by:value.quantity, where: {idStock:value.idStock}});
-        // }
-
-    }
+   
     async store(req, res){
         try{
             const checkout = new checkoutController(mercadopago)
@@ -82,22 +76,40 @@ class PurchaseController {
             
         }
         catch(err){
-            return res.status(500).send({msg:'NHouve algum problema ao processar a compra, tente novamente.'})
+            return res.status(500).send({msg:'Houve algum problema ao processar a compra, tente novamente.'})
         }
 
     }
 
     async changeStatus(data){
         const user = await user.findOne({where:{email:data.email}})
-        const response = await purchase.update({idPurchaseStatus:purchaseStatus["aproved"].value}, {where:{idUser:user.idUser}})
-        if(response == 0){
-            
-        }
-
+        await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idUser:user.idUser}})
         return
     }
-    async failPayment(req, res){
+
+    async failPayment(data){
         
+        const toGiveBackProducts = await purchase.findAll({
+                        
+            where:{idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value},
+            attributes:['idPurchase'],
+            include: [
+                { 
+                    model:purchaseitem,
+                    attributes:['quantity'],
+                    include:[
+                        
+                        {   
+                            model:stock,
+                            attributes:['idStock']
+                        }
+                    ]
+                }
+            ]
+        })
+            
+        StockController.giveBack(toGiveBackProducts[0].purchaseitems)
+        return this.changeStatus({email:data.email, idPurchaseStatus:data.idPurchaseStatus})
     }
 }
 
