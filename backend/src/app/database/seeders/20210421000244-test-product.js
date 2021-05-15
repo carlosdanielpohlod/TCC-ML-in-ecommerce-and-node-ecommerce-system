@@ -6,7 +6,7 @@ module.exports = {
      await queryInterface.bulkInsert('product', [{
         name:'produto seed 01',
         idProduct:1,
-      	price:100.00,
+      	price:1.00,
         idProvider:1,
       	description:'gerado atraves do seeder "test-product"  ',
         idCategory:1,
@@ -16,7 +16,7 @@ module.exports = {
      {
       name:'produto seed 02',
       idProduct:2,
-      price:15.00,
+      price:1.00,
       idProvider:1,
       description:'segundo produto gerado atraves do seeder "test-product"  ',
       idCategory:1,
@@ -25,7 +25,7 @@ module.exports = {
      },{
       name:'produto shold be deleted',
       idProduct:3,
-      price:160.00,
+      price:1.0,
       idProvider:1,
       description:'gerado atraves do seeder "test-product"  ',
       idCategory:1,

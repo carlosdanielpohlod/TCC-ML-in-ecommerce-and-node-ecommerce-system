@@ -37,8 +37,7 @@ class MercadoPago{
         })
         .then(response => {
                 // console.log()
-                return {status:true, data:response.data.collection}
-            
+            return {status:true, data:response.data.collection}
             
         })
         .catch(err => {

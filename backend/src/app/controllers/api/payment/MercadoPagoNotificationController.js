@@ -22,19 +22,20 @@ class MercadoPagoNotificationController{
     }
     async onNotification(req, res){
         try{
-            // res.status(200)
+            res.status(200)
              
             
             if(req.body.topic == "payment"){
                 const data = await checkout.getPayment({url:req.body.resource})
-                // systemLog.activity('Teste de get payment',data.collection)
+                systemLog.activity('Teste de get payment',data.data.status)
+                console.log(data.data.status)
                 // if(data.idPurchaseStatus == purchaseStatus["sucesso"].value || purchaseStatus["aguardando_pagamento"].value){
                 //     return purchaseController.changeStatus({email:response.payer.email, idPurchaseStatus:data.idPurchaseStatus})
                 // }
                 // if(data.idPurchaseStatus == purchaseStatus["cancelado"].value || data.idPurchaseStatus == purchaseStatus["rejeitado"].value){
                 //     return purchaseController.failPayment({email:response.payer.email, idPurchaseStatus:data.idPurchaseStatus})
                 // }
-                res.send(data)
+                
             }else{
                 if(req.params.topic == "merchant_order"){
                     
