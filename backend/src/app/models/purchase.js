@@ -14,6 +14,14 @@ module.exports = function(sequelize, DataTypes) {
         key: 'idUser'
       }
     },
+    idPaymentInfo: {
+      type: DataTypes.BIGINT.UNSIGNED,
+      allowNull: true,
+      references: {
+        model: 'paymentinfo',
+        key: 'idPaymentInfo'
+      }
+    },
     idPurchaseStatus: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: false,
@@ -56,6 +64,7 @@ module.exports = function(sequelize, DataTypes) {
     purchase.hasMany(models.purchaseitem, {foreignKey: "idPurchase"});
     purchase.belongsTo(models.purchasestatus, {foreignKey: "idPurchaseStatus"});
     purchase.belongsTo(models.user, {foreignKey: "idUser"});
+    purchase.belongsTo(models.paymentinfo, {foreignKey: "idPaymentInfo"});
   };
   return purchase
 };

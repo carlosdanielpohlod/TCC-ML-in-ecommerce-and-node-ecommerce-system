@@ -30,6 +30,10 @@ module.exports = {
     { 
       status:"Pagamento não efetuado",
       idPurchaseStatus:purchaseStatus["pagamento_nao_efetuado"].value
+    },
+    { 
+      status:"Pagamento falhou",
+      idPurchaseStatus:purchaseStatus["pagamento_falhou"].value
     }
   ], {});
    

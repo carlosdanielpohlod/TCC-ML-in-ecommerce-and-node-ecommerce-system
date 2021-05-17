@@ -17,9 +17,12 @@ routes.route('/category')
 routes.route('/product/details/:idProduct')
         .patch(require('../controllers/product/ProductController').getBasicDetailsById) 
 
-routes.route('/notification')
+routes.route('/mercadopago/notification')
         .post(require('../controllers/api/payment/MercadoPagoNotificationController').onNotification)
         
-routes.route('/test')
-        .get(require('../controllers/api/payment/MercadoPagoNotificationController').teste)
+routes.route('/mercadopago/payment/success')
+        .all(require('../controllers/api/payment/MercadoPagoNotificationController').onSuccess)
+
+routes.route('/mercadopago/payment/failure')
+        .all(require('../controllers/api/payment/MercadoPagoNotificationController').onFailure)
 module.exports = routes

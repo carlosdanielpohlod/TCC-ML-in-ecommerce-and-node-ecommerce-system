@@ -46,8 +46,9 @@ class StockController {
 
     async giveBack(undoStock){
         try{
-            undoStock.forEach(async data => {
-                await stock.increment('quantity', {by:data.quantity, where:{idStock:data.idStock}})
+            undoStock.forEach(data => {
+            
+                stock.increment('quantity', {by:data.quantity, where:{idStock:data.stock.idStock}})
             })
         
         }catch(err){

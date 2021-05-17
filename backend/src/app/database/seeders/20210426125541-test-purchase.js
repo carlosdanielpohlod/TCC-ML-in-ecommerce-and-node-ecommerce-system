@@ -19,8 +19,9 @@ module.exports = {
       idPurchaseStatus:purchaseStatus["cancelado"].value
     },
     { 
-      idUser:7,
+      idUser:7, //compra do mercadopagocustommer@seed.com
       idPurchase:4,
+      idPaymentInfo:1,
       idPurchaseStatus:purchaseStatus["no_carrinho"].value
     }
     ], {});

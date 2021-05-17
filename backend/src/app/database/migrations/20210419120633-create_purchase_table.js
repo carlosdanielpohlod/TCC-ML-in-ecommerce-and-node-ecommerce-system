@@ -24,6 +24,14 @@ module.exports = {
           key: 'idPurchaseStatus'
         }
       },
+      idPaymentInfo:{
+        type: Sequelize.BIGINT.UNSIGNED,
+        allowNull: true,
+        references: {
+          model: 'paymentinfo',
+          key: 'idPaymentInfo'
+        }
+      },
       createdAt:{
         type: 'TIMESTAMP',
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),

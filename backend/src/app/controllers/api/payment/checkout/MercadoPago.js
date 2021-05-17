@@ -18,15 +18,15 @@ class MercadoPago{
 
             const response = await this.mercadopago.preferences.create({
                 items, payer,  ...config.config})
-                
-            return response
+              
+            return response.body
          }
         catch(err){
             return {status:false, err}
         }
 
     }
-    async merchant_order(req, res){}
+    
     async getPayment(data){
         
     

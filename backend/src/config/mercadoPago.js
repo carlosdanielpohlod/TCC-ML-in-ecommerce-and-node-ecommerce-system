@@ -1,9 +1,9 @@
 module.exports = {
     config:{
-        notification_url: "https://webhook.site/d66e27dc-0025-438a-ad67-6380d5e49aee",
-        statement_descriptor: "MEUNEGOCIO",
+        notification_url: "https://webhook.site/fcbf2553-2a91-4429-9275-fd4246ff0d1e",
+        statement_descriptor: "TESTE",
         back_urls: {
-            success: "https://www.success.com",
+            success: "https://webhook.site/fcbf2553-2a91-4429-9275-fd4246ff0d1e",
             failure: "http://www.failure.com",
             pending: "http://www.pending.com"
         },

@@ -5,7 +5,7 @@ class NotificationLogController extends LogController{
         
         return await this.log.create({idLogType:this.type["notification_error_500"].value, origin:origin || null,log:log})
     }
-   async activity(origin, log){
+    async activity(origin, log){
         return await this.log.create({idLogType:this.type["notification_activity"].value, origin:origin || null,log:log})
     }
     

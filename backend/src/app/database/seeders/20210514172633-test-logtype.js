@@ -27,6 +27,14 @@ module.exports = {
     {
       idLogType:logtype["notification_error_500"].value,
       type: 'notification_error_500'
+    },
+    { 
+      idLogType:logtype["purchase_error_500"].value, 
+      type:"purchase_error"
+    },
+    { 
+      idLogType:logtype["purchase_activity"].value, 
+      type:"purchase_activity"
     }
   
   ], {});

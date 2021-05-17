@@ -17,8 +17,10 @@ var _user = require("./user");
 var _userprivilege = require("./userprivilege");
 var _log = require("./log");
 var _logtype = require("./logtype");
+var _paymentinfo = require("./paymentinfo");
 
 function initModels(sequelize) {
+  var paymentinfo = _paymentinfo(sequelize, DataTypes);
   var log = _log(sequelize, DataTypes);
   var logtype = _logtype(sequelize, DataTypes);
   var address = _address(sequelize, DataTypes);
@@ -37,13 +39,13 @@ function initModels(sequelize) {
   var stock = _stock(sequelize, DataTypes);
   var user = _user(sequelize, DataTypes);
   var userprivilege = _userprivilege(sequelize, DataTypes);
-
+  
  
   address.hasMany(user, { as: "users", foreignKey: "idAddress"});
   
   brand.hasMany(product, { as: "products", foreignKey: "idBrand"});
  
- 
+  // paymentinfo.hasMany(purchase, {foreignKey: "idPaymentInfo"});
   
   log.belongsTo(logtype, {foreignKey: "idLogType"});
   logtype.hasMany(log, {foreignKey: "idLogType"});
@@ -108,6 +110,7 @@ function initModels(sequelize) {
     category,
     phone,
     product,
+    paymentinfo,
     productcolor,
     productsize,
     productstatus,
