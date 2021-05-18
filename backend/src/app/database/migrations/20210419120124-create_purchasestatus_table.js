@@ -10,7 +10,7 @@ module.exports = {
         primaryKey:true
       },
       status:{ 
-        type:Sequelize.STRING(20),
+        type:Sequelize.STRING(50),
         allowNull:false
       }
     });

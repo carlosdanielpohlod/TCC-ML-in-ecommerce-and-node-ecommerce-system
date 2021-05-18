@@ -11,6 +11,18 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(250),
       allowNull: false
     },
+    payment_type: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
+    payment_id:{
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
+    client_id: {
+      type: DataTypes.STRING(250),
+      allowNull: true
+    },
     merchant_order_id: {
       type: DataTypes.STRING(250),
       allowNull: true

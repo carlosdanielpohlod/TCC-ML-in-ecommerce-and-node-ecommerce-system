@@ -78,11 +78,12 @@ class MercadoPago{
     mapedStatus(){
         return { 
             success: purchaseStatus["compra_concluida"].value,
-            canceled: purchaseStatus["cancelado"].value,
+            cancelled: purchaseStatus["cancelado"].value,
             rejected: purchaseStatus["compra_rejeitada"].value,
             pending: purchaseStatus["aguardando_pagamento"].value,
-            opended: purchaseStatus["aguardando_pagamento"].value
-            
+            opened: purchaseStatus["pagamento_em_aberto"].value,
+            in_process: purchaseStatus["processando_pagamento"].value,
+            authorizated: purchaseStatus["pagamento_autorizado_mas_nao_concluido"].value,
         }
     }
     

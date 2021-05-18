@@ -4,6 +4,7 @@ const purchaseStatus = require('../enum/purchaseStatus')
 const stockController = require('../product/StockController')
 const checkoutController = require('../api/payment/checkout/CheckoutController')
 const systemLog = require('../log/PurchaseLogController')
+
 class PurchaseController {
 
     
@@ -100,55 +101,18 @@ class PurchaseController {
 
     }
     
-    async onSuccessPayment(data){
-        // try{
-            const {paymentinfo} = require('../../models')
-            const response = await purchase.findOne({
-                attributes:['idPurchase'],
-                
-                include: [
-                    { 
-                        model:paymentinfo,
-                        attributes:['idPaymentInfo'],
-                        where:{preference_id:data.preference_id}
-                    }
-                ]
-            })
-            // 
-            // console.log(data.payment_id)
-            purchase.update({idPurchaseStatus:purchaseStatus["pagamento_efetuado"].value},{where:{idPaymentInfo:response.dataValues["paymentinfo"].idPaymentInfo }})
-            paymentinfo.update({client_id:data.client_id,payment_id:data.payment_id, payment_type:data.payment_type, merchant_order_id:data.merchant_order_id},{where:{idPaymentInfo:response.dataValues["paymentinfo"].idPaymentInfo}})
-            // systemLog.log('onSuccess',JSON.stringify(response))
-        // }
-        // catch(err){
-        //     systemLog.error("onSuccessPayment",err.message)
-        // }
-    }
-
-    async onFailurePayment(data){
-        const {paymentinfo} = require('../../models')
-        const response = await purchase.findOne({
-            attributes:['idPurchase'],
-            
-            include: [
-                { 
-                    model:paymentinfo,
-                    attributes:['idPaymentInfo'],
-                    where:{preference_id:data.preference_id}
-                }
-            ]
-        })
-
-        this.undoPurchase({idPurchase:response.idPurchase, idPurchaseStatus:purchaseStatus["pagamento_falhou"].value})
-
-    }
-
     async changeStatus(data){
-       
-        await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}})
-        return
+        try{
+            if(await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) != 1){
+                systemLog.error("PurchaseController.changeStatus",`Status da compra ${data.idPurchase} não foi atualizado com sucesso`)
+            }
+        }
+        catch(err){
+            systemLog.error("PurchaseController.changeStatus",err.message)
+        }
     }
 
+    
     
     async undoPurchase(data){
         try{
@@ -172,10 +136,12 @@ class PurchaseController {
             })
             
             stockController.giveBack(toGiveBackProducts[0].purchaseitems)
-            if(await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}))
-                console.log("ok")
-            else
-                console.log("nau")
+            if(await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) != 1)
+            { 
+                sysemLog.error('PurchaseController.undoPurchase','Não foi possivel atualizar o status da compra')
+            }
+
+           
             
 
             systemLog.activity("Stock.undoPurchase",`Compra ${data.idPurchase} Desfeita`)

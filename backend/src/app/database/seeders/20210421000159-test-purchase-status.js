@@ -34,6 +34,19 @@ module.exports = {
     { 
       status:"Pagamento falhou",
       idPurchaseStatus:purchaseStatus["pagamento_falhou"].value
+    },
+    { 
+      status:"Pagamento em aberto",
+      idPurchaseStatus:purchaseStatus["pagamento_em_aberto"].value
+    },
+    { 
+      status:"Processando pagamento",
+      idPurchaseStatus:purchaseStatus["processando_pagamento"].value,
+
+    },
+    { 
+      status:"Pagamento autorizado mas ainda não concluido",
+      idPurchaseStatus:purchaseStatus["pagamento_autorizado_mas_nao_concluido"].value
     }
   ], {});
    
