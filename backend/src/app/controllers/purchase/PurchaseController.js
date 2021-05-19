@@ -72,7 +72,7 @@ class PurchaseController {
                     paymentapiinfos = await paymentinfo.create({preference_id:preference.id})
                 }
                 else{
-                    systemLog.error("Store","Não foi possivel obter a preferencia")
+                    systemLog.error("puchaseController.store","Não foi possivel obter a preferencia")
                     return res.status(500).send({status:false, msg:'Houve algum problema ao processar a compra, tente novamente.'})
                 }
 
@@ -83,19 +83,19 @@ class PurchaseController {
                         return res.status(200).send({status:true, data:preference})
                     }else{
                         paymentapiinfos.destroy()
-                        systemLog.error("Store","Não foi possivel atualizar o id da api na tabela purchase")
+                        systemLog.error("puchaseController.store","Não foi possivel atualizar o id da api na tabela purchase")
                     }
                 }
 
                 
             }
-            systemLog.error("Store",`Não foi possivel criar a preferencia, user = ${req.user.idUser}`)
+            systemLog.error("puchaseController.store",`Não foi possivel criar a preferencia, user = ${req.user.idUser}`)
             return res.status(500).send({status:false, msg:'Houve algum problema ao processar a compra, tente novamente.'})
             
             
         }
         catch(err){
-            systemLog.error("Store",err.message)
+            systemLog.error("puchaseController.store",err.message)
             return res.status(500).send({msg:'Houve algum problema ao processar a compra, tente novamente.'})
         }
 
@@ -103,8 +103,9 @@ class PurchaseController {
     
     async changeStatus(data){
         try{
-            if(await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) != 1){
-                systemLog.error("PurchaseController.changeStatus",`Status da compra ${data.idPurchase} não foi atualizado com sucesso`)
+            
+            if(await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) == 0){
+                systemLog.error("PurchaseController.changeStatus",`Status da compra ${data.idPurchase} não foi atualizado para ${data.idPurchase} com sucesso`)
             }
         }
         catch(err){

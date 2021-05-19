@@ -78,8 +78,7 @@ class PaymentController{
             }
         }
         catch(err){
-            console.log(err)
-            // systemLog.error("PaymentController.onMerchantOrder", err.message)
+            systemLog.error("PaymentController.onMerchantOrder", err.message)
         }
     }
     async getPaymentInfoByQuery(data){

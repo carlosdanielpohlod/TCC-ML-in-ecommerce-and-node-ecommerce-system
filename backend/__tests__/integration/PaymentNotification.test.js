@@ -93,3 +93,27 @@ describe('Simulate Payment notifications', () => {
         
     })
 })
+
+describe('Simulate generic mercadopago notifications', () => {
+  
+    it('payment notifications', async (done) => {
+        await request(app)
+                        .post('/mercadopago/notification')
+                        .send({
+                            "resource": "https://api.mercadolibre.com/collections/notifications/14890721633",
+                            "topic": "payment"
+                          })
+
+                          
+        setTimeout(async function() {
+            const result = await paymentController.getPaymentInfoByQuery({query:{payment_id:"14890721633"}})  
+            const purchaseData = await purchase.findOne({where:{idPurchase:result.idPurchase}})
+            expect(purchaseData.dataValues.idPurchaseStatus).toBe(purchaseStatus["pagamento_falhou"].value)
+            
+            done()
+        }, 1000);
+
+        
+    })
+
+})
