@@ -1,11 +1,11 @@
 module.exports = {
     config:{
-        notification_url: "https://webhook.site/fcbf2553-2a91-4429-9275-fd4246ff0d1e",
+        notification_url: "https://webhook.site/570b68c8-2a2d-44d8-a704-d360f567baf3",
         statement_descriptor: "TESTE",
         back_urls: {
-            success: "https://webhook.site/fcbf2553-2a91-4429-9275-fd4246ff0d1e",
-            failure: "http://www.failure.com",
-            pending: "http://www.pending.com"
+            success: "https://webhook.site/570b68c8-2a2d-44d8-a704-d360f567baf3",
+            failure: "https://webhook.site/570b68c8-2a2d-44d8-a704-d360f567baf3",
+            pending: "https://webhook.site/570b68c8-2a2d-44d8-a704-d360f567baf3"
         },
         auto_return: "approved"
     },
@@ -16,3 +16,6 @@ module.exports = {
         collector_id:'725736327'
     }
 }
+
+
+

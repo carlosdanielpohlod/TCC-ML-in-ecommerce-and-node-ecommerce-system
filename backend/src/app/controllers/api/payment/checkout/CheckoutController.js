@@ -14,6 +14,13 @@ class CheckoutController {
     getPayment(data){
         return this.implementation.getPayment(data)
     }
+
+    getMerchantOrder(data){
+        return this.implementation.getMerchantOrder(data)
+    }
+    mapedStatus(){
+        return this.implementation.mapedStatus()
+    }
     
 
 }

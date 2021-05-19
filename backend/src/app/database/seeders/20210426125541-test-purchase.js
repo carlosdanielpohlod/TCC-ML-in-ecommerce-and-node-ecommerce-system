@@ -23,6 +23,28 @@ module.exports = {
       idPurchase:4,
       idPaymentInfo:1,
       idPurchaseStatus:purchaseStatus["no_carrinho"].value
+    },
+    { 
+      idUser:7,
+      idPurchase:5,
+      idPaymentInfo:2,
+      idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value
+    },
+    { 
+      
+      idUser:7,
+      idPurchase:6,
+      idPaymentInfo:3,
+      idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value
+    
+    },
+    { 
+      
+      idUser:7, //COMPRA REJEITADA
+      idPurchase:7,
+      idPaymentInfo:4,
+      idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value
+    
     }
     ], {});
   },

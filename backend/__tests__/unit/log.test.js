@@ -11,7 +11,7 @@ describe('Log tests', () => {
         setTimeout(() => {}, 3000)
 
         response = await log.findOne({where:{idLogType:logtype["notification_error_500"].value}})
-        expect(response.idLog).toBe(1)
+        expect(response.idLog).not.toBeNull();
         done()
     })
  

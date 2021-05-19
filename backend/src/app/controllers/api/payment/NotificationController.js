@@ -36,23 +36,24 @@ class NotificationController{
     
     async onNotification(req, res){
         try{
-            res.status(200)
+            res.sendStatus(200)
              
             
             if(req.body.topic == "payment"){
-                paymentController.onChangePaymentStatus(req.body)
-            
+                return paymentController.onChangePaymentStatus(req.body)
+                
             }
             else{
                 if(req.body.topic == "merchant_order"){
-                    
+                    return paymentController.onMerchantOrder(req.body)
                 }
             }
             
-            systemLog.activity('NotificationController.onNotification',req.body.resource)
+            // systemLog.activity('NotificationController.onNotification',req.body.resource)
         }
         catch(err){
-            systemLog.error('NotificationController.onNotification',err.message)
+            // systemLog.error('NotificationController.onNotification',err.message)
+            console.log(err.message)
         }
         
     }

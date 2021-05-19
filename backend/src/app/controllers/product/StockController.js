@@ -32,7 +32,7 @@ class StockController {
         try{
             var undoStock = []
             for(let i = 0; i < data.length; i++){
-                await stock.decrement('quantity', {by:data[i].quantity, where:{idStock:data[i].stock.idStock}})
+                stock.decrement('quantity', {by:data[i].quantity, where:{idStock:data[i].stock.idStock}})
                 undoStock.push({idStock:data[i].stock.idStock, quantity:data[i].quantity})
             }
             

@@ -1,7 +1,7 @@
 // const CheckoutInterface = require('./CheckoutInterface')
 const config = require('../../../../../config/mercadoPago')
 const axios = require('axios')
-
+const purchaseStatus = require('../../../enum/purchaseStatus')
 class MercadoPago{
 
     constructor(){
@@ -36,7 +36,7 @@ class MercadoPago{
             }
         })
         .then(response => {
-                // console.log()
+               
             return {status:true, data:response.data.collection}
             
         })
@@ -47,41 +47,32 @@ class MercadoPago{
     }
 
 
-
-
-    isCreatedPaymentStatus(body){
-        if(body.action == "payment.created"){
-            return true
-        }else{
-            return false
-        }
+    async getMerchantOrder(data){
+        return axios.get(data.url,{
+            headers:{
+                Authorization:`Bearer ${config.credentials.access_token}`
+            }
+        })
+        .then(response => {
+               
+            return {status:true, data:response.data}
+            
+        })
+        .catch(err => {
+            return {status:false, msg:err.message}
+        })
     }
 
-    isUpdatedPaymentStatus(body){
-        if(body.action == "payment.updated"){
-            return true
-        }else{
-            return false
-        }
-    }
-    
-
-    formatRequestData(body){
-        
-        if(body.status){
-            return {status:this.mapedStatus()[body.status],payer:{email:body.payer.email, cpf:body.payer.identification.number, idUser:body.payer.id}, dateCreated:date_created}
-        }else{
-            return false
-        }
-    }
    
     mapedStatus(){
         return { 
             success: purchaseStatus["compra_concluida"].value,
             cancelled: purchaseStatus["cancelado"].value,
-            rejected: purchaseStatus["compra_rejeitada"].value,
+            rejected: purchaseStatus["pagamento_falhou"].value,
+            expired: purchaseStatus["pagamento_nao_efetuado"].value,
             pending: purchaseStatus["aguardando_pagamento"].value,
             opened: purchaseStatus["pagamento_em_aberto"].value,
+            closed: purchaseStatus["compra_concluida"].value,
             in_process: purchaseStatus["processando_pagamento"].value,
             authorizated: purchaseStatus["pagamento_autorizado_mas_nao_concluido"].value,
         }
