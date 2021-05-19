@@ -28,11 +28,28 @@ routes.route('/mercadopago/payment/failure')
 
 routes.route('/mercadopago/payment/pending')
         .all(require('../controllers/api/payment/NotificationController').onPending)
-routes.route('/test')
+routes.route('/teste')
         .all(async (req, res) => {
-                const {purchase} = require('../../app/models')
-                const data = await purchase.findOne({where:{idPurchase:1}})
-                console.log(data.dataValues)
-                res.send()
+                const {purchase, purchaseitem, stock} = require('../../app/models')
+                const toGiveBackProducts = await purchase.findAll({
+                            
+                        where:{idPurchase:7},
+                        attributes:['idPurchase'],
+                        include: [
+                            { 
+                                model:purchaseitem,
+                                attributes:['quantity'],
+                                include:[
+                                    
+                                    {   
+                                        model:stock,
+                                        attributes:['idStock','quantity']
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                // console.log(data.dataValues)
+                res.send(toGiveBackProducts)
         })
 module.exports = routes

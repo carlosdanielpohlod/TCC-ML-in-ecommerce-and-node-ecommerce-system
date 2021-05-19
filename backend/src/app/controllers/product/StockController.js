@@ -1,6 +1,7 @@
 const {stock} = require('../../models')
 const httpStatus = require('../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../utils/errorFormat')
+
 class StockController {
     async store(req, res){
         try{
@@ -39,7 +40,7 @@ class StockController {
             return true
         }catch(err){
             await this.giveBack(undoStock)
-           
+            
             return false
         }   
     }

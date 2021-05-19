@@ -1,10 +1,34 @@
 const request = require('supertest')
 const paymentController = require('../../src/app/controllers/purchase/PaymentController')
-const {paymentinfo, purchase} = require('../../src/app/models/')
+
+const {paymentinfo,purchase, purchaseitem, stock} = require('../../src/app/models/')
 const app = require('../../src/app')
 const purchaseStatus = require('../../src/app/controllers/enum/purchaseStatus')
+
+async function getPurchaseItems(idPurchase){
+   return await purchase.findAll({
+                            
+        where:{idPurchase:idPurchase},
+        attributes:['idPurchase'],
+        include: [
+            { 
+                model:purchaseitem,
+                attributes:['quantity'],
+                include:[
+                    
+                    {   
+                        model:stock,
+                        attributes:['idStock','quantity']
+                    }
+                ]
+            }
+        ]
+    })
+}
 describe('Simulate Payment notifications', () => {
   
+    
+
     it('On aproved Payment test', async (done) => {
         
         await request(app)
@@ -23,19 +47,31 @@ describe('Simulate Payment notifications', () => {
                             "merchant_account_id":"null"
                             })
         const result = await paymentController.getPaymentInfoByQuery({query:{preference_id:"725736327-2c7a135d-746e-4b6b-8bca-68dd70185f35"}})                    
+        
+
+        
+
         setTimeout(async function() {
+
             const purchaseData = await purchase.findOne({where:{idPurchase:result.idPurchase}})
             
             const paymentData = await paymentinfo.findOne({where:{idPaymentInfo:result.idPaymentInfo}})
+            
+            
+
             expect(purchaseData.dataValues.idPurchaseStatus).toBe(purchaseStatus["pagamento_efetuado"].value)
             expect(paymentData.dataValues.payment_id).toBe("1236851520")
+
             done()
         }, 1000)
-        
+
+         
     })
 
     it('On Reproved Payment test', async (done) => {
         
+        const aux = await paymentController.getPaymentInfoByQuery({query:{preference_id:"725736327-23ebb00f-25be-42d8-af57-2c1aceb09e6e"}})                    
+        const itemsBefore = await getPurchaseItems(aux.idPurchase)
         await request(app)
                         .post('/mercadopago/payment/failure')
                         .send({
@@ -51,11 +87,19 @@ describe('Simulate Payment notifications', () => {
                             "processing_mode":"aggregator",
                             "merchant_account_id":"null"
                         })
-        const result = await paymentController.getPaymentInfoByQuery({query:{preference_id:"725736327-23ebb00f-25be-42d8-af57-2c1aceb09e6e"}})                    
+        var result = await paymentController.getPaymentInfoByQuery({query:{preference_id:"725736327-23ebb00f-25be-42d8-af57-2c1aceb09e6e"}})                    
         setTimeout(async function() {
             const purchaseData = await purchase.findOne({where:{idPurchase:result.idPurchase}})
             
             const paymentData = await paymentinfo.findOne({where:{idPaymentInfo:result.idPaymentInfo}})
+            
+            var itemsAfter = await getPurchaseItems(result.idPurchase)
+            const before = itemsBefore[0].purchaseitems
+            const after = itemsAfter[0].purchaseitems
+            for(let i = 0; i < before.length; i++){
+                expect(before[i].stock.quantity).toBeLessThan(after[i].stock.quantity)
+            }
+
             expect(purchaseData.dataValues.idPurchaseStatus).toBe(purchaseStatus["pagamento_falhou"].value)
             expect(paymentData.dataValues.payment_id).toBe("1236894047")
         }, 1000)
@@ -63,7 +107,7 @@ describe('Simulate Payment notifications', () => {
         done()
     })
 
-    it('On Pending Payment test', async (done) => {
+    it('On in_process Payment test', async (done) => {
         
         await request(app)
                         .post('/mercadopago/payment/pending')
@@ -80,12 +124,13 @@ describe('Simulate Payment notifications', () => {
                             "processing_mode":"aggregator",
                             "merchant_account_id":"null"
                             })
-        const result = await paymentController.getPaymentInfoByQuery({query:{preference_id:"725736327-6d06b429-5c3d-4615-aa78-0c0e3ccde14e"}})                    
+        var result = await paymentController.getPaymentInfoByQuery({query:{preference_id:"725736327-6d06b429-5c3d-4615-aa78-0c0e3ccde14e"}})                    
         setTimeout(async function() {
+
             const purchaseData = await purchase.findOne({where:{idPurchase:result.idPurchase}})
         
             const paymentData = await paymentinfo.findOne({where:{idPaymentInfo:result.idPaymentInfo}})
-        
+            
             expect(purchaseData.dataValues.idPurchaseStatus).toBe(purchaseStatus["aguardando_pagamento"].value)
             expect(paymentData.dataValues.payment_id).toBe("1236893300")
             done()
@@ -96,7 +141,12 @@ describe('Simulate Payment notifications', () => {
 
 describe('Simulate generic mercadopago notifications', () => {
   
-    it('payment notifications', async (done) => {
+    it('payment notification (payment failure)', async (done) => {
+
+        
+        
+        const itemsBefore = await getPurchaseItems(7)
+
         await request(app)
                         .post('/mercadopago/notification')
                         .send({
@@ -104,12 +154,21 @@ describe('Simulate generic mercadopago notifications', () => {
                             "topic": "payment"
                           })
 
-                          
+                               
         setTimeout(async function() {
-            const result = await paymentController.getPaymentInfoByQuery({query:{payment_id:"14890721633"}})  
+            const result = await paymentController.getPaymentInfoByQuery({query:{payment_id:"14890721633"}})      
+
             const purchaseData = await purchase.findOne({where:{idPurchase:result.idPurchase}})
+  
+            var itemsAfter = await getPurchaseItems(result.idPurchase)
+
+            const before = itemsBefore[0].purchaseitems
+            const after = itemsAfter[0].purchaseitems
+            for(let i = 0; i < before.length; i++){
+                expect(before[i].stock.quantity).toBeLessThan(after[i].stock.quantity)
+            }
+
             expect(purchaseData.dataValues.idPurchaseStatus).toBe(purchaseStatus["pagamento_falhou"].value)
-            
             done()
         }, 1000);
 
