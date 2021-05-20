@@ -117,6 +117,7 @@ class PurchaseController {
     async myPurchases(req, res){
         try{
             const {purchasestatus, product, stock} = require('../../models')
+            const {formatMyPurchase} = require('../utils/responseFormat')
             const data = await purchase.findAll({
                 order:[['createdAt', 'DESC']],
                 attributes:['idPurchase','createdAt'],
@@ -141,31 +142,7 @@ class PurchaseController {
                 }]
             })
             
-            
-            
-            var formatedValues = []
-            var purchaseDescription = ''
-            data.forEach(data => {
-          
-                data.dataValues.purchaseitems.forEach(item => {
-                    purchaseDescription += `${item.stock.product.name} ${item.quantity} uni /`
-                })
-                // console.log(data.dataValues.status)
-                formatedValues.push({
-                    purchaseDescription,
-                    idPurchase:data.dataValues.idPurchase,
-                    createdAt:data.dataValues.createdAt,
-                    purchaseStatus: data.purchasestatus.status
-                })
-
-            })
-
-            
-            // for(let i = 0; i < data.dataValues.length; i++ ){
-            //     
-            //     console.log(formatedValues)
-            // }
-            
+            const formatedValues = formatMyPurchase(data)
             return res.status(200).send(formatedValues)
         }
         catch(err){
