@@ -21,7 +21,8 @@ routes.route('/phone')
 routes.route('/user')
     .put(require('../controllers/user/UserController').update)
 
-routes.route('/purchase')
+routes.route('/user/purchase')
     .post(require('../controllers/purchase/PurchaseController').store)
+    .get(require('../controllers/purchase/PurchaseController').myPurchases)
     
 module.exports = routes

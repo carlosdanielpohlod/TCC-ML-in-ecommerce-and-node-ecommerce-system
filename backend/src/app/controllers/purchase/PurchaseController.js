@@ -113,7 +113,65 @@ class PurchaseController {
         }
     }
 
-    
+
+    async myPurchases(req, res){
+        try{
+            const {purchasestatus, product, stock} = require('../../models')
+            const data = await purchase.findAll({
+                order:[['createdAt', 'DESC']],
+                attributes:['idPurchase','createdAt'],
+                where:{idUser:req.user.idUser},
+                include: [{
+                    model:purchasestatus,
+                    attributes:['status']
+                },{
+                    model:purchaseitem,
+                    attributes:['quantity'],
+                    include: [
+                        {
+                            model:stock,
+                            attributes:['idStock'],
+                            include:[{
+                                model:product,
+                                attributes:['name','description']
+                            }]
+                        
+                        }
+                    ]
+                }]
+            })
+            
+            
+            
+            var formatedValues = []
+            var purchaseDescription = ''
+            data.forEach(data => {
+          
+                data.dataValues.purchaseitems.forEach(item => {
+                    purchaseDescription += `${item.stock.product.name} ${item.quantity} uni /`
+                })
+                // console.log(data.dataValues.status)
+                formatedValues.push({
+                    purchaseDescription,
+                    idPurchase:data.dataValues.idPurchase,
+                    createdAt:data.dataValues.createdAt,
+                    purchaseStatus: data.purchasestatus.status
+                })
+
+            })
+
+            
+            // for(let i = 0; i < data.dataValues.length; i++ ){
+            //     
+            //     console.log(formatedValues)
+            // }
+            
+            return res.status(200).send(formatedValues)
+        }
+        catch(err){
+            res.send(err.message)
+        }
+    }
     
     async undoPurchase(data){
         try{

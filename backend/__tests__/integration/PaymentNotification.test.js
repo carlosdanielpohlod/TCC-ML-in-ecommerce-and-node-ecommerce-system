@@ -90,7 +90,6 @@ describe('Simulate Payment notifications', () => {
         var result = await paymentController.getPaymentInfoByQuery({query:{preference_id:"725736327-23ebb00f-25be-42d8-af57-2c1aceb09e6e"}})                    
         setTimeout(async function() {
             const purchaseData = await purchase.findOne({where:{idPurchase:result.idPurchase}})
-            
             const paymentData = await paymentinfo.findOne({where:{idPaymentInfo:result.idPaymentInfo}})
             
             var itemsAfter = await getPurchaseItems(result.idPurchase)
