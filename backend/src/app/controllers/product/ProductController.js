@@ -14,7 +14,7 @@ class CreateProductController {
             sequelizeOrGeneric(err, res)
         }
     }
-
+               
     async update(req, res){
         try{       
             const data = req.body 

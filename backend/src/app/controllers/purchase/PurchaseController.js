@@ -117,14 +117,14 @@ class PurchaseController {
     async myPurchases(req, res){
         try{
             const {purchasestatus, product, stock} = require('../../models')
-            const {formatMyPurchase} = require('../utils/responseFormat')
+            const {formatMyPurchases} = require('../utils/responseFormat')
             const data = await purchase.findAll({
                 order:[['createdAt', 'DESC']],
                 attributes:['idPurchase','createdAt'],
                 where:{idUser:req.user.idUser},
                 include: [{
                     model:purchasestatus,
-                    attributes:['status']
+                    attributes:['status','idPurchaseStatus']
                 },{
                     model:purchaseitem,
                     attributes:['quantity'],
@@ -142,11 +142,11 @@ class PurchaseController {
                 }]
             })
             
-            const formatedValues = formatMyPurchase(data)
+            const formatedValues = formatMyPurchases(data)
             return res.status(200).send(formatedValues)
         }
         catch(err){
-            res.send(err.message)
+            res.status(500).send({msg:httpStatus["500"].value})
         }
     }
     

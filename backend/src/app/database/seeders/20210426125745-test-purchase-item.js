@@ -59,6 +59,18 @@ module.exports = {
         idPurchase:7,
         idStock:7,  
         quantity:2
+      },
+      {
+        idPurchaseItem:10,
+        idPurchase:7,
+        idStock:7,  
+        quantity:1
+      },
+      {
+        idPurchaseItem:11,
+        idPurchase:8,
+        idStock:7,  
+        quantity:1
       }
     ], {});
    

@@ -45,6 +45,13 @@ module.exports = {
       idPaymentInfo:4,
       idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value
     
+    },
+    { 
+      
+      idUser:7, //COMPRA PARA OS TESTES DO ESTOQUE
+      idPurchase:8,
+      idPurchaseStatus:purchaseStatus["cancelado"].value
+    
     }
     ], {});
   },
