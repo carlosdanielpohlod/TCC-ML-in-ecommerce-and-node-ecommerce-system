@@ -91,8 +91,6 @@ class PurchaseController {
             }
             systemLog.error("puchaseController.store",`Não foi possivel criar a preferencia, user = ${req.user.idUser}`)
             return res.status(500).send({status:false, msg:'Houve algum problema ao processar a compra, tente novamente.'})
-            
-            
         }
         catch(err){
             systemLog.error("puchaseController.store",err.message)
@@ -149,10 +147,15 @@ class PurchaseController {
             res.status(500).send({msg:httpStatus["500"].value})
         }
     }
+
+
+
     async myPurchaseDetails(req, res){
-        const { Op } = require("sequelize");
+
+        const {Op} = require("sequelize");
         const {purchasestatus, product, stock, productcolor, productsize, category} = require('../../models')
-        const {formatMyPurchase} = require('../utils/responseFormat')
+        const {formatMyPurchaseDetails} = require('../utils/responseFormat')
+
         const data = await purchase.findOne({
             
             attributes:['idPurchase','createdAt'],
@@ -191,9 +194,14 @@ class PurchaseController {
                 ]
             }]
         })
-        const response = formatMyPurchase(data)
-        res.status(200).send({status:true, response})
+        if(data == null){
+            return res.status(404).send({status:false, msg:'Compra não encontrada'})    
+        }
+        const response = formatMyPurchaseDetails(data)
+        return res.status(200).send({status:true, data:response})
     }
+
+
     async undoPurchase(data){
         try{
             const toGiveBackProducts = await purchase.findAll({
@@ -220,10 +228,6 @@ class PurchaseController {
             { 
                 sysemLog.error('PurchaseController.undoPurchase','Não foi possivel atualizar o status da compra')
             }
-
-           
-            
-
             systemLog.activity("Stock.undoPurchase",`Compra ${data.idPurchase} Desfeita`)
         }
         catch(err){

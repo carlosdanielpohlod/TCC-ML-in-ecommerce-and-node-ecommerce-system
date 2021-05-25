@@ -21,10 +21,10 @@ function formatMyPurchases(data){
     return formatedValues
 }
 
-function formatMyPurchase(data){
+function formatMyPurchaseDetails(data){
     var formatedValues = []
     var items = []
-    
+
     data.dataValues.purchaseitems.forEach(item => {
         items.push({
             idProduct:item.stock.product.idProduct,
@@ -45,7 +45,7 @@ function formatMyPurchase(data){
         // description:data.dataValues.stock.product.description,
         idPurchase:data.dataValues.idPurchase,
         createdAt:data.dataValues.createdAt,
-        paymentOpened: data.purchasestatus.idPurchaseStatus == purchaseStatus["pagamento_em_aberto"].value,
+        paymentOpened: data.purchasestatus.idPurchaseStatus == purchaseStatus["pagamento_em_aberto"].value ,
         purchaseStatus: data.purchasestatus.status
     })
 
@@ -54,4 +54,4 @@ function formatMyPurchase(data){
     return formatedValues
 }
 
-module.exports = {formatMyPurchases, formatMyPurchase}        
+module.exports = {formatMyPurchases, formatMyPurchaseDetails}        
