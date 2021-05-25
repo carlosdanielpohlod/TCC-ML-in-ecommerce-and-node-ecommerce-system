@@ -24,5 +24,10 @@ routes.route('/user')
 routes.route('/user/purchase')
     .post(require('../controllers/purchase/PurchaseController').store)
     .get(require('../controllers/purchase/PurchaseController').myPurchases)
+
+routes.route('/user/purchase/details/:idPurchase')
+    .get(require('../controllers/purchase/PurchaseController').myPurchaseDetails)
+
+    
     
 module.exports = routes

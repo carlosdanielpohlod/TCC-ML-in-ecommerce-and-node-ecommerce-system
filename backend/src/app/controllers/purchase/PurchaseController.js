@@ -149,7 +149,51 @@ class PurchaseController {
             res.status(500).send({msg:httpStatus["500"].value})
         }
     }
-    
+    async myPurchaseDetails(req, res){
+        const { Op } = require("sequelize");
+        const {purchasestatus, product, stock, productcolor, productsize, category} = require('../../models')
+        const {formatMyPurchase} = require('../utils/responseFormat')
+        const data = await purchase.findOne({
+            
+            attributes:['idPurchase','createdAt'],
+            where:{
+                [Op.and]: [{ idUser:req.user.idUser }, { idPurchase:req.query.idPurchase || req.params.idPurchase }]
+            },
+            include: [{
+                model:purchasestatus,
+                attributes:['status','idPurchaseStatus']
+            },{
+                model:purchaseitem,
+                attributes:['quantity'],
+                include: [
+                    {
+                        model:stock,
+                        attributes:['idStock'],
+                        include:[{
+                            model:product,
+                            attributes:['idProduct','name','description'],
+                            include: [{
+                                model:category,
+                                attributes:['category']
+                            }]
+                        },
+                        {
+                            model:productcolor,
+                            attributes:['color']
+                        },
+                        {
+                            model:productsize,
+                            attributes:['size']
+                        }
+                    ]
+                    
+                    }
+                ]
+            }]
+        })
+        const response = formatMyPurchase(data)
+        res.status(200).send({status:true, response})
+    }
     async undoPurchase(data){
         try{
             const toGiveBackProducts = await purchase.findAll({
