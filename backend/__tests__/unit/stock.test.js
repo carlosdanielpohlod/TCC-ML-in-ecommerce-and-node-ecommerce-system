@@ -50,8 +50,6 @@ describe('Stock create validation', () => {
     it('Shold remove from stock with success', async (done) => {
         try{
             const itemsBefore = await getPurchaseItems(idPurchase = 8)
-            
-            console.log(itemsBefore)
 
             stock.toRemove(itemsBefore[0].purchaseitems)
 
@@ -65,14 +63,15 @@ describe('Stock create validation', () => {
                     expect(before[i].stock.quantity).toBeLessThan(after[i].stock.quantity)
                 }
 
-                
-            })
+                done()
+            }, 3000)
             
-            done()
+            
            
         }
         catch(err){
-
+            console.log(err.message)
+            done()
         }
     })
     

@@ -63,6 +63,21 @@ class MercadoPago{
         })
     }
 
+    async getPreference(data){
+        return axios.get(`https://api.mercadopago.com/checkout/preferences/${data.preference_id}`,{
+            headers:{
+                Authorization:`Bearer ${config.credentials.access_token}`
+            }
+        })
+        .then(response => {
+               
+            return {status:true, data:response.data}
+            
+        })
+        .catch(err => {
+            return {status:false, msg:err.message}
+        })
+    }
    
     mapedStatus(){
         return { 
@@ -78,6 +93,11 @@ class MercadoPago{
         }
     }
     
+    urlBase(){
+        return {
+
+        }
+    }
 
 }
 

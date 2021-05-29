@@ -28,6 +28,8 @@ routes.route('/user/purchase')
 routes.route('/user/purchase/details/:idPurchase')
     .get(require('../controllers/purchase/PurchaseController').myPurchaseDetails)
 
+routes.route('/user/purchase/payment/opened/link')
+    .get(require('../controllers/purchase/PaymentController').getPaymentOpenedLink)
     
     
 module.exports = routes

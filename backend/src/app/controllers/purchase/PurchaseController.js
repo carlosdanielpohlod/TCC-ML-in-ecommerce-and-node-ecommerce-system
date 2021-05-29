@@ -141,10 +141,11 @@ class PurchaseController {
             })
             
             const formatedValues = formatMyPurchases(data)
-            return res.status(200).send(formatedValues)
+            return res.status(200).send({data:formatedValues, status:true})
         }
         catch(err){
             res.status(500).send({msg:httpStatus["500"].value})
+            systemLog.error('purchaseController.myPurchase', err.message)
         }
     }
 
@@ -162,41 +163,44 @@ class PurchaseController {
             where:{
                 [Op.and]: [{ idUser:req.user.idUser }, { idPurchase:req.query.idPurchase || req.params.idPurchase }]
             },
-            include: [{
-                model:purchasestatus,
-                attributes:['status','idPurchaseStatus']
-            },{
-                model:purchaseitem,
-                attributes:['quantity'],
-                include: [
-                    {
-                        model:stock,
-                        attributes:['idStock'],
-                        include:[{
-                            model:product,
-                            attributes:['idProduct','name','description'],
-                            include: [{
-                                model:category,
-                                attributes:['category']
-                            }]
-                        },
+            include: [
+                {
+                    model:purchasestatus,
+                    attributes:['status','idPurchaseStatus']
+                },
+                {
+                    model:purchaseitem,
+                    attributes:['quantity'],
+                    include: [
                         {
-                            model:productcolor,
-                            attributes:['color']
-                        },
-                        {
-                            model:productsize,
-                            attributes:['size']
+                            model:stock,
+                            attributes:['idStock'],
+                            include:[{
+                                model:product,
+                                attributes:['idProduct','name','description'],
+                                include: [{
+                                    model:category,
+                                    attributes:['category']
+                                }]
+                            },
+                            {
+                                model:productcolor,
+                                attributes:['color']
+                            },
+                            {
+                                model:productsize,
+                                attributes:['size']
+                            }
+                        ]
+                        
                         }
-                    ]
-                    
-                    }
                 ]
             }]
         })
         if(data == null){
             return res.status(404).send({status:false, msg:'Compra não encontrada'})    
         }
+
         const response = formatMyPurchaseDetails(data)
         return res.status(200).send({status:true, data:response})
     }

@@ -7,7 +7,9 @@ class CheckoutController {
         this.implementation = implementation
         
     }
-
+    getPreference(data){
+        return this.implementation.getPreference(data)
+    }
     createPaymentLink(data){
         return this.implementation.createPaymentLink(data)   
     }

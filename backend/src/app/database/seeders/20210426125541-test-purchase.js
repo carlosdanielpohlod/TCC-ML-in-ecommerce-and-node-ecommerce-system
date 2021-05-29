@@ -52,6 +52,13 @@ module.exports = {
       idPurchase:8,
       idPurchaseStatus:purchaseStatus["cancelado"].value
     
+    },
+    { 
+      
+      idUser:7, //COMPRA PARA O Teste de get link de compra aberta
+      idPurchase:9,
+      idPurchaseStatus:purchaseStatus["pagamento_em_aberto"].value,
+      idPaymentInfo:2,
     }
     ], {});
   },
