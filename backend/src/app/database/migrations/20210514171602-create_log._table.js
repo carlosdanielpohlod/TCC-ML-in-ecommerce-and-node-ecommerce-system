@@ -30,6 +30,14 @@ module.exports = {
           model: 'logtype',
           key: 'idLogType'
         }
+      },
+      idUser: {
+        type: Sequelize.BIGINT.UNSIGNED,
+        allowNull: true,
+        references: {
+          model: 'user',
+          key: 'idUser'
+        }
       }
      });
     

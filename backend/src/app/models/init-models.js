@@ -48,6 +48,7 @@ function initModels(sequelize) {
   // paymentinfo.hasMany(purchase, {foreignKey: "idPaymentInfo"});
   
   log.belongsTo(logtype, {foreignKey: "idLogType"});
+  log.belongsTo(user, {foreignKey: "idUser"});
   logtype.hasMany(log, {foreignKey: "idLogType"});
   
  

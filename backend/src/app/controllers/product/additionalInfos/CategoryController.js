@@ -2,7 +2,7 @@
 const {category} = require('../../../models')
 const httpStatus = require('../../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../../utils/errorFormat')
-
+const systemLog = require('../../log/NotificationLogController')
 class CategoryController {
     async store(req, res){
         try{
@@ -23,7 +23,9 @@ class CategoryController {
             }
             
         }catch(err){
-            sequelizeOrGeneric(err, res)
+            systemLog.error('store', err.message)
+            return res.send(err.message)
+            // sequelizeOrGeneric(err, res)
         }
     }
 
@@ -33,12 +35,13 @@ class CategoryController {
             return res.send(200).send({status:true, msg:httpStatus["200"].value, data:response})
         }
         catch(err){
+            systemLog.error('store', err.message)
             sequelizeOrGeneric(err, res)
         }
     }
     async delete(req, res){
         
-        try{
+        // try{
             const {product} = require('../../../models')
             // const relation = await category.findOne({
             //     attributes:['idCategory'],
@@ -66,37 +69,23 @@ class CategoryController {
                 await category.destroy({where:{idCategory:req.body.idCategory}})
                 return res.status(200).send({status:true, msg:httpStatus["200"].value})
             }
-        }
-        catch(err){
+        // }
+        // catch(err){
 
-        }
+        // }
     }
-    // DOES NOT WORK YET
+    
+
     async get(req, res){
-        const categorias = await category.findAll()
-        const tree = {
-            categoria01:
-            {
-                name:"Calçado",
-                subCategoria:
-                [
-                    {
-                        name:"Tenis",
-                        subcategoria01:[{
-                            name:"Sport",
-                            url:"localhost/sport"
-                        }]
-                    },
-                    {
-                        name:"Sapatilha",
-                        url:"localhost/ortopedico"
-                    }
-                ]
-             }
-        }
+        const {toTree, formatCategorysPath} = require('../../utils/responseFormat')
+
+        const response = await category.findAll()
+        const tree = await formatCategorysPath(response)
+            return res.status(200).send({data:tree, status:true})
         
-        
-        res.json(categorias)
+        // .catch(err => {
+        //     return res.status(500).send({msg:httpStatus["500"].value, status:false})
+        // })
     }
 }
 module.exports = new CategoryController()

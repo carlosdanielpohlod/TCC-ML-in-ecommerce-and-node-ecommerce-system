@@ -11,8 +11,8 @@ routes.route('/signup')
         
 routes.route('/validateToken')
         .post(authController.validateToken)
-routes.route('/category')
-        .get(CategoryController.get)
+// routes.route('/category')
+//         .get(CategoryController.get)
 
 routes.route('/product/details/:idProduct')
         .patch(require('../controllers/product/ProductController').getBasicDetailsById) 

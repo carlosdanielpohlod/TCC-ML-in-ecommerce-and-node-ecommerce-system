@@ -103,6 +103,7 @@ class PaymentController{
 
     async getPaymentOpenedLink(req, res){
         try{
+            
             const {Op} = require("sequelize")
             const response = await purchase.findOne({
                 where:{[Op.and]: [{ idUser:req.user.idUser }, { idPurchase:req.body.idPurchase }, {idPurchaseStatus: purchaseStatus["pagamento_em_aberto"].value}]},
@@ -112,7 +113,7 @@ class PaymentController{
                 }]
             })
             if(response == null || response.dataValues == null){
-                return res.status(404).send({status:false, msg:"Pagamento em aberto encontrado"})
+                return res.status(404).send({status:false, msg:"Pagamento em aberto não encontrado"})
             }
             
             const preferenceData = await checkoutController.getPreference({preference_id:response.dataValues.paymentinfo.preference_id})

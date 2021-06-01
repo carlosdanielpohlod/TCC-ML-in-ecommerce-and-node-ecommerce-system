@@ -23,7 +23,14 @@ module.exports = function(sequelize, DataTypes) {
         key: 'idLogType'
       }
     },
-    
+    idUser: {
+      type: DataTypes.BIGINT.UNSIGNED,
+      allowNull: true,
+      references: {
+        model: 'user',
+        key: 'idUser'
+      }
+    },
     createdAt:{
       type:'TIMESTAMP'
     }

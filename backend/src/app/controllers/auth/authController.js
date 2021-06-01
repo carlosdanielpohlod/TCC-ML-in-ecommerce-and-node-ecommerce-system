@@ -35,7 +35,7 @@ class AuthController{
    }
 
    async signin(req, res){
-    //    try{
+       try{
             
             if (!req.body.email || !req.body.password) 
                 return res.status(401).send({status:false, msg:'Informe usuário e senha!'})
@@ -61,10 +61,10 @@ class AuthController{
             
             res.status(200).send({status:true,data:{...payload,
                 token:jwt.encode(payload, process.env.AUTHSECRET)}})
-    //    }
-    //    catch(err){
-    //        res.status(500).send({status:false, msg:httpStatus['500'].value})
-    //    }    
+       }
+       catch(err){
+           res.status(500).send({status:false, msg:httpStatus['500'].value})
+       }    
    }
 }
 
