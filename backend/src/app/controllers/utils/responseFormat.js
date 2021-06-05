@@ -40,9 +40,6 @@ function formatMyPurchaseDetails(data){
 
     formatedValues.push({
         items,
-        // name:data.dataValues.stock.product.name,
-        // price:data.dataValues.stock.product.price,
-        // description:data.dataValues.stock.product.description,
         idPurchase:data.dataValues.idPurchase,
         createdAt:data.dataValues.createdAt,
         paymentOpened: data.purchasestatus.idPurchaseStatus == purchaseStatus["pagamento_em_aberto"].value ,

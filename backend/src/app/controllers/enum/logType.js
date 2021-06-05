@@ -7,6 +7,8 @@ logType = new Enum ({
     "payment_error_500":5,
     "notification_error_500":6,
     "purchase_error_500":7,
-    "purchase_activity":8
+    "purchase_activity":8,
+    "generic_error_500":9,
+    "generic_activity":10
 })
 module.exports = logType

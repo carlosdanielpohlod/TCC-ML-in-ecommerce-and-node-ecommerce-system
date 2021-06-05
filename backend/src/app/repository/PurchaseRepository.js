@@ -8,8 +8,8 @@ class PurchaseRepository{
     }
 
     async getPurchaseDetails(idUser, idPurchase){
-        const {formatMyPurchaseDetails} = require('../controllers/utils/responseFormat')
-        let response = await purchase.findOne({
+        
+        return await purchase.findOne({
                 
             attributes:['idPurchase','createdAt'],
             where:{
@@ -50,9 +50,6 @@ class PurchaseRepository{
             }]
         })
         
-        return formatMyPurchaseDetails(
-                response
-        )
     }
 
     async getOldPurchaseByIdUser(idUser){

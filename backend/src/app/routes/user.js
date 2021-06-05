@@ -30,6 +30,9 @@ routes.route('/user/purchase/details/:idPurchase')
 
 routes.route('/user/purchase/payment/opened/link')
     .get(require('../controllers/purchase/PaymentController').getPaymentOpenedLink)
-    
+
+routes.route('/favorite')
+    .post(require('../controllers/product/FavoriteController').store)
+    .delete(require('../controllers/product/FavoriteController').delete)
     
 module.exports = routes

@@ -70,4 +70,15 @@ describe('Product category tests', () => {
         expect(response.status).toBe(400)
         done()
     })
+
+    it('Shold return a category array', async (done) => {
+   
+
+        const response = await request(app)
+                        .get('/category/tree')
+                        
+        expect(response.body.data.tree[0].idCategory).toBe(1)
+        expect(response.body.data.tree[0].children[0].idCategory).toBe(2)
+        done()
+    })
  })

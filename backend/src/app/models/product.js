@@ -138,7 +138,7 @@ module.exports = function(sequelize, DataTypes) {
     product.hasMany(models.stock, {onDelete: 'cascade',foreignKey: "idProduct"});
     product.belongsTo(models.productstatus, {foreignKey: "idProductStatus"});
     product.belongsTo(models.provider, {foreignKey: "idProvider"});
-    
+    product.hasMany(models.favorite, {foreignKey: "idProduct"});
   }
   return product
 };

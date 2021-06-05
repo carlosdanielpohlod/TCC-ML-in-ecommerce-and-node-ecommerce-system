@@ -86,15 +86,16 @@ class PurchaseController {
 
     async myPurchaseDetails(req, res){
 
-         
+        const {formatMyPurchaseDetails} = require('../utils/responseFormat')
 
         const data = await purchaseRepository.getPurchaseDetails(req.user.idUser, req.query.idPurchase || req.params.idPurchase)
         
         if(data == null){
             return res.status(404).send({status:false, msg:'Compra não encontrada'})    
         }
-
-        return res.status(200).send({status:true, data:data})
+        
+        
+        return res.status(200).send({status:true, data:formatMyPurchaseDetails(data)})
     }
 
 

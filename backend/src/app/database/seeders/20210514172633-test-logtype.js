@@ -35,7 +35,16 @@ module.exports = {
     { 
       idLogType:logtype["purchase_activity"].value, 
       type:"purchase_activity"
+    },
+    { 
+      idLogType:logtype["generic_error_500"].value, 
+      type:"generic_error_500"
+    },
+    { 
+      idLogType:logtype["generic_activity"].value, 
+      type:"generic_activity"
     }
+
   
   ], {});
     

@@ -190,6 +190,7 @@ module.exports = function(sequelize, DataTypes) {
     user.belongsTo(models.phone, {foreignKey: "idPhone"});
     user.hasMany(models.purchase, {foreignKey: "idUser"});
     user.belongsTo(models.userprivilege, {foreignKey: "idUserPrivilege"});
+    user.hasMany(models.favorite, {foreignKey: "idUser"});
   }
 
   return user
