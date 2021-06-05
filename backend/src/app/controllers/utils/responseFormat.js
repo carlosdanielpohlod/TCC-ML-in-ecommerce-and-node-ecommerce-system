@@ -24,7 +24,7 @@ function formatMyPurchases(data){
 function formatMyPurchaseDetails(data){
     var formatedValues = []
     var items = []
-
+    
     data.dataValues.purchaseitems.forEach(item => {
         items.push({
             idProduct:item.stock.product.idProduct,
@@ -54,43 +54,17 @@ function formatMyPurchaseDetails(data){
     return formatedValues
 }
 
-function formatCategorysPath(categories){
-
-    const getParent = (categories, idRootCategory) => {
-        const parent = categories.filter(parent => parent.id === idRootCategory)
-        return parent.length ? parent[0] : null
-    }
-
-    const categoriesWithPath = categories.map(category => {
-        let path = category.name
-        let parent = getParent(categories, category.idRootCategory)
-
-        while(parent) {
-            path = `${parent.name} > ${path}`
-            parent = getParent(categories, parent.idRootCategory)
-        }
-
-        return { ...category, path }
-    })
-
-    categoriesWithPath.sort((a, b) => {
-        if(a.path < b.path) return -1
-        if(a.path > b.path) return 1
-        return 0
-    })
-
-    return categoriesWithPath
-}
-
 function toTree(categories, tree){
    
         if(!tree) tree = categories.filter(c => !c.idRootCategory)
         tree = tree.map(parentNode => {
             const isChild = node => node.idRootCategory == parentNode.idCategory
+            
             parentNode.children = toTree(categories, categories.filter(isChild))
+            
             return parentNode
         })
         return tree
     
 }
-module.exports = {formatMyPurchases, formatMyPurchaseDetails, formatCategorysPath, toTree}        
+module.exports = {formatMyPurchases, formatMyPurchaseDetails, toTree}        

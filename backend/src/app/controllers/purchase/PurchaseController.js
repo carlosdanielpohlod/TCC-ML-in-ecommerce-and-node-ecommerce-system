@@ -1,10 +1,11 @@
-const {stock, purchase, purchaseitem, paymentinfo} = require('../../models')
+const {paymentinfo} = require('../../models')
 const mercadopago = require('../api/payment/checkout/MercadoPago')
 const purchaseStatus = require('../enum/purchaseStatus')
 const stockController = require('../product/StockController')
 const checkoutController = require('../api/payment/checkout/CheckoutController')
 const systemLog = require('../log/PurchaseLogController')
 const purchaseRepository = require('../../repository/PurchaseRepository')
+
 class PurchaseController {
 
     
@@ -12,7 +13,7 @@ class PurchaseController {
         try{
             const checkout = new checkoutController(mercadopago)
             
-            const purchaseData = purchaseRepository.getOldPurchaseByIdUser(req.user.idUser)
+            const purchaseData = await purchaseRepository.getOldPurchaseByIdUser(req.user.idUser)
             
             let paymentapiinfos = null
            
@@ -31,7 +32,7 @@ class PurchaseController {
 
                 if(paymentapiinfos){
                     
-                    if(await purchase.update({idPaymentInfo:paymentapiinfos.idPaymentInfo, idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value},{where:{idPurchase:purchaseData[0].idPurchase}}) == 1){
+                    if(await purchaseRepository.model().update({idPaymentInfo:paymentapiinfos.idPaymentInfo, idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value},{where:{idPurchase:purchaseData[0].idPurchase}}) == 1){
                         return res.status(200).send({status:true, data:preference})
                     }else{
                         paymentapiinfos.destroy()
@@ -54,7 +55,7 @@ class PurchaseController {
     async changeStatus(data){
         try{
             
-            if(await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) == 0){
+            if(await purchaseRepository.model().update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) == 0){
                 systemLog.error("PurchaseController.changeStatus",`Status da compra ${data.idPurchase} não foi atualizado para ${data.idPurchase} com sucesso`)
             }
         }
@@ -69,7 +70,6 @@ class PurchaseController {
         try{
             const limit = 5
             const data = req.body || req.params || req.query
-            const {purchasestatus, product, stock} = require('../../models')
             const {formatMyPurchases} = require('../utils/responseFormat')
 
             const purchaseData = await purchaseRepository.getPurchasesByIdUser(req.user.idUser,10,data.page || 1)
@@ -86,7 +86,7 @@ class PurchaseController {
 
     async myPurchaseDetails(req, res){
 
-         const {formatMyPurchaseDetails} = require('../utils/responseFormat')
+         
 
         const data = await purchaseRepository.getPurchaseDetails(req.user.idUser, req.query.idPurchase || req.params.idPurchase)
         
@@ -94,8 +94,7 @@ class PurchaseController {
             return res.status(404).send({status:false, msg:'Compra não encontrada'})    
         }
 
-        const response = formatMyPurchaseDetails(data)
-        return res.status(200).send({status:true, data:response})
+        return res.status(200).send({status:true, data:data})
     }
 
 
@@ -104,7 +103,7 @@ class PurchaseController {
             const toGiveBackProducts = await purchaseRepository.getItemsFromPurchase(data.idPurchase)
             
             stockController.giveBack(toGiveBackProducts[0].purchaseitems)
-            if(await purchase.update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) != 1)
+            if(await purchaseRepository.model().update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) != 1)
             { 
                 sysemLog.error('PurchaseController.undoPurchase','Não foi possivel atualizar o status da compra')
             }

@@ -1,5 +1,9 @@
-const {purchaseitem, stock} = require('../models')
+const {purchaseitem, stock, product} = require('../models')
 class ProductRepository {
+
+    model(){
+        return product
+    }
     async findPurchaseItemByIdProduct(idProduct){
         return await  purchaseitem.findAll({
             attributes:['idPurchaseItem'],
@@ -13,8 +17,8 @@ class ProductRepository {
     }
     
     async basicDetails(idProduct){
-        const {brand, category, productsize, productcolor, product} = require('../models')
-       return product.findAll({
+        const {brand, category, productsize, productcolor} = require('../models')
+       return await product.findAll({
             attributes:["idProduct","name", "price", "description"],
            include: [
             {

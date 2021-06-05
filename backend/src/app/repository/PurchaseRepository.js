@@ -2,9 +2,15 @@ const {Op} = require("sequelize");
 const {purchasestatus, product, purchase,purchaseitem, stock, productcolor, productsize, category} = require('../models')
 
 class PurchaseRepository{
+
+    model(){
+        return purchase
+    }
+
     async getPurchaseDetails(idUser, idPurchase){
-        return purchase.findOne({
-            
+        const {formatMyPurchaseDetails} = require('../controllers/utils/responseFormat')
+        let response = await purchase.findOne({
+                
             attributes:['idPurchase','createdAt'],
             where:{
                 [Op.and]: [{ idUser:idUser }, { idPurchase:idPurchase }]
@@ -43,6 +49,10 @@ class PurchaseRepository{
                 ]
             }]
         })
+        
+        return formatMyPurchaseDetails(
+                response
+        )
     }
 
     async getOldPurchaseByIdUser(idUser){
@@ -99,7 +109,7 @@ class PurchaseRepository{
     }
     async getPurchasesByIdUser(idUser, limit, page){
         
-        return  purchase.findAll({
+        return await purchase.findAll({
             order:[['createdAt', 'DESC']],
             attributes:['idPurchase','createdAt'],
             where:{idUser:idUser},

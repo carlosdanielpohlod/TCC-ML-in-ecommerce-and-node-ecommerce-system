@@ -35,32 +35,14 @@ class CategoryController {
             return res.send(200).send({status:true, msg:httpStatus["200"].value, data:response})
         }
         catch(err){
-            systemLog.error('store', err.message)
+            systemLog.error('CategoryController.store', err.message)
             sequelizeOrGeneric(err, res)
         }
     }
     async delete(req, res){
         
-        // try{
+        try{
             const {product} = require('../../../models')
-            // const relation = await category.findOne({
-            //     attributes:['idCategory'],
-            //     where:{idCategory:req.body.idCategory},
-            //     // as:'idHasRoot',
-            //     include: [
-            //         {
-            //             model: product,
-            //             where: {idCategory: req.body.idCategory},
-            //             attributes:[]
-            //         }, 
-            //         {
-            //             model: category,
-            //             attributes:[]
-            //             ,
-            //             as:'idHasRoot'
-            //         }
-            //     ]
-            // })
             const relation = await product.findOne({where:{idCategory:req.body.idCategory}})
             const subCategory = await category.findOne({where:{idRootCategory:req.body.idCategory}})
             if(subCategory != null || relation != null){
@@ -69,19 +51,23 @@ class CategoryController {
                 await category.destroy({where:{idCategory:req.body.idCategory}})
                 return res.status(200).send({status:true, msg:httpStatus["200"].value})
             }
-        // }
-        // catch(err){
-
-        // }
+        }
+        catch(err){
+            systemLog.error('CategoryController.store', err.message)
+            res.send(500).send({status:false, msg:httpStatus["500"].value})
+        }
     }
     
 
     async get(req, res){
-        const {toTree, formatCategorysPath} = require('../../utils/responseFormat')
-
+        const {toTree} = require('../../utils/responseFormat')
+        
+        const array = []
         const response = await category.findAll()
-        const tree = await formatCategorysPath(response)
-            return res.status(200).send({data:tree, status:true})
+        response.forEach(category => {
+            array.push(category.dataValues)
+        })
+        return res.status(200).send({data:{tree:toTree(array)}, status:true})
         
         // .catch(err => {
         //     return res.status(500).send({msg:httpStatus["500"].value, status:false})
