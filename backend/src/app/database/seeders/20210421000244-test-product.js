@@ -42,7 +42,103 @@ module.exports = {
         idCategory:1,
         idProductStatus:1,	
         idBrand:4
-       }
+       },
+
+       {
+        name:'produto seed 05',
+        idProduct:5,
+        price:1.0,
+        idProvider:2,
+        description:'quinto produto gerado atraves do seeder "test-product" para favoritar  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+
+       {
+        name:'produto seed 06',
+        idProduct:6,
+        price:1.0,
+        idProvider:2,
+        description:'sexto produto gerado atraves do seeder "test-product"  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+
+       {
+        name:'produto seed 07',
+        idProduct:7,
+        price:1.0,
+        idProvider:2,
+        description:'setimo produto gerado atraves do seeder "test-product"  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+
+       {
+        name:'produto seed 08',
+        idProduct:8,
+        price:1.0,
+        idProvider:2,
+        description:'oitavo produto gerado atraves do seeder "test-product"  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+
+       {
+        name:'produto seed 09',
+        idProduct:9,
+        price:1.0,
+        idProvider:2,
+        description:'9 produto gerado atraves do seeder "test-product"  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+
+       {
+        name:'produto seed 10',
+        idProduct:10,
+        price:1.0,
+        idProvider:2,
+        description:'decimo produto gerado atraves do seeder "test-product"  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+
+       {
+        name:'produto seed 11',
+        idProduct:11,
+        price:1.0,
+        idProvider:2,
+        description:'decimo primeiro produto gerado atraves do seeder "test-product"  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+
+       {
+        name:'produto seed 12',
+        idProduct:12,
+        price:1.0,
+        idProvider:2,
+        description:'decimo segundo produto gerado atraves do seeder "test-product"  ',
+        idCategory:1,
+        idProductStatus:1,	
+        idBrand:4
+       },
+       {name:'Product to favorite test',
+       idProduct:13,
+       price:1.0,
+       idProvider:2,
+       description:'usado no teste de criar um favorito ',
+       idCategory:1,
+       idProductStatus:1,	
+       idBrand:4}
     ], {});
   
   },

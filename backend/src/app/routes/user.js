@@ -34,5 +34,5 @@ routes.route('/user/purchase/payment/opened/link')
 routes.route('/favorite')
     .post(require('../controllers/product/FavoriteController').store)
     .delete(require('../controllers/product/FavoriteController').delete)
-    
+    .get(require('../controllers/product/FavoriteController').get)
 module.exports = routes

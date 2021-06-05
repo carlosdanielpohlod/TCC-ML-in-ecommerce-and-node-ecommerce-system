@@ -17,7 +17,7 @@ class ProductRepository {
     }
     
     async basicDetails(idProduct){
-        const {brand, category, productsize, productcolor} = require('../models')
+       const {brand, category, productsize, productcolor} = require('../models')
        return await product.findAll({
             attributes:["idProduct","name", "price", "description"],
            include: [

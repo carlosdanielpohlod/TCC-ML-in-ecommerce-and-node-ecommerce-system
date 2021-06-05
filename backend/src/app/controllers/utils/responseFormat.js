@@ -64,4 +64,6 @@ function toTree(categories, tree){
         return tree
     
 }
+
+
 module.exports = {formatMyPurchases, formatMyPurchaseDetails, toTree}        
