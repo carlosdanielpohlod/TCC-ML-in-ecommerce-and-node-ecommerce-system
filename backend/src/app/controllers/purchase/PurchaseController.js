@@ -68,11 +68,10 @@ class PurchaseController {
 
     async myPurchases(req, res){
         try{
-            const limit = 5
+            const limit = 10
             const data = req.body || req.params || req.query
             const {formatMyPurchases} = require('../utils/responseFormat')
-
-            const purchaseData = await purchaseRepository.getPurchasesByIdUser(req.user.idUser,10,data.page || 1)
+            const purchaseData = await purchaseRepository.getPurchasesByIdUser(req.user.idUser,limit,data.page || 1)
             const formatedValues = formatMyPurchases(purchaseData)
             return res.status(200).send({data:formatedValues, status:true, limit, page:data.page || 1})
         }
@@ -95,7 +94,7 @@ class PurchaseController {
         }
         
         
-        return res.status(200).send({status:true, data:formatMyPurchaseDetails(data)})
+        return res.status(200).send({status:true, data})
     }
 
 

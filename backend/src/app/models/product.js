@@ -139,6 +139,7 @@ module.exports = function(sequelize, DataTypes) {
     product.belongsTo(models.productstatus, {foreignKey: "idProductStatus"});
     product.belongsTo(models.provider, {foreignKey: "idProvider"});
     product.hasMany(models.favorite, {foreignKey: "idProduct"});
+    product.hasMany(models.productimage, {foreignKey: "idProduct"});
   }
   return product
 };

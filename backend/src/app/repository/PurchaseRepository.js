@@ -1,5 +1,5 @@
 const {Op} = require("sequelize");
-const {purchasestatus, product, purchase,purchaseitem, stock, productcolor, productsize, category} = require('../models')
+const {purchasestatus, product, purchase,purchaseitem, stock, productcolor, productsize, category, productimage} = require('../models')
 
 class PurchaseRepository{
 
@@ -30,10 +30,16 @@ class PurchaseRepository{
                             include:[{
                                 model:product,
                                 attributes:['idProduct','name','description'],
-                                include: [{
+                                include: [
+                                {
                                     model:category,
                                     attributes:['category']
-                                }]
+                                },
+                                {
+                                    model:productimage,
+                                    attributes:["url","sort"]
+                                }
+                                ]
                             },
                             {
                                 model:productcolor,
