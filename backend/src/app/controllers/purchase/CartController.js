@@ -1,6 +1,8 @@
 const {purchaseitem, purchase, stock} = require('../../models')
 const httpStatus = require('../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../utils/errorFormat')
+const cartRepository = require('../../repository/CartRepository')
+const systemLog = require('../log/GenericLogController')
 class CartController {
 
     async store(req, res){
@@ -11,7 +13,7 @@ class CartController {
 
             const productStock = await stock.findOne({where:{idStock:data.idStock}})
             
-            let userCart = await purchase.findOne({where:{idUser:req.user.idUser, idPurchaseStatus:1}})
+            let userCart = await cartRepository.getUserCart(req.user.idUser)
             
 
 
@@ -44,6 +46,7 @@ class CartController {
             res.status(201).send({status:true,data:response})
         }
         catch(err){
+            systemLog.error("CartController.store", err.message, req.user.idUser)
             sequelizeOrGeneric(err, res)
         }
     }
@@ -56,16 +59,17 @@ class CartController {
     async deleteItemFromCart(req, res){
         try{
             !req.body.idPurchaseItem ? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
-            const userCart = await purchase.findOne({where:{idUser:req.user.idUser, idPurchaseStatus:1}})
+            const userCart = await cartRepository.getUserCart(req.user.idUser)
             
             if(userCart){
-                await purchaseitem.destroy({where:{idPurchaseItem:req.body.idPurchaseItem, idPurchase:userCart.idPurchase}})
+                await cartRepository.removePurchaseItemFromCart(req.body.idPurchaseItem, userCart.idPurchase)
                 res.status(200).send({status:true,msg:'Removido do carrinho'})
             }else{
                 res.status(404).send({msg:'carrinho não encontrado', status:false, data:userCart})
             }
         }catch(err){
-            res.status(500).send({message:err.msg})
+            systemLog.error("CartController.deleteItemFromCart", err.message, req.user.idUser)
+            res.status(500).send({status:false,message:err.msg})
             return 
 
         }
@@ -73,41 +77,19 @@ class CartController {
     }
 
 
-
-
-
-
     async update(req, res){
         try{
-            // !req.body.idPurchaseItem ? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
-            const result = await purchase.findOne({
-                    attributes:[],
-                    where:{idUser:req.user.idUser, idPurchaseStatus:1},
-                    include:[
-                    {
-                        model:purchaseitem,
-                        where:{idPurchaseItem:req.body.idPurchaseItem},
-                        attributes:['quantity','idPurchaseItem'],
-                        include:[{ 
-                            model:stock,
-                            attributes:['quantity']
-                        }]
-                    }
-                    ]
-                } 
-                
-                
-            )
-            const response = result.purchaseitems[0]    
-            if(!response){
+            const cartItemData = await cartRepository.getUserCartPurchaseItem(req.user.idUser, req.body.idPurchaseItem)    
+            
+            if(!cartItemData){
                 res.status(400).send({status:false, msg:httpStatus["400"].value})
                 return 
             }
 
             if(req.body.quantity > 0 ){
                
-                if(response.quantity + req.body.quantity > response.stock.quantity){
-                    res.status(400).send({msg:`Quantidade excede o estoque (${response.stock.quantity})`, status:false}) 
+                if(cartItemData.quantity + req.body.quantity > cartItemData.stock.quantity){
+                    res.status(400).send({msg:`Quantidade excede o estoque (${cartItemData.stock.quantity})`, status:false}) 
                     return 
                 }
                 var verb ="increment"
@@ -115,58 +97,33 @@ class CartController {
             else{ 
                 req.body.quantity  = req.body.quantity * (-1)
                 
-                if(response.quantity - req.body.quantity < 0){
+                if(cartItemData.quantity - req.body.quantity < 0){
                    
                     res.status(400).send({msg:'Você não pode comprar uma quantidade negativa de produtos', status:false})
                     return
                 }
                 var verb = "decrement"
             }
-            const data = await purchaseitem[verb]('quantity', { by: req.body.quantity , where:{idPurchaseItem:response.idPurchaseItem}});
+            const data = await purchaseitem[verb]('quantity', { by: req.body.quantity , where:{idPurchaseItem:cartItemData.idPurchaseItem}});
             return res.status(200).send({status:true,msg:httpStatus[200].value, data})
         }
         catch(err){
+            systemLog.error("CartController.update", err.message, req.user.idUser)
             sequelizeOrGeneric(err, res)
         }
     }
 
-
-
-
     async get(req, res){
-        const {productcolor, productsize, product} = require('../../models')
-        
+        try{
+            const response = await cartRepository.getAllInfosUserCart(req.user.idUser)
+            return res.status(200).send({status:true,data:response})
+        }
+        catch(err){
+            systemLog.error("CartController.get", err.message, req.user.idUser)
+            sequelizeOrGeneric(err, res)
+        }
             
-            purchaseitem.findAll({
-                attributes:['idPurchaseItem','quantity'],
-                include: [{
-                  model: purchase,
-                  where: {idUser: req.user.idUser},
-                  attributes:[]
-                }, {
-                    model:stock,
-                    attributes:['quantity'],
-                    include:[
-                        {
-                            model:productcolor,
-                            attributes:['color']
-                        },
-                        {
-                            model:productsize,
-                            attributes:['size']
-                        }
-                        ,
-                        {
-                            model:product,
-                            attributes:['name','price'] 
-                        }
-                    ]
-                }
-            ]
-              }).then(response => {
-                res.send({data:response})
-              })
-              .catch(err => sequelizeOrGeneric(err, res));        
+                 
     }
 }
 
