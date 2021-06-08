@@ -5,14 +5,14 @@ const mercadopago = require('../api/payment/checkout/MercadoPago')
 const checkout = require('../api/payment/checkout/CheckoutController')
 const systemLog = require('../log/PurchaseLogController')
 const checkoutController = new checkout(mercadopago)
-
+const paymentRepository = require('../../repository/PaymentRepository')
 class PaymentController{
 
 
     async onSuccess(data){
         try{
             
-            const response = await this.getPaymentInfoByQuery({query:{preference_id:data.preference_id}})  
+            const response = await paymentRepository.getPaymentInfoByQuery({query:{preference_id:data.preference_id}})  
             purchase.update({idPurchaseStatus:purchaseStatus["pagamento_efetuado"].value},{where:{idPaymentInfo:response.idPaymentInfo }})
             paymentinfo.update({client_id:data.client_id,payment_id:data.payment_id, payment_type:data.payment_type, merchant_order_id:data.merchant_order_id},{where:{idPaymentInfo:response.idPaymentInfo}})
          
@@ -24,7 +24,7 @@ class PaymentController{
 
     async onFailure(data){
         try{
-            const response = await this.getPaymentInfoByQuery({query:{preference_id:data.preference_id}})
+            const response = await paymentRepository.getPaymentInfoByQuery({query:{preference_id:data.preference_id}})
             paymentinfo.update({client_id:data.client_id,payment_id:data.payment_id, payment_type:data.payment_type, merchant_order_id:data.merchant_order_id},{where:{idPaymentInfo:response.idPaymentInfo}})
             purchaseController.undoPurchase({idPurchase:response.idPurchase, idPurchaseStatus:purchaseStatus["pagamento_falhou"].value})
         }
@@ -35,7 +35,7 @@ class PaymentController{
 
     async onPending(data){
         try{
-            const response = await this.getPaymentInfoByQuery({query:{preference_id:data.preference_id}})
+            const response = await paymentRepository.getPaymentInfoByQuery({query:{preference_id:data.preference_id}})
             paymentinfo.update({client_id:data.client_id,payment_id:data.payment_id, payment_type:data.payment_type, merchant_order_id:data.merchant_order_id},{where:{idPaymentInfo:response.idPaymentInfo}})
             purchaseController.changeStatus({idPurchase:response.idPurchase, idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value})
     
@@ -50,7 +50,7 @@ class PaymentController{
             
             const response = await checkoutController.getPayment({url:data.resource})
             
-            const purchaseInfo = await this.getPaymentInfoByQuery({query:{payment_id:response.data.id}})
+            const purchaseInfo = await paymentRepository.getPaymentInfoByQuery({query:{payment_id:response.data.id}})
             
             if(response.data.status == "success" || response.data.status == "pending" || response.data.status == "opened" || response.data.status == "in_process" || response.data.status == "authorized"){
                 return purchaseController.changeStatus({idPurchase:purchaseInfo.idPurchase, idPurchaseStatus:checkoutController.mapedStatus()[response.data.status]})
@@ -69,7 +69,7 @@ class PaymentController{
     async onMerchantOrder(data){
         try{
             const response = await checkoutController.getMerchantOrder({url:data.resource})    
-            const purchaseInfo = await this.getPaymentInfoByQuery({query:{preference_id:response.data.preference_id}})
+            const purchaseInfo = await paymentRepository.getPaymentInfoByQuery({query:{preference_id:response.data.preference_id}})
             if(response.data.status == "expired"){
                 return purchaseController.undoPurchase({idPurchase:purchaseInfo.idPurchase, idPurchaseStatus:checkoutController.mapedStatus()[response.data.status]})
             }
@@ -81,37 +81,14 @@ class PaymentController{
             systemLog.error("PaymentController.onMerchantOrder", err.message)
         }
     }
-    async getPaymentInfoByQuery(data){
-        try{
-            const response  = await purchase.findOne({
-                attributes:['idPurchase'],
-                
-                include: [
-                    { 
-                        model:paymentinfo,
-                        attributes:['idPaymentInfo'],
-                        where:data.query
-                    }
-                ]
-            })
-            return {idPaymentInfo:response.dataValues["paymentinfo"].idPaymentInfo, idPurchase:response.idPurchase}
-        }
-        catch(err){
-            systemLog.error("PaymentController.getPaymentInfoByQuery", err.message)
-        }
-    }
+    
 
     async getPaymentOpenedLink(req, res){
         try{
             
-            const {Op} = require("sequelize")
-            const response = await purchase.findOne({
-                where:{[Op.and]: [{ idUser:req.user.idUser }, { idPurchase:req.body.idPurchase }, {idPurchaseStatus: purchaseStatus["pagamento_em_aberto"].value}]},
-                include: [{
-                    model:paymentinfo,
-                    attributes:['preference_id']
-                }]
-            })
+            
+            const response = await paymentRepository.getPaymentPreference_id(req.user.idUser, req.body.idPurchase)
+            
             if(response == null || response.dataValues == null){
                 return res.status(404).send({status:false, msg:"Pagamento em aberto não encontrado"})
             }
