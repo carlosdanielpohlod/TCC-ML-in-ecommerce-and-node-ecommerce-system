@@ -1,6 +1,6 @@
 const {Op} = require("sequelize");
 const {purchasestatus, product, purchase,purchaseitem, stock, productcolor, productsize, category, productimage} = require('../models')
-
+const purchaseStatus = require('../controllers/enum/purchaseStatus')
 class PurchaseRepository{
 
     model(){

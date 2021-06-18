@@ -65,7 +65,8 @@ class CategoryController {
         const array = []
         const response = await category.findAll()
         response.forEach(category => {
-            array.push(category.dataValues)
+            
+            array.push({idCategory:category.dataValues.idCategory, id:category.dataValues.idCategory, idRootCategory: category.dataValues.idRootCategory, text:category.dataValues.category})
         })
         return res.status(200).send({data:{tree:toTree(array)}, status:true})
         

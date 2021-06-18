@@ -1,7 +1,7 @@
 const httpStatus = require('../enum/httpStatus')
 const {sequelizeOrGeneric} = require('../utils/errorFormat')
 const productRepository = require('../../repository/ProductRepository')
-
+const systemLog = require('../log/GenericLogController')
 class CreateProductController {
 
 
@@ -13,6 +13,7 @@ class CreateProductController {
             return res.status(201).send({msg:httpStatus["201"].value, status:true, data:response})        
         }
         catch(err){
+            systemLog.error('CreateProductController.store', err.message, req.user.idUser)
             sequelizeOrGeneric(err, res)
         }
     }

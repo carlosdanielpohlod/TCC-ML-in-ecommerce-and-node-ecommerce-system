@@ -11,7 +11,7 @@ class CartRepository{
             return await purchaseitem.destroy({where:{idPurchaseItem, idPurchase}})
         }
         catch(err){
-            throw new Error('Não foi possivel remover o item')
+            throw new Error(err.message)
         }
     }
 
@@ -37,7 +37,8 @@ class CartRepository{
 
     async getAllInfosUserCart(idUser){
         const {productcolor, productsize, product} = require('../models')
-        return await purchaseitem.findAll({
+        const {getAllInfosUserCartFormat}= require('../controllers/utils/responseFormat')
+        const data = await purchaseitem.findAll({
             attributes:['idPurchaseItem','quantity'],
             include: 
             [
@@ -67,6 +68,8 @@ class CartRepository{
                 }
             ]
         })
+
+        return getAllInfosUserCartFormat(data)
     }
 }
 

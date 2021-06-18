@@ -58,17 +58,22 @@ class CartController {
 
     async deleteItemFromCart(req, res){
         try{
+            console.log(req.body)
             !req.body.idPurchaseItem ? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
             const userCart = await cartRepository.getUserCart(req.user.idUser)
             
             if(userCart){
+                
                 await cartRepository.removePurchaseItemFromCart(req.body.idPurchaseItem, userCart.idPurchase)
+                
                 res.status(200).send({status:true,msg:'Removido do carrinho'})
             }else{
                 res.status(404).send({msg:'carrinho não encontrado', status:false, data:userCart})
             }
         }catch(err){
+            
             systemLog.error("CartController.deleteItemFromCart", err.message, req.user.idUser)
+            console.log(err.message)
             res.status(500).send({status:false,message:err.msg})
             return 
 
@@ -86,26 +91,24 @@ class CartController {
                 return 
             }
 
-            if(req.body.quantity > 0 ){
+            if(req.body.quantity >= 0 ){
                
-                if(cartItemData.quantity + req.body.quantity > cartItemData.stock.quantity){
+                if(parseInt(req.body.quantity) > cartItemData.stock.quantity){
                     res.status(400).send({msg:`Quantidade excede o estoque (${cartItemData.stock.quantity})`, status:false}) 
                     return 
                 }
-                var verb ="increment"
-            }
-            else{ 
-                req.body.quantity  = req.body.quantity * (-1)
-                
-                if(cartItemData.quantity - req.body.quantity < 0){
-                   
-                    res.status(400).send({msg:'Você não pode comprar uma quantidade negativa de produtos', status:false})
-                    return
+
+                if(await purchaseitem.update({quantity:req.body.quantity}, {where:{idPurchaseItem:cartItemData.idPurchaseItem}})){
+                    return res.status(200).send({status:true,msg:httpStatus[200].value})
+                }else{
+                    return res.status(500).send({msg:'Não foi possivel atualizae a quantidade', status:false}) 
                 }
-                var verb = "decrement"
+
+            }else{
+                return res.status(500).send({msg:'Quantidade negativa não é permitido', status:false}) 
             }
-            const data = await purchaseitem[verb]('quantity', { by: req.body.quantity , where:{idPurchaseItem:cartItemData.idPurchaseItem}});
-            return res.status(200).send({status:true,msg:httpStatus[200].value, data})
+            
+            
         }
         catch(err){
             systemLog.error("CartController.update", err.message, req.user.idUser)
@@ -114,11 +117,14 @@ class CartController {
     }
 
     async get(req, res){
+        
         try{
             const response = await cartRepository.getAllInfosUserCart(req.user.idUser)
+            
             return res.status(200).send({status:true,data:response})
         }
         catch(err){
+            
             systemLog.error("CartController.get", err.message, req.user.idUser)
             sequelizeOrGeneric(err, res)
         }

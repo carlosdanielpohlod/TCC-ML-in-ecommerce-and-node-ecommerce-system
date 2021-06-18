@@ -32,5 +32,20 @@ class AddressController{
       
     }
 
+    async get(req, res){
+        try{
+            const {user} = require('../../../models')
+            const response= await address.findOne({
+                include:[{
+                    model:user,
+                    where: {idUser:req.user.idUser}, 
+                    attributes:[]
+                }]
+            })
+            return res.status(200).send({data:response, status:true})
+        }catch(err){
+
+        }
+    }
 }
 module.exports = new AddressController()

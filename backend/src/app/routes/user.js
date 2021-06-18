@@ -13,7 +13,7 @@ routes.route('/cart')
 routes.route('/address')
     .post(require('../controllers/user/additionalInfo/AddressController').store)
     .put(require('../controllers/user/additionalInfo/AddressController').update)
-
+    .get(require('../controllers/user/additionalInfo/AddressController').get)
 routes.route('/phone')
     .post(require('../controllers/user/additionalInfo/PhoneController').store)
     .put(require('../controllers/user/additionalInfo/PhoneController').update)

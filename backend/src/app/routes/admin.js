@@ -11,7 +11,7 @@ routes.route('/product')
 
 routes.route('/brand')
     .post(admin(require('../controllers/product/additionalInfos/BrandController').store))
-    .get(admin(require('../controllers/product/additionalInfos/BrandController').get))
+    .get(admin(require('../controllers/product/additionalInfos/BrandController').get)) // adicionar admin dnv dps
     .put(admin(require('../controllers/product/additionalInfos/BrandController').update))
     .delete(admin(require('../controllers/product/additionalInfos/BrandController').delete))
     

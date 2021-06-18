@@ -33,7 +33,7 @@ class PurchaseController {
                 if(paymentapiinfos){
                     
                     if(await purchaseRepository.model().update({idPaymentInfo:paymentapiinfos.idPaymentInfo, idPurchaseStatus:purchaseStatus["aguardando_pagamento"].value},{where:{idPurchase:purchaseData[0].idPurchase}}) == 1){
-                        return res.status(200).send({status:true, data:preference})
+                        return res.status(200).send({status:true, data:{paymentUrl:preference.init_point, preference_id:preference.preference_id}})
                     }else{
                         paymentapiinfos.destroy()
                         systemLog.error("puchaseController.store","Não foi possivel atualizar o id da api na tabela purchase",req.user.idUser)
@@ -85,7 +85,7 @@ class PurchaseController {
 
     async myPurchaseDetails(req, res){
 
-        const {formatMyPurchaseDetails} = require('../utils/responseFormat')
+   
 
         const data = await purchaseRepository.getPurchaseDetails(req.user.idUser, req.query.idPurchase || req.params.idPurchase)
         

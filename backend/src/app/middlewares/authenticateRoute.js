@@ -7,6 +7,7 @@ existsBearer = function(scheme){
 authenticate = function(req, res, next){
     try{
         if(!req.headers.authorization){
+            
             res.status(401).send({status:false,msg:"token não informado"})
             return
         }

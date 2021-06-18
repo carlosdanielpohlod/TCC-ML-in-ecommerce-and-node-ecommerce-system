@@ -65,5 +65,21 @@ function toTree(categories, tree){
     
 }
 
+function getAllInfosUserCartFormat(data){
+    formatedArray = []
+    data.forEach(element => {
+        formatedArray.push({
+            name:element.dataValues.stock.product.name,
+            price:element.dataValues.stock.product.price,
+            idPurchaseItem:element.dataValues.idPurchaseItem, 
+            quantity:element.dataValues.quantity,
+            quantityStock:element.dataValues.stock.quantity,
+            color:element.dataValues.stock.productcolor.color,
+            size:element.dataValues.stock.productsize.size
+        })
+    })
+    return formatedArray
+}
 
-module.exports = {formatMyPurchases, formatMyPurchaseDetails, toTree}        
+
+module.exports = {formatMyPurchases, formatMyPurchaseDetails, toTree, getAllInfosUserCartFormat}        
