@@ -1,5 +1,9 @@
 const routes = require('express').Router()
+const multer = require('multer')
+const multerConfig = require('../../config/multer')
 const admin = require('../middlewares/admin')
+const ProductImageController = require('../controllers/media/product/ProductImageController')
+
 // const {authenticate} = require('../middlewares/authenticateRoute')
 
 // routes.use(authenticate)
@@ -32,5 +36,9 @@ routes.route('/user/:idUser')
 routes.route('/user/deleteOtherUser')
         .delete(admin(require('../controllers/user/UserController').deleteOtherUser))
 
+routes.route('/product/image')
+    .post(multer(multerConfig).single("file"), ProductImageController.store)
+    .delete(ProductImageController.delete)
+        
         
 module.exports = routes

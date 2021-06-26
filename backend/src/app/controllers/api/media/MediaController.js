@@ -5,8 +5,8 @@ class MediaController{
         
     }
 
-    async findProductImagesByPk(idProduct){
-        return await this.implementation.findProductImagesByPk(idProduct)
+    async delete(id){
+        return await this.implementation.delete(id)
     }
     async saveProductImages(idProduct, data){
         return await this.implementation.saveProductImages(idProduct, data)

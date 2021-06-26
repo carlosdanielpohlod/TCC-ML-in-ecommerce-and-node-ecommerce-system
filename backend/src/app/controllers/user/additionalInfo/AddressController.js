@@ -34,7 +34,9 @@ class AddressController{
 
     async get(req, res){
         try{
+            const isEmpty = false
             const {user} = require('../../../models')
+
             const response= await address.findOne({
                 include:[{
                     model:user,
@@ -42,9 +44,13 @@ class AddressController{
                     attributes:[]
                 }]
             })
-            return res.status(200).send({data:response, status:true})
-        }catch(err){
+            if(!response){
+                isEmpty = true
+            }
 
+            return res.status(200).send({data:response, status:true, isEmpty})
+        }catch(err){
+            return res.status(500).send({status: false})
         }
     }
 }

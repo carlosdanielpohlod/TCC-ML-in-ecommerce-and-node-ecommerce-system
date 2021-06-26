@@ -17,6 +17,7 @@ module.exports = {
     }, 
      {
       idUser:1,
+      profilePic:'profile.png',
       idUserPrivilege:1,
       name:'admin',
       surname:'seed',
@@ -29,6 +30,7 @@ module.exports = {
       surname:"seed",
       cpf:"9933399",	
       email:"deletado@seed.com",
+      profilePic:'profile.png',
       password:bcrypt.hashSync('12345', 10),
       deletedAt: (new Date ((new Date((new Date(new Date())).toISOString() )).getTime() - ((new Date()).getTimezoneOffset()*60000))).toISOString().slice(0, 19).replace('T', ' '),
        idUser:3
@@ -40,7 +42,8 @@ module.exports = {
       cpf:"11111111111",	
       email:"comcompra@seed.com",
       password:bcrypt.hashSync('12345', 10),
-      idUser:4
+      idUser:4,
+      profilePic:'profile.png'
     },
     {
       idUserPrivilege:2,
@@ -49,7 +52,7 @@ module.exports = {
       cpf:"555555555",	
       email:"semcompra@seed.com",
       password:bcrypt.hashSync('12345', 10),
-      
+      profilePic:'profile.png',
       idUser:5
     },
     {
@@ -59,7 +62,7 @@ module.exports = {
       cpf:"7777777777",	
       email:"paymentcanceled@seed.com",
       password:bcrypt.hashSync('12345', 10),
-      
+      profilePic:'profile.png',
       idUser:6
     },
     {
@@ -72,6 +75,7 @@ module.exports = {
       idPhone:1,
       idAddress:1,
       idUser:7
+      ,profilePic:'profile.png'
     }
   ]);
  

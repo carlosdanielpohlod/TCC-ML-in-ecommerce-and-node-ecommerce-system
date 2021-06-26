@@ -1,13 +1,14 @@
+const aws = require("aws-sdk");
+const s3 = new aws.S3();
 class AwsS3{
-    async findProductImagesByPk(idProduct){
-        return 'Not implemented yet'
+    
+    async delete(key){
+        return await s3.deleteObject({
+            Key:key,
+            Bucket: process.env.BUCKET_NAME
+        }).promise()
     }
-    async saveProductImages(idProduct, data){
-        return 'Not implemented yet'
-    }
-    async updateProductImage(idProduct, data){
-        return 'Not implemented yet'
-    }
+    
 }
 
 module.exports = new AwsS3()

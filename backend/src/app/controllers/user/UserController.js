@@ -24,6 +24,7 @@ class UserController{
             return res.status(201).send({status:true,msg:httpStatus['201'].value, data:response})
         }
         catch(err){
+            systemLog.error("UserController.store", err.message)
             sequelizeOrGeneric(err,res)
         }
     }
@@ -75,17 +76,23 @@ class UserController{
             return res.status(500).send({status:false, msg:httpStatus["500"].value})
         }
     }
-     async getById(req, res){
+    async getById(req, res){
       
             
-        userRepository.model().findOne({attributes:user.basicInfosTemplate, where:{idUser:req.params.idUser}})
+        userRepository.model().findOne({attributes:userRepository.model().basicInfosTemplate, where:{idUser:req.params.idUser}})
         .then(response => {
             res.status(200).send({status:true, data:response})
         })
         .catch(err => res.status(500).send({status:false, msg:httpStatus['500'].value}))
 
     }
-
+    async getMe(req, res){
+        userRepository.model().findOne({attributes:userRepository.model().basicInfosTemplate, where:{idUser:req.user.idUser}})
+        .then(response => {
+            res.status(200).send({status:true, data:response})
+        })
+        .catch(err => res.status(500).send({status:false, msg:httpStatus['500'].value}))
+    }
 
 
 }

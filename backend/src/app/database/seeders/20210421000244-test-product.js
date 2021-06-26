@@ -49,7 +49,7 @@ module.exports = {
         idProduct:5,
         price:1.0,
         idProvider:2,
-        description:'quinto produto gerado atraves do seeder "test-product" para favoritar  ',
+        description:' seeder "test-product" para favoritar  ',
         idCategory:1,
         idProductStatus:1,	
         idBrand:4

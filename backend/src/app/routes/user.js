@@ -21,6 +21,9 @@ routes.route('/phone')
 routes.route('/user')
     .put(require('../controllers/user/UserController').update)
 
+routes.route('/user/me')
+    .get(require('../controllers/user/UserController').getMe)
+
 routes.route('/user/purchase')
     .post(require('../controllers/purchase/PurchaseController').store)
     .get(require('../controllers/purchase/PurchaseController').myPurchases)

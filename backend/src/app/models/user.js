@@ -96,7 +96,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     profilePic: {
       type: DataTypes.STRING(255),
-      allowNull: true
+      allowNull: true,
+      defaultValue:null
     },
     surname: {
       type: DataTypes.STRING(255),

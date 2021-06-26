@@ -6,19 +6,17 @@ const systemLog = require('../log/GenericLogController')
 class CartController {
 
     async store(req, res){
-        try{
-            const data = req.body
+        // try{
+            const data = {... req.body, idUser:req.user.idUser}
 
             data.quantity < 0 ? res.status(400).send({status:false, msg:httpStatus["400"].value}) : null
 
             const productStock = await stock.findOne({where:{idStock:data.idStock}})
-            
             let userCart = await cartRepository.getUserCart(req.user.idUser)
-            
-
 
             if(!userCart){
-                userCart = await purchase.create(data)
+                
+                userCart = await cartRepository.createCart(data)
             }
 
             const oldPurchaseItem = await purchaseitem.findOne({where:{idPurchase:userCart.idPurchase, idStock:data.idStock}})
@@ -44,11 +42,11 @@ class CartController {
             }
 
             res.status(201).send({status:true,data:response})
-        }
-        catch(err){
-            systemLog.error("CartController.store", err.message, req.user.idUser)
-            sequelizeOrGeneric(err, res)
-        }
+        // }
+        // catch(err){
+        //     systemLog.error("CartController.store", err.message, req.user.idUser)
+        //     sequelizeOrGeneric(err, res)
+        // }
     }
 
 

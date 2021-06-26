@@ -72,7 +72,7 @@ module.exports = {
         },
         profilePic: {
           type: Sequelize.STRING(255),
-          allowNull: false
+          allowNull: true
         },
         surname: {
           type: Sequelize.STRING(255),

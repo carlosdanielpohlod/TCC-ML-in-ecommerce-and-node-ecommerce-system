@@ -27,7 +27,7 @@ module.exports = {
         }
       },
       description:{
-        type: Sequelize.STRING(60),
+        type: Sequelize.STRING(250),
         allowNull:false
       },
       idCategory: {

@@ -31,4 +31,7 @@ routes.route('/mercadopago/payment/pending')
 
 routes.route('/category/tree')
         .get(require('../controllers/product/additionalInfos/CategoryController').get)
+
+routes.route('/product/image')
+      .get(require('../controllers/media/product/ProductImageController').get)
 module.exports = routes

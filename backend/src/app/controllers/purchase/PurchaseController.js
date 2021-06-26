@@ -16,8 +16,8 @@ class PurchaseController {
             const purchaseData = await purchaseRepository.getOldPurchaseByIdUser(req.user.idUser)
             
             let paymentapiinfos = null
-           
-            if(await stockController.toRemove(purchaseData[0].purchaseitems) === true){
+            
+            if(purchaseData[0] && await stockController.toRemove(purchaseData[0].purchaseitems) === true){
                 const preference = await checkout.createPaymentLink(purchaseData)
 
 
@@ -25,7 +25,7 @@ class PurchaseController {
                     paymentapiinfos = await paymentinfo.create({preference_id:preference.id})
                 }
                 else{
-                    systemLog.error("puchaseController.store","Não foi possivel obter a preferencia",req.user.idUser)
+                    systemLog.error("puchaseController.store","Não foi possivel obter a preferencia:",req.user.idUser)
                     return res.status(500).send({status:false, msg:'Houve algum problema ao processar a compra, tente novamente.'})
                 }
 
@@ -69,10 +69,12 @@ class PurchaseController {
     async myPurchases(req, res){
         try{
             const limit = 10
-            const data = req.body || req.params || req.query
+            const data = req.query || req.body || req.params 
+            
             const {formatMyPurchases} = require('../utils/responseFormat')
             const purchaseData = await purchaseRepository.getPurchasesByIdUser(req.user.idUser,limit,data.page || 1)
             const formatedValues = formatMyPurchases(purchaseData)
+            
             return res.status(200).send({data:formatedValues, status:true, limit, page:data.page || 1})
         }
         catch(err){

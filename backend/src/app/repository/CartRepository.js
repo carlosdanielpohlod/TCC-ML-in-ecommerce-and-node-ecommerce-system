@@ -15,6 +15,10 @@ class CartRepository{
         }
     }
 
+    async createCart(data){
+        return await purchase.create({... data, idPurchaseStatus:purchaseStatus["no_carrinho"].value})
+    }
+
     async getUserCartPurchaseItem(idUser, idPurchaseItem){
          const response = await purchase.findOne({
             attributes:[],

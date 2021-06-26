@@ -2,7 +2,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const express = require('express')()
 
-
 class App {
     constructor(){
         this.express = express
@@ -19,7 +18,7 @@ class App {
         this.express.use(require('./app/routes/public'))
      
         this.express.use(require('./app/routes/user'))
-        
+
         this.express.use(require('./app/routes/admin'))
     }
 }
