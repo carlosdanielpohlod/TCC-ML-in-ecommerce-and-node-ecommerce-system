@@ -26,6 +26,7 @@ class PaymentController{
         try{
             const response = await paymentRepository.getPaymentInfoByQuery({query:{preference_id:data.preference_id}})
             paymentinfo.update({client_id:data.client_id,payment_id:data.payment_id, payment_type:data.payment_type, merchant_order_id:data.merchant_order_id},{where:{idPaymentInfo:response.idPaymentInfo}})
+            console.log("failure",response)
             purchaseController.undoPurchase({idPurchase:response.idPurchase, idPurchaseStatus:purchaseStatus["pagamento_falhou"].value})
         }
         catch(err){

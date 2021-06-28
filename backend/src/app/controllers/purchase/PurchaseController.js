@@ -102,12 +102,13 @@ class PurchaseController {
 
     async undoPurchase(data){
         try{
+            
             const toGiveBackProducts = await purchaseRepository.getItemsFromPurchase(data.idPurchase)
             
             stockController.giveBack(toGiveBackProducts[0].purchaseitems)
             if(await purchaseRepository.model().update({idPurchaseStatus:data.idPurchaseStatus}, {where:{idPurchase:data.idPurchase}}) != 1)
             { 
-                sysemLog.error('PurchaseController.undoPurchase','Não foi possivel atualizar o status da compra')
+                systemLog.error('PurchaseController.undoPurchase','Não foi possivel atualizar o status da compra')
             }
             systemLog.activity("Stock.undoPurchase",`Compra ${data.idPurchase} Desfeita`)
         }

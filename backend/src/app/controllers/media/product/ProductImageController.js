@@ -29,7 +29,9 @@ class ProductImageController{
 
     async delete(req, res){
         try {
-            mediaController.delete(req.body.key)
+            if(process.env.STORAGE_TYPE == 's3'){
+                mediaController.delete(req.body.key)
+            }
             await productImageRepository.model().destroy({where:{key:req.body.key}})
             return res.status(200).send({status:true, msg:httpStatus['200'].value})
         } catch (err) {

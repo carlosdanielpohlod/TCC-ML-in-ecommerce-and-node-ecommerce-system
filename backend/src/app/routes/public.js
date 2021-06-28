@@ -1,6 +1,5 @@
 const routes = require('express').Router()
 const authController = require('../controllers/auth/AuthController')
-const CategoryController = require('../controllers/product/additionalInfos/CategoryController')
 const UserController = require('../controllers/user/UserController')
 
 routes.route('/signin')

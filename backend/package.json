@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn nodemon src/server.js",
-    "test": "sequelize db:seed:all && jest"
+    "test": "sequelize db:seed:all && jest",
+    "db->refresh":"sequelize db:seed:undo:all && sequelize db:seed:all"
   },
   "dependencies": {
     "aws-sdk": "^2.934.0",

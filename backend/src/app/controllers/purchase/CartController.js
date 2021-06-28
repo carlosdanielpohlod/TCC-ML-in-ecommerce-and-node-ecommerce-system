@@ -6,9 +6,9 @@ const systemLog = require('../log/GenericLogController')
 class CartController {
 
     async store(req, res){
-        // try{
-            const data = {... req.body, idUser:req.user.idUser}
-
+        try{
+            const data = {idStock:parseInt(req.body.idStock),quantity:parseInt(req.body.quantity), idUser:req.user.idUser}
+            
             data.quantity < 0 ? res.status(400).send({status:false, msg:httpStatus["400"].value}) : null
 
             const productStock = await stock.findOne({where:{idStock:data.idStock}})
@@ -42,11 +42,11 @@ class CartController {
             }
 
             res.status(201).send({status:true,data:response})
-        // }
-        // catch(err){
-        //     systemLog.error("CartController.store", err.message, req.user.idUser)
-        //     sequelizeOrGeneric(err, res)
-        // }
+        }
+        catch(err){
+            systemLog.error("CartController.store", err.message, req.user.idUser)
+            sequelizeOrGeneric(err, res)
+        }
     }
 
 
@@ -103,7 +103,7 @@ class CartController {
                 }
 
             }else{
-                return res.status(500).send({msg:'Quantidade negativa não é permitido', status:false}) 
+                return res.status(400).send({msg:'Quantidade negativa não é permitido', status:false}) 
             }
             
             

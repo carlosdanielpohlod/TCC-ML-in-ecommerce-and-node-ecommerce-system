@@ -8,8 +8,11 @@ class FavoriteController{
             data.idUser = req.user.idUser
             if(! await favoriteRepository.productAlreadyFavorite(req.body.idProduct, req.user.idUser)){
                 await favoriteRepository.model().create(data)
+                
                 return res.status(201).send({msg:httpStatus["201"].value, status:true})
+                
             }else{
+                
                 return res.status(400).send({msg:'Já esta nos favoritos', status:false})
             }
         }catch(err){

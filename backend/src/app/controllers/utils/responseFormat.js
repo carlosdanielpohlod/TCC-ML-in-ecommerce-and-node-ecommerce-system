@@ -71,15 +71,46 @@ function getAllInfosUserCartFormat(data){
         formatedArray.push({
             name:element.dataValues.stock.product.name,
             price:element.dataValues.stock.product.price,
+            images:element.dataValues.stock.product.productimages,
             idPurchaseItem:element.dataValues.idPurchaseItem, 
             quantity:element.dataValues.quantity,
             quantityStock:element.dataValues.stock.quantity,
             color:element.dataValues.stock.productcolor.color,
-            size:element.dataValues.stock.productsize.size
+            size:element.dataValues.stock.productsize.size,
         })
     })
     return formatedArray
 }
 
+function formatProductBasicDetails(data){
+    var formated = {}
+    var formatedStock = []
+    data.forEach(element => {
+        formated = {
+            idProduct:element.dataValues.idProduct,
+            name:element.dataValues.name,
+            description:element.dataValues.description,
+            price:element.dataValues.price,
+            category:element.dataValues.category.category,
+            images:element.dataValues.productimages,
+            idPurchaseItem:element.dataValues.idPurchaseItem,             
+            stock:element.dataValues.stocks
+            
+        }
+    })
+    
+    formated.stock.forEach(stock => {
+        formatedStock.push({
+            quantity:stock.quantity,
+            idStock:stock.idStock,
+            size:stock.productsize.size,
+            idProductSize:stock.productsize.idProductSize,
+            color:stock.productcolor.color,
+            idProductColor:stock.productcolor.idProductColor
+        })
+    })
+    formated.stock = formatedStock
+    return formated
+}
 
-module.exports = {formatMyPurchases, formatMyPurchaseDetails, toTree, getAllInfosUserCartFormat}        
+module.exports = {formatProductBasicDetails,formatMyPurchases, formatMyPurchaseDetails, toTree, getAllInfosUserCartFormat}        

@@ -18,7 +18,8 @@ class ProductRepository {
     
     async basicDetails(idProduct){
        const {brand, category, productsize, productcolor, productimage} = require('../models')
-       return await product.findAll({
+       const {formatProductBasicDetails} = require('../controllers/utils/responseFormat')
+       const data = await product.findAll({
             attributes:["idProduct","name", "price", "description"],
            include: [
             {
@@ -40,16 +41,17 @@ class ProductRepository {
                 include:[
                     {
                         model:productsize,
-                        attributes:["size"]
+                        attributes:["size","idProductSize"]
                     }
                     ,{
                         model:productcolor,
-                        attributes:["color"]   
+                        attributes:["color","idProductColor"]   
                     }
                 ]
             }
            ]
         ,where:{idProduct:idProduct}})
+        return formatProductBasicDetails(data)
     }
 }
 

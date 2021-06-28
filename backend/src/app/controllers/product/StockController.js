@@ -47,6 +47,7 @@ class StockController {
 
     async giveBack(undoStock){
         try{
+            
             undoStock.forEach(data => {
             
                 stock.increment('quantity', {by:data.quantity, where:{idStock:data.stock.idStock}})
@@ -54,7 +55,7 @@ class StockController {
         
         }catch(err){
             
-            throw new Error({msg:'Não foi possivel devolver o estoque'})
+            throw new Error({msg:'Não foi possivel devolver o estoque', message:err.message})
         }
     }
     

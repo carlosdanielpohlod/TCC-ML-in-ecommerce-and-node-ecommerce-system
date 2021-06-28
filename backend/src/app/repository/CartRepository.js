@@ -35,12 +35,13 @@ class CartRepository{
             }
             ]
         })
+        if(response){ return response.dataValues.purchaseitems[0]}
+        else{throw new Exception("Nenhum carrinho encontrado")}
         
-        return response.dataValues.purchaseitems[0]
     }
 
     async getAllInfosUserCart(idUser){
-        const {productcolor, productsize, product} = require('../models')
+        const {productcolor, productsize, product, productimage} = require('../models')
         const {getAllInfosUserCartFormat}= require('../controllers/utils/responseFormat')
         const data = await purchaseitem.findAll({
             attributes:['idPurchaseItem','quantity'],
@@ -66,7 +67,13 @@ class CartRepository{
                         ,
                         {
                             model:product,
-                            attributes:['name','price'] 
+                            attributes:['name','price'],
+                            include:[
+                                {
+                                    model:productimage,
+                                    attributes:['url','key']
+                                }
+                            ] 
                         }
                     ]
                 }
