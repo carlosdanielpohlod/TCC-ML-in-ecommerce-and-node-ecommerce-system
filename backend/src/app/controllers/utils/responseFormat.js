@@ -113,4 +113,24 @@ function formatProductBasicDetails(data){
     return formated
 }
 
-module.exports = {formatProductBasicDetails,formatMyPurchases, formatMyPurchaseDetails, toTree, getAllInfosUserCartFormat}        
+function formatFindFavoriteWithPaginate(data){
+    var formatedArray = []
+    
+    data.forEach(element => {
+        
+        formatedArray.push({
+            idFavorite:element.dataValues.idFavorite,
+            idProduct:element.dataValues.product.idProduct,
+            name:element.dataValues.product.name,
+            price:element.dataValues.product.price,
+            description:element.dataValues.product.description,
+            imageUrl: element.dataValues.product.productimages.length > 0 ? element.dataValues.product.productimages[0].url : ''
+        })
+        
+    })
+
+    
+
+    return formatedArray
+}
+module.exports = {formatFindFavoriteWithPaginate,formatProductBasicDetails,formatMyPurchases, formatMyPurchaseDetails, toTree, getAllInfosUserCartFormat}        

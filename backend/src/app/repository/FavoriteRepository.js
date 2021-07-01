@@ -15,17 +15,29 @@ class FavoriteRepository{
         })
     }
     async findFavoriteWithPaginate(idUser, page, limit){
-        const {product} = require('../models')
-        return await favorite.findAll({
+        const {product, productimage} = require('../models')
+        const {formatFindFavoriteWithPaginate} = require('../controllers/utils/responseFormat')
+        const data = await favorite.findAll({
             attributes:['idFavorite'],
             where:{idUser},
             offset: page * limit - limit,
             limit:limit,
             include: [{ 
                 model:product,
-                attributes:["idProduct","name", "price", "description"]
+                attributes:["idProduct","name", "price", "description"], 
+                include:[{
+                    model:productimage,
+                    attributes:['url'],
+                    limit:1
+                }]
             }]
         })
+        if(data){
+            return formatFindFavoriteWithPaginate(data)
+        }else{
+            return null
+        }
+        
 
     }
 }
