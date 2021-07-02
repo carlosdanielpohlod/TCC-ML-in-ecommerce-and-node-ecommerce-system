@@ -1,15 +1,14 @@
 const routes = require('express').Router()
-const authController = require('../controllers/auth/AuthController')
-const UserController = require('../controllers/user/UserController')
+
 
 routes.route('/signin')
-        .post(authController.signin)
+        .post(require('../controllers/auth/AuthController').signin)
 
 routes.route('/signup')
-        .post(UserController.store)
+        .post(require('../controllers/user/UserController').store)
         
 routes.route('/validateToken')
-        .post(authController.validateToken)
+        .post(require('../controllers/auth/AuthController').validateToken)
 // routes.route('/category')
 //         .get(CategoryController.get)
 
