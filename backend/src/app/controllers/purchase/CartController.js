@@ -56,7 +56,7 @@ class CartController {
 
     async deleteItemFromCart(req, res){
         try{
-            console.log(req.body)
+            
             !req.body.idPurchaseItem ? res.status(400).send({msg:httpStatus["400"].value, status:false}) : null
             const userCart = await cartRepository.getUserCart(req.user.idUser)
             
@@ -71,7 +71,7 @@ class CartController {
         }catch(err){
             
             systemLog.error("CartController.deleteItemFromCart", err.message, req.user.idUser)
-            console.log(err.message)
+            
             res.status(500).send({status:false,message:err.msg})
             return 
 

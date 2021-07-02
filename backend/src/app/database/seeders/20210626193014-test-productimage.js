@@ -47,8 +47,37 @@ module.exports = {
       key: 3,
       url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjYxvCZF1CS0qAB7Oq65ic5hR7dPLVpSolEQ&usqp=CAU'
     },
-
-
+    {
+      idProduct: 6,
+      key: 4,
+      url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjYxvCZF1CS0qAB7Oq65ic5hR7dPLVpSolEQ&usqp=CAU'
+    },
+    {
+      idProduct: 7,
+      key: 5,
+      url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjYxvCZF1CS0qAB7Oq65ic5hR7dPLVpSolEQ&usqp=CAU'
+    },
+    {
+      idProduct: 8,
+      key: 6,
+      url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjYxvCZF1CS0qAB7Oq65ic5hR7dPLVpSolEQ&usqp=CAU'
+    },
+    {
+      idProduct: 9,
+      key: 7,
+      url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjYxvCZF1CS0qAB7Oq65ic5hR7dPLVpSolEQ&usqp=CAU'
+    },
+    {
+      idProduct: 10,
+      key: 885,
+      url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjYxvCZF1CS0qAB7Oq65ic5hR7dPLVpSolEQ&usqp=CAU'
+    },
+    {
+      idProduct: 11,
+      key: 1,
+      url:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjYxvCZF1CS0qAB7Oq65ic5hR7dPLVpSolEQ&usqp=CAU'
+    },
+    
   ], {});
  
   },

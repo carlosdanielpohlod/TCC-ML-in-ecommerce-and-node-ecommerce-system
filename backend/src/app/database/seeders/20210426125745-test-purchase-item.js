@@ -71,6 +71,12 @@ module.exports = {
         idPurchase:8,
         idStock:7,  
         quantity:1
+      },
+      {
+        idPurchaseItem:12,
+        idPurchase:9,
+        idStock:7,  
+        quantity:1
       }
     ], {});
    

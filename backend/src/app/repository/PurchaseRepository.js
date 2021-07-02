@@ -130,7 +130,13 @@ class PurchaseRepository{
                         attributes:['idStock'],
                         include:[{
                             model:product,
-                            attributes:['name','description']
+                            attributes:['name','description'],
+                            include: [{
+                                required:false,
+                                model:productimage,
+                                attributes:['url']
+                                
+                            }]
                         }]
                     
                     }

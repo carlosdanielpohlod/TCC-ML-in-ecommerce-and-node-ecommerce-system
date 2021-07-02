@@ -3,19 +3,25 @@ function formatMyPurchases(data){
     var formatedValues = []
     var purchaseDescription = ''
     data.forEach(data => {
-    
-        data.dataValues.purchaseitems.forEach(item => {
-            purchaseDescription += `${item.stock.product.name} ${item.quantity} uni /`
-        })
-        
-        formatedValues.push({
-            purchaseDescription,
-            idPurchase:data.dataValues.idPurchase,
-            createdAt:data.dataValues.createdAt,
-            paymentOpened: data.purchasestatus.idPurchaseStatus == purchaseStatus["pagamento_em_aberto"].value,
-            purchaseStatus: data.purchasestatus.status
-        })
-
+        purchaseDescription = ''
+        if(data.dataValues.purchaseitems.length > 0){
+           
+            data.dataValues.purchaseitems.forEach(item => {
+              
+                purchaseDescription += `${item.stock.product.name} ${item.quantity} uni /`
+                
+            })
+            
+            formatedValues.push({
+                imageUrl:data.dataValues.purchaseitems[0].stock.product.productimages[0].url,    
+                purchaseDescription,
+                idPurchase:data.dataValues.idPurchase,
+                createdAt:data.dataValues.createdAt,
+                paymentOpened: data.purchasestatus.idPurchaseStatus == purchaseStatus["pagamento_em_aberto"].value,
+                purchaseStatus: data.purchasestatus.status,
+                
+            })
+        }
     })
 
     return formatedValues
