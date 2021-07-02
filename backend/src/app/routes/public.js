@@ -2,7 +2,7 @@ const routes = require('express').Router()
 
 
 routes.route('/signin')
-        .post(require('../controllers/auth/AuthController').signin)
+        .post(require('../controllers/auth/authController').signin)
 
 routes.route('/signup')
         .post(require('../controllers/user/UserController').store)
