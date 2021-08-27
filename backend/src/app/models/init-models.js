@@ -3,6 +3,7 @@ var _address = require("./address");
 var _brand = require("./brand");
 var _category = require("./category");
 var _phone = require("./phone");
+var _rating = require("./rating");
 var _product = require("./product");
 var _productcolor = require("./productcolor");
 var _productsize = require("./productsize");
@@ -32,6 +33,7 @@ function initModels(sequelize) {
   var productsize = _productsize(sequelize, DataTypes);
   var productstatus = _productstatus(sequelize, DataTypes);
   var provider = _provider(sequelize, DataTypes);
+  var rating = _provider(sequelize, DataTypes);
   var purchase = _purchase(sequelize, DataTypes);
   var purchaseitem = _purchaseitem(sequelize, DataTypes);
   var purchasestatus = _purchasestatus(sequelize, DataTypes);
@@ -110,6 +112,7 @@ function initModels(sequelize) {
     brand,
     category,
     phone,
+    rating,
     product,
     paymentinfo,
     productcolor,

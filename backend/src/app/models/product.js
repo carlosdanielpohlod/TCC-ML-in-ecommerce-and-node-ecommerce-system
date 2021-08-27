@@ -136,6 +136,7 @@ module.exports = function(sequelize, DataTypes) {
     product.belongsTo(models.brand, { foreignKey: "idBrand"});
     product.belongsTo(models.category, {foreignKey: "idCategory"});
     product.hasMany(models.stock, {onDelete: 'cascade',foreignKey: "idProduct"});
+    product.hasMany(models.rating, {onDelete: 'cascade',foreignKey: "idRating"});
     product.belongsTo(models.productstatus, {foreignKey: "idProductStatus"});
     product.belongsTo(models.provider, {foreignKey: "idProvider"});
     product.hasMany(models.favorite, {foreignKey: "idProduct"});

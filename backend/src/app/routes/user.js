@@ -29,7 +29,7 @@ routes.route('/user/purchase')
     .get(require('../controllers/purchase/PurchaseController').myPurchases)
 
 routes.route('/user/purchase/details/:idPurchase')
-    .get(require('../controllers/purchase/PurchaseController').myPurchaseDetails)
+    .patch(require('../controllers/purchase/PurchaseController').myPurchaseDetails)
 
 routes.route('/user/purchase/payment/opened/link')
     .get(require('../controllers/purchase/PaymentController').getPaymentOpenedLink)
@@ -38,4 +38,7 @@ routes.route('/favorite')
     .post(require('../controllers/product/FavoriteController').store)
     .delete(require('../controllers/product/FavoriteController').delete)
     .get(require('../controllers/product/FavoriteController').get)
+
+routes.route('/ratings')
+    .post(require('../controllers/product/RatingController').store)
 module.exports = routes

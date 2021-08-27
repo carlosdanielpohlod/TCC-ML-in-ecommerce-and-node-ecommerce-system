@@ -8,7 +8,7 @@ routes.route('/signup')
         .post(require('../controllers/user/UserController').store)
         
 routes.route('/validateToken')
-        .post(require('../controllers/auth/AuthController').validateToken)
+        .post(require('../controllers/auth/authController').validateToken)
 // routes.route('/category')
 //         .get(CategoryController.get)
 
@@ -32,4 +32,7 @@ routes.route('/category/tree')
 
 routes.route('/product/image')
       .get(require('../controllers/media/product/ProductImageController').get)
+
+routes.route('/ratings')
+        .get(require('../controllers/product/RatingController').get)
 module.exports = routes
