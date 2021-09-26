@@ -33,7 +33,7 @@ function initModels(sequelize) {
   var productsize = _productsize(sequelize, DataTypes);
   var productstatus = _productstatus(sequelize, DataTypes);
   var provider = _provider(sequelize, DataTypes);
-  var rating = _provider(sequelize, DataTypes);
+  var rating = _rating(sequelize, DataTypes);
   var purchase = _purchase(sequelize, DataTypes);
   var purchaseitem = _purchaseitem(sequelize, DataTypes);
   var purchasestatus = _purchasestatus(sequelize, DataTypes);

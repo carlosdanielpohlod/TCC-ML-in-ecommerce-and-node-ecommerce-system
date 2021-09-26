@@ -40,7 +40,8 @@ function formatMyPurchaseDetails(data){
             category:item.stock.product.category.category,
             size:item.stock.productsize.size,
             color:item.stock.productcolor.color,
-            quantity:item.quantity
+            quantity:item.quantity,
+            images:item.stock.product.productimages
         })
     })
 
@@ -49,7 +50,8 @@ function formatMyPurchaseDetails(data){
         idPurchase:data.dataValues.idPurchase,
         createdAt:data.dataValues.createdAt,
         paymentOpened: data.purchasestatus.idPurchaseStatus == purchaseStatus["pagamento_em_aberto"].value ,
-        purchaseStatus: data.purchasestatus.status
+        purchaseStatus: data.purchasestatus.status,
+        purchaseCompleted: data.purchasestatus.idPurchaseStatus == purchaseStatus["compra_concluida"] ? true : false
     })
 
   

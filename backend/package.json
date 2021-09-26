@@ -6,7 +6,7 @@
   "scripts": {
     "start": "yarn nodemon src/server.js",
     "test": "sequelize db:seed:all && jest",
-    "db->refresh":"sequelize db:seed:undo:all && sequelize db:seed:all"
+    "db->refresh": "sequelize db:seed:undo:all && sequelize db:seed:all"
   },
   "dependencies": {
     "aws-sdk": "^2.934.0",
@@ -23,7 +23,8 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "sequelize": "^6.6.2",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "yarn": "^1.22.11"
   },
   "devDependencies": {
     "cors": "^2.8.5",

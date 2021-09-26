@@ -9,8 +9,27 @@ class RatingRepository{
         })
         return old
     }
+    async findByIdUserAndIdProduct(idUser, idProduct){
+        return await rating.findOne({
+            where:{
+                [Op.and]: [{ idUser:idUser }, { idProduct:idProduct }]
+            }, attributes:['rating']
+        } )
+
+    }
     model(){
         return rating
+    }
+    async meanRatingsProduct(idProduct){
+        var ratings = await ratingRepository.model().findAll({where:{idProduct:idProduct},
+            attributes:['rating']
+        })
+        var sum = 0
+   
+        ratings.forEach(r =>
+            sum = sum + r.dataValues.rating,
+        )
+        return mean(sum / ratings.length)
     }
 }
 

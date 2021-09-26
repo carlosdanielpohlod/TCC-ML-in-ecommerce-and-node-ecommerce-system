@@ -8,8 +8,9 @@ class PurchaseRepository{
     }
 
     async getPurchaseDetails(idUser, idPurchase){
-        
-        return await purchase.findOne({
+        const {rating} = require('../models')
+        const {formatMyPurchaseDetails} = require('../controllers/utils/responseFormat')
+        const response =  await purchase.findOne({
                 
             attributes:['idPurchase','createdAt'],
             where:{
@@ -31,14 +32,15 @@ class PurchaseRepository{
                                 model:product,
                                 attributes:['idProduct','name','description'],
                                 include: [
-                                {
-                                    model:category,
-                                    attributes:['category']
-                                },
-                                {
-                                    model:productimage,
-                                    attributes:["url","sort"]
-                                }
+                                    {
+                                        model:category,
+                                        attributes:['category']
+                                    },
+                                    
+                                    {
+                                        model:productimage,
+                                        attributes:["url","sort"]
+                                    }
                                 ]
                             },
                             {
@@ -49,12 +51,15 @@ class PurchaseRepository{
                                 model:productsize,
                                 attributes:['size']
                             }
-                        ]
+                            ]
                         
                         }
                 ]
-            }]
+            }
+            ]
         })
+        return formatMyPurchaseDetails(response)
+        // return response
         
     }
 

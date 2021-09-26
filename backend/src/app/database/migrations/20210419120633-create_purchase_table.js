@@ -8,6 +8,7 @@ module.exports = {
         autoIncrement:true,
         primaryKey:true
       },
+      
       idUser:{
         type: Sequelize.BIGINT.UNSIGNED,
         allowNull: false,

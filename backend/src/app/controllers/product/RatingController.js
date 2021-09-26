@@ -30,19 +30,26 @@ class RatingController{
             sequelizeOrGeneric(err, res)
         }
     }
+
+    async getPurchaseItemRating(req, res){
+        try{
+            const data = req.query
+            data.idUser = req.user.idUser
+      
+            const rating = await ratingRepository.findByIdUserAndIdProduct(data.idUser, data.idProduct)
+        
+            return res.status(200).send({status:true, data:rating})
+        }
+        catch(err){
+            systemLog.error('RatingController.getPurchaseItemRating', err.message, req.user.idUser)
+            return res.status(400).send({msg:httpStatus["400"].value, status:false})
+        }
+    }
+
     async get(req, res){
         const data = req.body
-     
-        var ratings = await ratingRepository.model().findAll({where:{idProduct:data.idProduct},
-            attributes:['rating']
-        })
-        var sum = 0
-   
-        ratings.forEach(r =>
-            sum = sum + r.dataValues.rating,
-        )
-        
-        return res.status(200).send({status:true, mean:(sum / ratings.length)})
+        const mean = await ratingRepository.meanRatingsProduct(data.idProduct)
+        return res.status(200).send({status:true,data:{mean} })
     }
 }
 

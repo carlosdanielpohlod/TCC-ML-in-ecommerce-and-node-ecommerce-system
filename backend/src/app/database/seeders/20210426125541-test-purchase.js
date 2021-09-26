@@ -59,6 +59,14 @@ module.exports = {
       idPurchase:9,
       idPurchaseStatus:purchaseStatus["pagamento_em_aberto"].value,
       idPaymentInfo:2,
+    },
+    
+    { 
+      
+      idUser:7, //COMPRA FINALIZADA
+      idPurchase:10,
+      idPurchaseStatus:purchaseStatus["compra_concluida"].value,
+      idPaymentInfo:null,
     }
     ], {});
   },
